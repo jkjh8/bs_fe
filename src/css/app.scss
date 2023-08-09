@@ -1,1 +1,20 @@
 // app global css in SCSS form
+.rem-font {
+  font-family: rem;
+}
+
+.noto-font {
+  font-family: notosanskr;
+}
+
+.main-color {
+  color: #3eaf7c;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.q-field--outlined .q-field__control {
+  border-radius: 7px;
+}
