@@ -85,7 +85,6 @@ const onSubmit = () => {
       </div>
 
       <!---------------------------- Submit BTN ------------------------------>
-      <!-- login btn -->
       <q-btn class="login-btn" no-caps unelevated color="primary" type="submit">
         <div>Sign in</div>
       </q-btn>
@@ -107,8 +106,8 @@ const onSubmit = () => {
 .form {
   margin: auto;
   max-width: 400px;
-  background: #f2f2f2;
-  border: 1px solid #eee;
+  background: #f8f8f8;
+  border: none;
   border-radius: 8px;
   padding: 2rem 1.5rem;
 }

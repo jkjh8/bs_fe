@@ -1,13 +1,24 @@
 <script setup>
-import { computed, onMounted, watchEffect } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { socket } from 'boot/socketio'
 // components
 import ToolbarLinks from 'src/components/layout/toolbarLinks'
-
-const router = useRouter()
-
+// composables
+import useSocket from 'src/composables/useSocket.js'
+// computed
 const currentLink = computed(() => {
   return router.currentRoute.value.path
+})
+// Variables
+const router = useRouter()
+const { initSocketFn } = useSocket()
+
+// Functions
+
+onMounted(() => {
+  initSocketFn()
+  console.log(currentLink.value.indexOf('auth'))
 })
 </script>
 
@@ -22,9 +33,13 @@ const currentLink = computed(() => {
             size="1.2rem"
             color="primary"
           />
-          <span class="title">Broadcast server</span>
+          <span
+            class="ubuntumono-font text-bold q-ml-xs"
+            style="font-size: 19px"
+            >Broadcast server</span
+          >
         </div>
-        <ToolbarLinks v-if="currentLink != '/auth'" />
+        <ToolbarLinks v-if="!currentLink.includes('auth')" />
       </div>
     </q-header>
     <q-page-container>
@@ -40,11 +55,5 @@ const currentLink = computed(() => {
   height: 3rem;
   border-bottom: 1px solid #ddd;
   padding: 0 1rem 0 1.5rem;
-}
-.title {
-  font-family: UbuntuMono;
-  font-weight: bold;
-  font-size: 18px;
-  margin-left: 5px;
 }
 </style>
