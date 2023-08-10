@@ -1,9 +1,5 @@
-@font-face {
-  font-family: rem;
-  src: url(./fonts/REM.woff);
-}
-
-@font-face {
-  font-family: notosanskr;
-  src: url(./fonts/NotoSansKR.woff);
-}
+@import url(./fonts/NotoSans/NotoSans.scss);
+@import url(./fonts/NotoSansKR/NotoSansKR.scss);
+@import url(./fonts/Geologica/Geologica.scss);
+@import url(./fonts/UbuntuMono/UbuntuMono.scss);
+@import url(./fonts/NanumGothic/NanumGothic.scss);

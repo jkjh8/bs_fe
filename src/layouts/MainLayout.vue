@@ -14,10 +14,15 @@ const currentLink = computed(() => {
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header class="header">
-      <div class="row no-wrap toolbar justify-between items-center">
-        <div class="flex flex-center pointer" @click="router.push('/')">
-          <q-icon class="main-color" name="home" size="1.2rem"></q-icon>
-          <span class="title">APP</span>
+      <div class="row no-wrap full-height justify-between items-center">
+        <div class="row no-wrap cursor-pointer" @click="router.push('/')">
+          <q-icon
+            class="self-center"
+            name="home"
+            size="1.2rem"
+            color="primary"
+          ></q-icon>
+          <span class="title">Broadcast server</span>
         </div>
         <ToolbarLinks v-if="currentLink != '/auth'" />
       </div>
@@ -36,12 +41,10 @@ const currentLink = computed(() => {
   border-bottom: 1px solid #ddd;
   padding: 0 1rem 0 1.5rem;
 }
-.toolbar {
-  height: 100%;
-}
 .title {
+  font-family: UbuntuMono;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 18px;
   margin-left: 5px;
 }
 </style>

@@ -1,18 +1,35 @@
 // app global css in SCSS form
-.rem-font {
-  font-family: rem;
+.sans-font {
+  font-family: NotoSans;
 }
 
-.noto-font {
-  font-family: notosanskr;
+.sanskr-font {
+  font-family: NotoSansKR;
 }
 
-.main-color {
-  color: #3eaf7c;
+.ubuntumono-font {
+  font-family: UbuntuMono;
 }
 
-.pointer {
-  cursor: pointer;
+.main-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.title {
+  font-size: 1.1rem;
+}
+
+.input-caption {
+  font-size: 0.7rem;
+}
+
+.no-decoration {
+  text-decoration: none;
+}
+
+.alink {
+  font-size: 0.8rem;
 }
 
 .q-field--outlined .q-field__control {

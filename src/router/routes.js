@@ -1,27 +1,27 @@
 const routes = [
   {
-    path: "/",
-    component: () => import("layouts/MainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/IndexPage.vue") }],
+    path: '/',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/IndexPage.vue') }]
   },
 
   {
-    path: "/auth",
-    component: () => import("layouts/MainLayout.vue"),
+    path: '/auth',
+    component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: "", component: () => import("pages/auth/userLogin.vue") },
+      { path: '', component: () => import('pages/auth/userLoginPage.vue') },
       {
-        path: "register",
-        component: () => import("pages/auth/userRegister.vue"),
-      },
-    ],
+        path: 'register',
+        component: () => import('pages/auth/userRegisterPage.vue')
+      }
+    ]
   },
   // Always leave this as last one,
   // but you can also remove it
   {
-    path: "/:catchAll(.*)*",
-    component: () => import("pages/ErrorNotFound.vue"),
-  },
-];
+    path: '/:catchAll(.*)*',
+    component: () => import('pages/ErrorNotFound.vue')
+  }
+]
 
-export default routes;
+export default routes

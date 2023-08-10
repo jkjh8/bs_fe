@@ -1,19 +1,21 @@
 <script setup>
-import { onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
-const router = useRouter();
+import { onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
-const current = computed(() => router.currentRoute.value);
+const current = computed(() => router.currentRoute.value)
 </script>
 
 <template>
   <div class="row no-wrap items-center">
-    <div class="btn pointer">Summary</div>
-    <div class="btn pointer">Broadcast</div>
-    <div class="btn pointer">Device</div>
-    <div class="btn pointer">Setup</div>
+    <div class="btn cursor-pointer">Summary</div>
+    <div class="btn cursor-pointer">Broadcast</div>
+    <div class="btn cursor-pointer">Device</div>
+    <div class="btn cursor-pointer">Setup</div>
     <div class="q-ml-sm">
-      <div class="btn-login pointer" @click="router.push('/auth')">Login</div>
+      <div class="btn-login cursor-pointer" @click="router.push('/auth')">
+        Login
+      </div>
     </div>
   </div>
 </template>
