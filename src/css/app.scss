@@ -1,19 +1,7 @@
 // app global css in SCSS form
-.sans-font {
-  font-family: NotoSans;
-}
-
-.sanskr-font {
-  font-family: NotoSansKR;
-}
-
-.ubuntumono-font {
-  font-family: UbuntuMono;
-}
 
 .main-title {
   font-size: 1.5rem;
-  font-weight: bold;
 }
 
 .title {
@@ -30,6 +18,18 @@
 
 .alink {
   font-size: 0.8rem;
+}
+
+.sans-font {
+  font-family: NotoSans;
+}
+
+.sanskr-font {
+  font-family: NotoSansKR;
+}
+
+.ubuntumono-font {
+  font-family: UbuntuMono;
 }
 
 .q-field--outlined .q-field__control {

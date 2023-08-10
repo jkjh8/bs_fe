@@ -21,7 +21,7 @@ const currentLink = computed(() => {
             name="home"
             size="1.2rem"
             color="primary"
-          ></q-icon>
+          />
           <span class="title">Broadcast server</span>
         </div>
         <ToolbarLinks v-if="currentLink != '/auth'" />

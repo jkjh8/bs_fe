@@ -2,6 +2,7 @@ export default function useRules() {
   const required = (v) => !!v || '필수 입력 항목 입니다.'
   const minLength = (v) => v.length >= 8 || '최소 8자 이상 입력하세요.'
   const minNumber = (v) => v > 0 || '0보다 큰 숫자를 입력하세요.'
+  const maxNumber = (v) => v <= 65535 || '65535보다 작은 숫자를 입력하세요.'
   // email
   const ckEmail = (v) => /.+@.+\..+/.test(v) || '이메일 형식이 아닙니다.'
   //ipaddress
@@ -10,5 +11,5 @@ export default function useRules() {
       v
     ) || 'IPv4 형식이 아닙니다'
 
-  return { required, minLength, minNumber, ckEmail, ckIPv4 }
+  return { required, minLength, minNumber, maxNumber, ckEmail, ckIPv4 }
 }

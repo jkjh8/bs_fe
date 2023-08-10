@@ -1,39 +1,44 @@
 <script setup>
 import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 // composables
-import useRules from 'src/composables/usrRules.js'
-
+import useRules from 'src/composables/usrRules'
+import useAuth from 'src/composables/useAuth'
+// Variables
+const router = useRouter()
+const { getAuth } = useAuth()
 const { required, minLength, ckEmail } = useRules()
-const auth = reactive({ email: '', password: '', rememberMe: false })
+const auth = reactive({ userEmail: '', userPass: '', rememberMe: false })
 const showPass = ref(false)
-
+// functions
 const onSubmit = () => {
-  console.log(auth)
+  getAuth(auth)
 }
 </script>
 
 <template>
   <div>
-    <!-- icon -->
+    <!-------------------------------- Header -------------------------------->
     <div class="row no-wrap justify-center q-pt-xl q-pb-lg">
-      <q-icon
-        class="self-center"
-        name="home"
-        size="24px"
-        color="primary"
-      ></q-icon>
-      <div class="ubuntumono-font main-title q-ml-xs">Broadcast server</div>
+      <q-icon class="self-center" name="home" size="24px" color="primary" />
+      <div class="ubuntumono-font main-title text-bold q-ml-xs">
+        Broadcast server
+      </div>
     </div>
-    <q-form class="login-form q-gutter-y-md" @submit="onSubmit">
+
+    <!-- form start -->
+    <q-form class="form q-gutter-y-md" @submit="onSubmit">
       <!------------------------------- Title -------------------------------->
-      <div class="sans-font title q-ma-none">Sign in to your account</div>
+      <div class="text-subtitle1 text-bold q-ma-none">
+        Sign in to your account
+      </div>
       <!--------------------------- Input data tab --------------------------->
       <div>
         <div>
           <!-- email -->
           <div class="input-caption sans-font">Email</div>
           <q-input
-            v-model="auth.email"
+            v-model="auth.userEmail"
             outlined
             dense
             :rules="[required, ckEmail]"
@@ -44,12 +49,23 @@ const onSubmit = () => {
         <div>
           <div class="input-caption sans-font">Password</div>
           <q-input
-            v-model="auth.password"
+            v-model="auth.userPass"
             outlined
             dense
+            :type="showPass ? 'text' : 'password'"
             :rules="[required, minLength]"
             lazy-rules
-          ></q-input>
+          >
+            <template #append>
+              <q-icon
+                class="curser-pointer"
+                :name="showPass ? 'visibility' : 'visibility_off'"
+                :color="showPass ? 'blue-grey' : 'grey'"
+                size="20px"
+                @click="showPass = !showPass"
+              />
+            </template>
+          </q-input>
         </div>
         <!-- remember me -->
         <div class="row no-wrap justify-between">
@@ -62,7 +78,9 @@ const onSubmit = () => {
             <span>Remember me</span>
           </div>
           <!-- forgot password  -->
-          <a href="#" class="alink no-decoration sans-font">Forgot password?</a>
+          <div class="alink no-decoration sans-font text-purple cursor-pointer">
+            Forgot password?
+          </div>
         </div>
       </div>
 
@@ -72,16 +90,21 @@ const onSubmit = () => {
         <div>Sign in</div>
       </q-btn>
       <!----------------------------- Register ------------------------------->
-      <div>
-        <span> Don't have an account yet? </span>
-        <a class="alink q-ml-sm" href="#"> Sign up </a>
+      <div class="row no-wrap">
+        <span class="text-grey-9"> Don't have an account yet? </span>
+        <div
+          class="alink no-decoration text-purple text-bold cursor-pointer q-ml-sm"
+          @click="router.push('/auth/signup')"
+        >
+          Sign up
+        </div>
       </div>
     </q-form>
   </div>
 </template>
 
 <style scoped>
-.login-form {
+.form {
   margin: auto;
   max-width: 400px;
   background: #f2f2f2;
