@@ -1,6 +1,8 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+// components
+import AuthLink from 'components/auth/authLink'
 // composables
 import useRules from 'src/composables/usrRules'
 import useAuth from 'src/composables/useAuth'
@@ -18,16 +20,9 @@ const onSubmit = () => {
 
 <template>
   <div>
-    <!-------------------------------- Header -------------------------------->
-    <div class="row no-wrap justify-center q-pt-xl q-pb-lg">
-      <q-icon class="self-center" name="home" size="24px" color="primary" />
-      <div class="ubuntumono-font main-title text-bold q-ml-xs">
-        Broadcast server
-      </div>
-    </div>
-
     <!-- form start -->
-    <q-form class="form q-gutter-y-md" @submit="onSubmit">
+
+    <q-form class="q-gutter-y-md" @submit="onSubmit">
       <!------------------------------- Title -------------------------------->
       <div class="text-subtitle1 text-bold q-ma-none">
         Sign in to your account
@@ -88,29 +83,18 @@ const onSubmit = () => {
       <q-btn class="login-btn" no-caps unelevated color="primary" type="submit">
         <div>Sign in</div>
       </q-btn>
-      <!----------------------------- Register ------------------------------->
-      <div class="row no-wrap">
-        <span class="text-grey-9"> Don't have an account yet? </span>
-        <div
-          class="alink no-decoration text-purple text-bold cursor-pointer q-ml-sm"
-          @click="router.push('/auth/signup')"
-        >
-          Sign up
-        </div>
-      </div>
     </q-form>
+    <!----------------------------- Register ------------------------------->
+    <AuthLink
+      class="q-mt-lg"
+      message="Don't have an account yet"
+      linkName="Sign up"
+      link="/auth/signup"
+    />
   </div>
 </template>
 
 <style scoped>
-.form {
-  margin: auto;
-  max-width: 400px;
-  background: #f8f8f8;
-  border: none;
-  border-radius: 8px;
-  padding: 2rem 1.5rem;
-}
 .remember {
   position: relative;
   left: -7px;

@@ -1,11 +1,18 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
+import { api } from 'boot/axios'
+// components
+import AuthLink from 'components/auth/authLink'
 // Composables
 import useRules from 'src/composables/usrRules'
 import useAuth from 'src/composables/useAuth'
+import useNotify from 'src/composables/useNotify'
 // Variables
 const router = useRouter()
+const $q = useQuasar()
+const { info } = useNotify()
 const { required, minLength, ckEmail } = useRules()
 const showPass = ref(false)
 const showChkPass = ref(false)
@@ -16,27 +23,26 @@ const auth = reactive({
   chkUserPass: ''
 })
 // Functions
-const onSubmit = () => {
+const onSubmit = async () => {
+  try {
+    $q.loading.show()
+    const r = await api.post('/auth/signup', { auth: auth })
+    $q.loading.hide()
+    console.log(r)
+    info('sign up')
+    router.push('/')
+    console.log(r)
+  } catch (err) {
+    $q.loading.hide()
+  }
   console.log('auth', auth)
 }
 </script>
 
 <template>
   <div>
-    <!-------------------------------- Header -------------------------------->
-    <div class="row no-wrap justify-center q-pt-xl q-pb-lg">
-      <q-icon
-        class="self-center"
-        name="home"
-        size="24px"
-        color="primary"
-      ></q-icon>
-      <div class="ubuntumono-font main-title text-bold q-ml-xs">
-        Broadcast server
-      </div>
-    </div>
     <!-------------------------------- form ---------------------------------->
-    <q-form class="form q-gutter-y-md" @submit="onSubmit">
+    <q-form class="q-gutter-y-md" @submit="onSubmit">
       <!-- Title -->
       <div class="text-subtitle1 text-bold q-ma-none">Create and account</div>
       <!-- Email -->
@@ -88,7 +94,7 @@ const onSubmit = () => {
         <div>
           <div class="input-caption sans-font">Confirm password</div>
           <q-input
-            v-model="auth.userChkPass"
+            v-model="auth.chkUserPass"
             outlined
             dense
             :type="showChkPass ? 'text' : 'password'"
@@ -115,28 +121,18 @@ const onSubmit = () => {
       <q-btn class="login-btn" no-caps unelevated color="primary" type="submit">
         <div>Sign up</div>
       </q-btn>
-      <div class="row no-wrap">
-        <span class="text-grey-9"> Already have an account? </span>
-        <div
-          class="alink no-decoration text-purple text-bold cursor-pointer q-ml-sm"
-          @click="router.push('/auth')"
-        >
-          Login here
-        </div>
-      </div>
     </q-form>
+    <!---------------------------- Goto login ------------------------------>
+    <AuthLink
+      class="q-mt-lg"
+      message="Already have an account?"
+      linkName="Login here"
+      link="/auth"
+    />
   </div>
 </template>
 
 <style scoped>
-.form {
-  margin: auto;
-  max-width: 400px;
-  background: #f8f8f8;
-  border: none;
-  border-radius: 8px;
-  padding: 2rem 1.5rem;
-}
 .login-btn {
   width: 100%;
   border-radius: 7px;

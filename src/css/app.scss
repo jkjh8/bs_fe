@@ -1,4 +1,11 @@
 // app global css in SCSS form
+.header {
+  background: #fff;
+  color: #222;
+  height: 3rem;
+  border-bottom: 1px solid #ddd;
+  padding: 0 1rem 0 1.5rem;
+}
 
 .main-title {
   font-size: 1.5rem;
