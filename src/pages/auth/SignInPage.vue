@@ -22,6 +22,10 @@ const showPass = ref(false)
 // functions
 const onSubmit = async () => {
   try {
+    // add local storage check email
+    //
+    //
+
     $q.loading.show()
     const r = await api.post('/auth', {
       email: auth.userEmail,
