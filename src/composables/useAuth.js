@@ -1,31 +1,33 @@
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { LocalStorage } from 'quasar'
-import { api } from 'boot/axios'
 
 export default function useAuth() {
   // Variables
-  const rememberEmail = ref(false)
+  const auth = reactive({ userEmail: '', userPass: '' })
+  const rememberCheck = ref('')
+
   // Functions
   const getEmailFromStorage = () => {
-    rememberEmail.value = LocalStorage.getItem('rememberEmail')
-  }
-  const setEmailToStorage = (value) => {
-    LocalStorage.set('rememberEmail', value)
-  }
-  const getAuth = (user) => {
-    try {
-      const { userEmail, userPass, rememberEmail } = user
-      setEmailToStorage(rememberEmail)
-    } catch (err) {
-      console.error(err)
+    const email = LocalStorage.getItem('rememberEmail')
+    if (email) {
+      auth.userEmail = email
+      rememberCheck.value = true
+    } else {
+      rememberCheck.value = false
     }
-    console.log(user)
+  }
+  const setEmailToStorage = () => {
+    if (rememberCheck.value) {
+      LocalStorage.set('rememberEmail', auth.userEmail)
+    } else {
+      LocalStorage.remove('rememberEmail')
+    }
   }
 
   return {
-    rememberEmail,
+    auth,
+    rememberCheck,
     getEmailFromStorage,
-    setEmailToStorage,
-    getAuth
+    setEmailToStorage
   }
 }

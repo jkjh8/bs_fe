@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
@@ -11,34 +11,39 @@ import AuthLink from 'components/auth/authLink'
 import useRules from 'src/composables/usrRules'
 import useAuth from 'src/composables/useAuth'
 import useNotify from 'src/composables/useNotify'
+// stores
+const { updateUser } = useUserStore()
 // Variables
 const router = useRouter()
 const $q = useQuasar()
 const { notifyError } = useNotify()
-const { updateUser } = useUserStore()
 const { required, minLength, ckEmail } = useRules()
-const auth = reactive({ userEmail: '', userPass: '', rememberMe: false })
+const { auth, rememberCheck, getEmailFromStorage, setEmailToStorage } =
+  useAuth()
 const showPass = ref(false)
 // functions
 const onSubmit = async () => {
   try {
     // add local storage check email
-    //
-    //
-
+    setEmailToStorage()
+    // login start
     $q.loading.show()
     const r = await api.post('/auth', {
       email: auth.userEmail,
       userPassword: auth.userPass
     })
     $q.loading.hide()
-    console.log(r)
-    updateUser(r.data.user)
+    router.push('/')
   } catch (err) {
-    console.log(err)
     $q.loading.hide()
+    notifyError('로그인 오류', err.response.data.info.message, 'top')
   }
 }
+// Lifecycle hooks
+onMounted(() => {
+  // get local storage check email
+  getEmailFromStorage()
+})
 </script>
 
 <template>
@@ -89,7 +94,7 @@ const onSubmit = async () => {
         <div class="row no-wrap justify-between">
           <div class="sans-font remember">
             <q-checkbox
-              v-model="auth.rememberMe"
+              v-model="rememberCheck"
               class="q-pa-none q-ma-none"
               size="26px"
             ></q-checkbox>

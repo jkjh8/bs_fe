@@ -8,7 +8,7 @@ export default boot(({ app }) => {
     process.env.NODE_ENV === 'production'
       ? '/api'
       : `http://${window.location.hostname}:3000/api`
-  api = axios.create({ baseURL: apiUrl })
+  api = axios.create({ baseURL: apiUrl, withCredentials: true })
 
   app.config.globalProperties.$axios = axios
   app.config.globalProperties.$api = api
