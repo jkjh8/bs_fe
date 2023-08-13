@@ -1,20 +1,39 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
+import { api } from 'boot/axios'
+// store
+import { useUserStore } from 'src/stores/user.js'
 // components
 import AuthLink from 'components/auth/authLink'
 // composables
 import useRules from 'src/composables/usrRules'
 import useAuth from 'src/composables/useAuth'
+import useNotify from 'src/composables/useNotify'
 // Variables
 const router = useRouter()
-const { getAuth } = useAuth()
+const $q = useQuasar()
+const { notifyError } = useNotify()
+const { updateUser } = useUserStore()
 const { required, minLength, ckEmail } = useRules()
 const auth = reactive({ userEmail: '', userPass: '', rememberMe: false })
 const showPass = ref(false)
 // functions
-const onSubmit = () => {
-  getAuth(auth)
+const onSubmit = async () => {
+  try {
+    $q.loading.show()
+    const r = await api.post('/auth', {
+      email: auth.userEmail,
+      userPassword: auth.userPass
+    })
+    $q.loading.hide()
+    console.log(r)
+    updateUser(r.data.user)
+  } catch (err) {
+    console.log(err)
+    $q.loading.hide()
+  }
 }
 </script>
 
