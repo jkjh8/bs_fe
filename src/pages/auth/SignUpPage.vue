@@ -12,7 +12,7 @@ import useNotify from 'src/composables/useNotify'
 // Variables
 const router = useRouter()
 const $q = useQuasar()
-const { info } = useNotify()
+const { notifyInfo, notifyError } = useNotify()
 const { required, minLength, ckEmail } = useRules()
 const showPass = ref(false)
 const showChkPass = ref(false)
@@ -23,19 +23,38 @@ const auth = reactive({
   chkUserPass: ''
 })
 // Functions
+const chkUserExist = async (u) => {
+  try {
+    const r = await api.get('/auth/exists_email', { params: { email: u } })
+    if (r.data && r.data.user.length) {
+      return '이미 사용된 이메일 입니다.'
+    } else {
+      return true
+    }
+  } catch (err) {
+    return '서버에 문제가 있습니다. 잠시후 다시 시도해 주세요.'
+  }
+}
+
 const onSubmit = async () => {
   try {
     $q.loading.show()
     const r = await api.post('/auth/signup', { auth: auth })
     $q.loading.hide()
-    console.log(r)
-    info('sign up')
+    notifyInfo(
+      '회원 가입 완료',
+      '회원가입이 완료되었습니다. 메인페이지로 이동합니다.',
+      'top'
+    )
     router.push('/')
-    console.log(r)
   } catch (err) {
     $q.loading.hide()
+    notifyError(
+      '회원 가입 실패',
+      '잠시후 다시 시도해주세요. 문제가 계속되면 관리자에게 문의 해주세요.',
+      'top'
+    )
   }
-  console.log('auth', auth)
 }
 </script>
 
@@ -53,7 +72,7 @@ const onSubmit = async () => {
             v-model="auth.userEmail"
             outlined
             dense
-            :rules="[required, ckEmail]"
+            :rules="[required, ckEmail, chkUserExist]"
             lazy-rules
           />
         </div>
