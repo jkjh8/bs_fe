@@ -46,7 +46,7 @@ const onSubmit = async () => {
       '회원가입이 완료되었습니다. 메인페이지로 이동합니다.',
       'top'
     )
-    router.push('/')
+    router.push('/auth')
   } catch (err) {
     $q.loading.hide()
     notifyError(

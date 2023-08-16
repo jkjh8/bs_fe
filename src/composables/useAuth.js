@@ -3,6 +3,7 @@ import { LocalStorage } from 'quasar'
 
 export default function useAuth() {
   // Variables
+
   const auth = reactive({ userEmail: '', userPass: '' })
   const rememberCheck = ref('')
 

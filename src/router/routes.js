@@ -4,7 +4,7 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/IndexPage.vue') }]
   },
-
+  // auth signin and signup
   {
     path: '/auth',
     component: () => import('layouts/AuthLayout.vue'),
@@ -14,6 +14,14 @@ const routes = [
         path: 'signup',
         component: () => import('pages/auth/SignUpPage.vue')
       }
+    ]
+  },
+  // admin functions
+  {
+    path: '/admin',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: 'users', component: () => import('pages/admin/UsersPage.vue') }
     ]
   },
   // Always leave this as last one,

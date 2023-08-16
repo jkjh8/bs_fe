@@ -13,7 +13,6 @@ export default function (Router) {
       default:
         try {
           const r = await api.get('/auth')
-          console.log(r)
           if (r.data) {
             updateUser(r.data)
           } else {

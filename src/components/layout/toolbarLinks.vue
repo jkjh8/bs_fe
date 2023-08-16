@@ -1,9 +1,16 @@
 <script setup>
 import { onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-const router = useRouter()
-
+// components
+import UserAvatar from './userAvatar'
+import SetupMenu from './menus/setupMenu'
+// stores
+import { useUserStore } from 'src/stores/user'
+// computed
 const current = computed(() => router.currentRoute.value)
+// variables
+const router = useRouter()
+const { user } = useUserStore()
 </script>
 
 <template>
@@ -11,11 +18,9 @@ const current = computed(() => router.currentRoute.value)
     <div class="btn cursor-pointer">Summary</div>
     <div class="btn cursor-pointer">Broadcast</div>
     <div class="btn cursor-pointer">Device</div>
-    <div class="btn cursor-pointer">Setup</div>
+    <SetupMenu />
     <div class="q-ml-sm">
-      <div class="btn-login cursor-pointer" @click="router.push('/auth')">
-        Login
-      </div>
+      <UserAvatar />
     </div>
   </div>
 </template>
@@ -31,14 +36,6 @@ const current = computed(() => router.currentRoute.value)
   background: #eee;
 }
 .btn-selected {
-}
-.btn-login {
-  font-size: 12px;
-  font-weight: 500;
-  color: #fff;
-  padding: 4px 12px 4px 12px;
-  background: #3eaf7c;
-  border-radius: 5px;
 }
 .btn-login:hover {
   background: #2e9f6c;

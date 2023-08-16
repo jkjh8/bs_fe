@@ -32,5 +32,32 @@ export default function useNotify() {
       ]
     })
   }
-  return { notifyInfo, notifyError }
+  const notifyErrorFeedback = (res) => {
+    let msg
+    let caption
+    switch (res.status) {
+      case 401:
+        msg = 'Unauthorized'
+        caption = 'please login to use this service and try again'
+        break
+      case 403:
+        msg = 'Forbidden'
+        caption = 'do not have permission to use this service'
+        break
+      default:
+        msg = 'Internal server error'
+        caption =
+          'A server error has occurred. Please try again in a few minutes'
+        break
+    }
+
+    $q.notify({
+      type: 'negative',
+      message: msg,
+      caption: caption,
+      position: 'top',
+      actions: [{ icon: 'close', color: 'white', round: true }]
+    })
+  }
+  return { notifyInfo, notifyError, notifyErrorFeedback }
 }
