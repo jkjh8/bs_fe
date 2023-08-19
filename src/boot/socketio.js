@@ -11,7 +11,8 @@ export default boot(({ app }) => {
   socket = io(url, {
     reconnectionDelayMax: 5000,
     transports: ['websocket'],
-    autoConnect: true
+    autoConnect: true,
+    withCredentials: true
   })
 
   socket.on('connect', () => {
