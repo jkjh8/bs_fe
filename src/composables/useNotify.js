@@ -7,7 +7,7 @@ export default function useNotify() {
       type: 'positive',
       message: msg,
       caption: caption,
-      position: location ? location : 'center',
+      position: location ? location : 'top',
       actions: [
         {
           icon: 'close',
@@ -21,8 +21,8 @@ export default function useNotify() {
     $q.notify({
       type: 'negative',
       message: msg,
-      caption: caption,
-      position: location ? location : 'center',
+      caption: caption ? caption : '',
+      position: location ? location : 'top',
       actions: [
         {
           icon: 'close',
