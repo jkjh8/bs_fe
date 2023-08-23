@@ -58,54 +58,52 @@ onMounted(async () => {
 
 <template>
   <div class="page">
-    <div class="list q-gutter-y-sm">
-      <div class="text-bold">Device ID</div>
-      <div class="q-pa-sm q-gutter-y-sm">
+    <div class="list">
+      <div class="text-h6">Device ID</div>
+      <div class="q-pa-sm q-pt-md q-gutter-y-sm">
         <!-- qsys bridge block -->
-        <div class="row no-wrap justify-between items-center">
-          <div>Q-SYS Bridge</div>
-          <div class="row no-wrap q-gutter-x-sm">
-            <q-input
-              v-model="qsysCurrentId"
-              style="min-width: 300px"
-              outlined
-              dense
-            >
-              <template #append>
-                <q-icon
-                  :class="
-                    qsysId !== qsysCurrentId ? 'cursor-pointer' : 'disabled'
-                  "
-                  name="check_circle"
-                  color="primary"
-                  @click="updateBrigdeId('qsys', qsysCurrentId)"
-                />
-              </template>
-            </q-input>
-          </div>
+        <div class="row no-wrap">
+          <div class="self-center">Q-SYS Bridge</div>
+          <q-space />
+          <q-input
+            v-model="qsysCurrentId"
+            style="min-width: 350px; width: 50%"
+            outlined
+            dense
+          >
+            <template #append>
+              <q-icon
+                :class="
+                  qsysId !== qsysCurrentId ? 'cursor-pointer' : 'disabled'
+                "
+                name="check_circle"
+                color="primary"
+                @click="updateBrigdeId('qsys', qsysCurrentId)"
+              />
+            </template>
+          </q-input>
         </div>
         <!-- barix block -->
-        <div class="row no-wrap justify-between items-center">
-          <div>BARIX Bridge</div>
-          <div class="row no-wrap q-gutter-x-sm">
-            <q-input
-              v-model="barixCurrentId"
-              style="min-width: 300px"
-              outlined
-              dense
-            >
-              <template #append>
-                <q-icon
-                  :class="
-                    barixId !== barixCurrentId ? 'cursor-pointer' : 'disabled'
-                  "
-                  name="check_circle"
-                  color="primary"
-                  @click="updateBrigdeId('barix', barixCurrentId)"
-                />
-              </template>
-            </q-input>
-          </div>
+        <div class="row no-wrap">
+          <div class="self-center">BARIX Bridge</div>
+          <q-space />
+          <q-input
+            v-model="barixCurrentId"
+            style="min-width: 350px; width: 50%"
+            outlined
+            dense
+          >
+            <template #append>
+              <q-icon
+                :class="
+                  barixId !== barixCurrentId ? 'cursor-pointer' : 'disabled'
+                "
+                name="check_circle"
+                color="primary"
+                @click="updateBrigdeId('barix', barixCurrentId)"
+              />
+            </template>
+          </q-input>
         </div>
       </div>
     </div>
@@ -117,8 +115,8 @@ onMounted(async () => {
   padding: 20px;
 }
 .list {
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 6px;
-  padding: 20px;
+  padding: 15px 20px;
 }
 </style>

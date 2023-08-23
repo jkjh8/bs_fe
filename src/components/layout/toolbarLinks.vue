@@ -9,7 +9,7 @@ import { useUserStore } from 'src/stores/user'
 // computed
 const current = computed(() => router.currentRoute.value)
 // variables
-const router = useRouter()
+const $r = useRouter()
 const { user } = useUserStore()
 </script>
 
@@ -17,7 +17,7 @@ const { user } = useUserStore()
   <div class="row no-wrap items-center">
     <div class="btn cursor-pointer">Summary</div>
     <div class="btn cursor-pointer">Broadcast</div>
-    <div class="btn cursor-pointer">Device</div>
+    <div class="btn cursor-pointer" @click="$r.push('/devices')">Device</div>
     <SetupMenu />
     <div class="q-ml-sm">
       <UserAvatar />

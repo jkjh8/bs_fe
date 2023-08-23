@@ -28,6 +28,14 @@ const routes = [
       }
     ]
   },
+  // devices
+  {
+    path: '/devices',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/devices/devicesPage.vue') }
+    ]
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
