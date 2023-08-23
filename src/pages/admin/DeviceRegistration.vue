@@ -60,7 +60,7 @@ onMounted(async () => {
   <div class="page">
     <div class="list">
       <div class="text-h6">Device ID</div>
-      <div class="q-pa-sm q-pt-md q-gutter-y-sm">
+      <div class="q-pa-sm q-pt-lg q-gutter-y-sm">
         <!-- qsys bridge block -->
         <div class="row no-wrap">
           <div class="self-center">Q-SYS Bridge</div>

@@ -5,52 +5,9 @@ import moment from 'moment'
 // composables
 import useNotify from 'src/composables/useNotify'
 
+import columns from 'src/composables/columns/users.js'
 moment.locale = 'ko-KR'
 const { notifyErrorFeedback } = useNotify()
-// columns
-const columns = [
-  {
-    name: 'email',
-    label: 'E-mail',
-    align: 'center',
-    field: 'email',
-    sortable: true
-  },
-  {
-    name: 'name',
-    label: 'Name',
-    align: 'center',
-    field: 'name',
-    sortable: true
-  },
-  {
-    name: 'isAdmin',
-    label: 'isAdmin',
-    align: 'center',
-    field: 'isAdmin',
-    sortable: true
-  },
-
-  {
-    name: 'loginAt',
-    label: 'Last login',
-    align: 'center',
-    field: 'loginAt',
-    sortable: true
-  },
-  {
-    name: 'createdAt',
-    label: 'Created at',
-    align: 'center',
-    field: 'createdAt',
-    sortable: true
-  },
-  {
-    name: 'actions',
-    label: 'FN',
-    align: 'center'
-  }
-]
 
 const filter = ref('')
 const users = ref([])
