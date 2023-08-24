@@ -32,7 +32,7 @@ const openDialogForRemove = (props) => {
       icon: 'delete',
       iconColor: 'red',
       title: 'Delete device',
-      message: `Delete device name: ${props.name}, ipaddress: ${props.ipaddress}`
+      message: `Name: ${props.name}, IP_Address: ${props.ipaddress}`
     }
   }).onOk(async () => {
     await devicesStore.removeDevice(props._id)
