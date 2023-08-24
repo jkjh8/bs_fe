@@ -35,21 +35,18 @@ const emit = defineEmits([...useDialogPluginComponent.emits])
       </q-card-section>
       <q-card-actions align="right">
         <q-btn
-          style="border-radius: 6px"
-          dense
+          round
           flat
-          no-caps
           color="red-10"
-          label="Cancel"
+          icon="cancel"
           @click="onDialogCancel"
         />
         <q-btn
-          style="border-radius: 6px"
-          dense
-          unelevated
+          round
+          flat
           no-caps
           :color="btnColor ?? 'primary'"
-          label="Ok"
+          icon="check_circle"
           @click="onDialogOK"
         />
       </q-card-actions>

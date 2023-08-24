@@ -38,7 +38,8 @@ onMounted(async () => {
 <template>
   <div class="page">
     <div class="list">
-      <div class="row no-wrap" style="padding: 10px 20px">
+      <div class="row no-wrap items-center" style="padding: 10px 20px">
+        <q-icon name="group" size="24px" color="primary" />
         <div class="text-h6">User Management</div>
         <q-space />
         <!-- table search input -->
@@ -55,7 +56,7 @@ onMounted(async () => {
           </template>
         </q-input>
       </div>
-      <q-table flat :columns="columns" :rows="users">
+      <q-table flat :columns="columns" :rows="users" :filter="filter">
         <!-- table body -->
         <template #body="props">
           <q-tr :props="props">

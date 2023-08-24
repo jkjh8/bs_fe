@@ -12,7 +12,8 @@ export default function useNotify() {
         {
           icon: 'close',
           color: 'white',
-          round: true
+          round: true,
+          dense: true
         }
       ]
     })
@@ -27,7 +28,8 @@ export default function useNotify() {
         {
           icon: 'close',
           color: 'white',
-          round: true
+          round: true,
+          dense: true
         }
       ]
     })
@@ -56,7 +58,7 @@ export default function useNotify() {
       message: msg,
       caption: caption,
       position: 'top',
-      actions: [{ icon: 'close', color: 'white', round: true }]
+      actions: [{ icon: 'close', color: 'white', round: true, dense: true }]
     })
   }
   return { notifyInfo, notifyError, notifyErrorFeedback }

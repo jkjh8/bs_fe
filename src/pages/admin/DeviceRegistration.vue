@@ -59,7 +59,10 @@ onMounted(async () => {
 <template>
   <div class="page">
     <div class="list">
-      <div class="text-h6">Device ID</div>
+      <div class="row no-wrap items-center">
+        <q-icon name="dns" size="20px" color="primary" />
+        <div class="text-h6">Device ID</div>
+      </div>
       <div class="q-pa-sm q-pt-lg q-gutter-y-sm">
         <!-- qsys bridge block -->
         <div class="row no-wrap">
