@@ -31,7 +31,9 @@ const emit = defineEmits([...useDialogPluginComponent.emits])
       </q-card-section>
 
       <q-card-section v-if="message">
-        {{ message }}
+        <div class="row justify-center">
+          {{ message }}
+        </div>
       </q-card-section>
       <q-card-actions align="right">
         <q-btn
