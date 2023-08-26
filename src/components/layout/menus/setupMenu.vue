@@ -24,6 +24,12 @@ const $r = useRouter()
           </q-item-section>
           <q-item-section> Device management </q-item-section>
         </q-item>
+        <q-item clickable v-close-popup @click="$r.push('/admin/logs')">
+          <q-item-section avatar>
+            <q-icon name="list_alt" color="primary" />
+          </q-item-section>
+          <q-item-section>System Log</q-item-section>
+        </q-item>
       </q-list>
     </q-menu>
   </div>

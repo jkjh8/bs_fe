@@ -29,10 +29,10 @@ export const useDevicesStore = defineStore('devices', () => {
       console.error(err)
     }
   }
-  async function removeDevice(id) {
+  async function removeDevice(args) {
     try {
       $q.loading.show()
-      await api.get('/devices/remove', { params: { id: id } })
+      await api.delete('/devices', { data: { ...args } })
       const r = await api.get('/devices')
       devices.value = r.data.devices
       $q.loading.hide()

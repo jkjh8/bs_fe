@@ -25,6 +25,10 @@ const routes = [
       {
         path: 'devices',
         component: () => import('pages/admin/DeviceRegistration.vue')
+      },
+      {
+        path: 'logs',
+        component: () => import('pages/admin/LogsPage.vue')
       }
     ]
   },

@@ -35,7 +35,7 @@ const openDialogForRemove = (props) => {
       message: `Name: ${props.name}, IP_Address: ${props.ipaddress}`
     }
   }).onOk(async () => {
-    await devicesStore.removeDevice(props._id)
+    await devicesStore.removeDevice(props)
   })
 }
 // lifecycle hooks
@@ -115,6 +115,7 @@ onMounted(async () => {
   padding: 20px;
 }
 .form {
+  width: 100%;
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 15px 0px;
