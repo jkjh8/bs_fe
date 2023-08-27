@@ -14,6 +14,20 @@ export default [
     sortable: true
   },
   {
+    name: 'user',
+    label: 'User',
+    align: 'center',
+    field: 'user',
+    sortable: true
+  },
+  {
+    name: 'zones',
+    label: 'Zones',
+    align: 'center',
+    field: 'zones',
+    sortable: true
+  },
+  {
     name: 'message',
     label: 'Message',
     align: 'left',

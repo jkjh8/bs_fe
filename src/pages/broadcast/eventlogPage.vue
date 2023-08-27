@@ -1,25 +1,20 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import moment from 'moment'
+import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { api } from 'boot/axios'
-// composables
-import columns from 'src/composables/columns/logs'
-
+import moment from 'moment'
 // stores
-import { useLogsStore } from 'src/stores/logs'
+import { useEventLogStore } from 'src/stores/eventlog.js'
+// composables
+import columns from 'src/composables/columns/eventlog.js'
 
-// initializes
+// initialize
 moment.locale = 'ko-KR'
-
 // variables
-const { current, filter, loading, pagination } = storeToRefs(useLogsStore())
-
-// functions
+const { current, filter, loading, pagination } = storeToRefs(useEventLogStore())
 
 // lifecycle hooks
 onMounted(async () => {
-  await useLogsStore().onRequest({
+  await useEventLogStore().onRequest({
     filter: filter.value,
     pagination: pagination.value
   })
@@ -31,8 +26,8 @@ onMounted(async () => {
     <div class="form full-width">
       <!-- title -->
       <div class="q-mx-lg row items-center">
-        <q-icon name="list_alt" size="24px" color="primary" />
-        <span class="text-h6">System Log</span>
+        <q-icon name="list_alt" size="24px" color="primary"></q-icon>
+        <span class="text-h6">Event Log</span>
         <q-space />
         <q-input
           v-model="filter"
@@ -47,7 +42,7 @@ onMounted(async () => {
           </template>
         </q-input>
       </div>
-      <!-- table -->
+      <!-- body -->
       <q-table
         flat
         :columns="columns"
@@ -56,7 +51,7 @@ onMounted(async () => {
         :loading="loading"
         row-key="_id"
         v-model:pagination="pagination"
-        @request="useLogsStore().onRequest"
+        @request="useEventLogStore().onRequest"
       >
         <template #body="props">
           <q-tr :props="props">
@@ -64,7 +59,17 @@ onMounted(async () => {
               {{ moment(props.row.createdAt).format('YYYY-MM-DD hh:mm:ss A') }}
             </q-td>
             <q-td key="level" :props="props">
-              {{ props.row.level.toUpperCase() }}
+              {{
+                typeof props.row.level == 'string'
+                  ? props.row.level.toUpperCase()
+                  : props.row.level
+              }}
+            </q-td>
+            <q-td key="user" :props="props">
+              {{ props.row.user }}
+            </q-td>
+            <q-td key="zones" :props="props">
+              {{ props.row.zones }}
             </q-td>
             <q-td key="message" :props="props">
               {{ props.row.message }}

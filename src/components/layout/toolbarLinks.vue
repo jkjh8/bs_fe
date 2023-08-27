@@ -3,6 +3,7 @@ import { onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 // components
 import UserAvatar from './userAvatar'
+import BroadcastMenu from './menus/broadcastMenu'
 import SetupMenu from './menus/setupMenu'
 // stores
 import { useUserStore } from 'src/stores/user'
@@ -16,7 +17,7 @@ const { user } = useUserStore()
 <template>
   <div class="row no-wrap items-center">
     <div class="btn cursor-pointer">Summary</div>
-    <div class="btn cursor-pointer">Broadcast</div>
+    <BroadcastMenu />
     <div class="btn cursor-pointer" @click="$r.push('/devices')">Device</div>
     <SetupMenu />
     <div class="q-ml-sm">

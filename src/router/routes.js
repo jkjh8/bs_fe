@@ -16,6 +16,17 @@ const routes = [
       }
     ]
   },
+  // broadcast funtions
+  {
+    path: '/broadcast',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: 'eventlog',
+        component: () => import('pages/broadcast/eventlogPage.vue')
+      }
+    ]
+  },
   // admin functions
   {
     path: '/admin',
