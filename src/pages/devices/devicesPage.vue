@@ -83,7 +83,7 @@ onMounted(async () => {
               {{ props.row.deviceId }}
             </q-td>
             <q-td key="ipaddress" :props="props">
-              <a :href="`http://${props.row.ipaddress}`">{{
+              <a :href="`http://${props.row.ipaddress}`" target="_blank">{{
                 props.row.ipaddress
               }}</a>
             </q-td>
