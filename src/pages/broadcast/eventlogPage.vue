@@ -86,7 +86,6 @@ onMounted(async () => {
   padding: 20px;
 }
 .form {
-  width: 100%;
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 15px 0px;

@@ -7,23 +7,31 @@ import useNotify from 'src/composables/useNotify'
 const { notifyInfo, notifyError } = useNotify()
 
 // variables
-let qsysId = ref('')
-let barixId = ref('')
+const qsysId = ref('')
+const barixId = ref('')
+const ttsId = ref('')
 const qsysCurrentId = ref('')
 const barixCurrentId = ref('')
+const ttsCurrentId = ref('')
 
 // functions
 const updateBrigdeId = async (type, id) => {
   try {
     if (type === 'qsys' && qsysId.value === qsysCurrentId.value) return
     if (type === 'barix' && barixId.value === barixCurrentId.value) return
+    if (type === 'tts' && ttsId.value === ttsCurrentId.value) return
     const r = await api.post('/bridge', { data: { type, id } })
     if (r.data && r.data.result) {
-      if (type === 'qsys') {
-        qsysId.value = qsysCurrentId.value
-      }
-      if (type === 'barix') {
-        barixId.value = barixCurrentId.value
+      switch (type) {
+        case 'qsys':
+          qsysId.value = qsysCurrentId.value
+          break
+        case 'barix':
+          barixId.value = barixCurrentId.value
+          break
+        case 'tts':
+          ttsId.value = ttsCurrentId.value
+          break
       }
     }
     notifyInfo(`Updated - ${type.toUpperCase()} - Bridge information`)
@@ -46,6 +54,10 @@ onMounted(async () => {
         case 'barix':
           barixId.value = d.id
           barixCurrentId.value = d.id
+          break
+        case 'tts':
+          ttsId.value = d.id
+          ttsCurrentId.value = d.id
           break
       }
     })
@@ -104,6 +116,26 @@ onMounted(async () => {
                 name="check_circle"
                 color="primary"
                 @click="updateBrigdeId('barix', barixCurrentId)"
+              />
+            </template>
+          </q-input>
+        </div>
+        <!-- TTS block -->
+        <div class="row no-wrap">
+          <div class="self-center">TTS</div>
+          <q-space />
+          <q-input
+            v-model="ttsCurrentId"
+            style="min-width: 350px; width: 50%"
+            outlined
+            dense
+          >
+            <template #append>
+              <q-icon
+                :class="ttsId !== ttsCurrentId ? 'cursor-pointer' : 'disabled'"
+                name="check_circle"
+                color="primary"
+                @click="updateBrigdeId('tts', ttsCurrentId)"
               />
             </template>
           </q-input>
