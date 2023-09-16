@@ -3,7 +3,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
 // composables
 import useRules from 'src/composables/usrRules.js'
-import makeId from 'src/composables/useMakeId.js'
+import makeUid from 'src/composables/useMakeUid.js'
 import useExists from 'src/composables/useExists'
 // emit
 const emit = defineEmits([...useDialogPluginComponent.emits])
@@ -25,7 +25,7 @@ const { fnExist } = useExists()
 
 // functions
 const makeNewId = () => {
-  newDevice.deviceId = makeId(8)
+  newDevice.deviceId = makeUid()
 }
 
 // lifecycle hooks

@@ -1,4 +1,4 @@
-export default function (length) {
+export default function (length = 16) {
   const _sym = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
   let uniqueId = ''
   for (let i = 0; i < length; i++) {
