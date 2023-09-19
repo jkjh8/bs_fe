@@ -36,7 +36,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="page">
+  <div class="q-pa-md">
     <div class="list">
       <div class="row no-wrap items-center" style="padding: 10px 20px">
         <q-icon name="group" size="24px" color="primary" />

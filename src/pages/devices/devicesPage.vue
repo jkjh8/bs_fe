@@ -2,6 +2,8 @@
 import { ref, onMounted, computed } from 'vue'
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
+import axios from 'axios'
+
 // components
 import DeviceAddDialog from 'src/components/dialog/deviceAddDialog'
 import ConfirmDeialog from 'src/components/dialog/confirmDialog'
@@ -15,6 +17,7 @@ const $q = useQuasar()
 const devicesStore = useDevicesStore()
 const devices = computed(() => devicesStore.devices)
 const filter = ref('')
+
 // functions
 const openDialogForAddDevice = () => {
   $q.dialog({
@@ -47,7 +50,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="page">
+  <div class="q-pa-md">
     <div class="form">
       <div class="q-mx-lg row items-center">
         <q-icon name="dns" size="20px" color="primary" />

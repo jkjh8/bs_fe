@@ -27,7 +27,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="page">
+  <div class="q-pa-md">
     <div class="form full-width">
       <!-- title -->
       <div class="q-mx-lg row items-center">
