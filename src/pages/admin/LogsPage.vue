@@ -28,9 +28,9 @@ onMounted(async () => {
 
 <template>
   <div class="q-pa-md">
-    <div class="form full-width">
+    <div class="borderd">
       <!-- title -->
-      <div class="q-mx-lg row items-center">
+      <div class="q-px-lg q-py-sm row items-center bg-grey-2">
         <q-icon name="list_alt" size="24px" color="primary" />
         <span class="text-h6">System Log</span>
         <q-space />
@@ -76,17 +76,4 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped>
-.page {
-  padding: 20px;
-}
-.form {
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 15px 0px;
-}
-.caption {
-  font-size: 10px;
-}
-</style>
+<style scoped></style>
