@@ -6,8 +6,8 @@ let socket
 export default boot(({ app }) => {
   const url =
     process.env.NODE_ENV === 'production'
-      ? '/ui'
-      : `http://${window.location.hostname}:3000/ui`
+      ? '/'
+      : `http://${window.location.hostname}:3000`
   socket = io(url, {
     reconnectionDelayMax: 5000,
     transports: ['websocket'],
