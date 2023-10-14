@@ -18,20 +18,26 @@ const { user } = useUserStore()
     <div class="btn cursor-pointer">Summary</div>
     <DropdownMenu
       name="Broadcast"
-      :offset="[0, 0]"
+      :offset="[20, 10]"
       :items="[
         { name: 'Eventlog', icon: 'list_alt', link: '/broadcast/eventlog' }
       ]"
     />
     <DropdownMenu
       name="Devices"
-      :offset="[0, 0]"
+      :offset="[35, 10]"
       :items="[
         {
-          name: 'Q-Sys',
+          name: 'Q-Sys(DSP)',
           icon: 'img:qsys-logo.svg',
           iconSize: '16px',
-          link: 'devices/qsys'
+          link: '/devices/qsys'
+        },
+        {
+          name: 'Barix(IP Audio)',
+          icon: 'img:barix-logo.svg',
+          iconSize: '16px',
+          link: '/devices/barix'
         }
       ]"
     />
