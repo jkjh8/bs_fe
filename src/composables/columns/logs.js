@@ -14,6 +14,20 @@ export default [
     sortable: true
   },
   {
+    name: 'source',
+    label: 'Source',
+    align: 'center',
+    field: 'source',
+    sortable: true
+  },
+  {
+    name: 'category',
+    label: 'Category',
+    align: 'center',
+    field: 'category',
+    sortable: true
+  },
+  {
     name: 'message',
     label: 'Message',
     align: 'left',
