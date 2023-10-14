@@ -2,6 +2,11 @@
 import { useRouter } from 'vue-router'
 
 const $r = useRouter()
+const menus = [
+  { name: 'User management', icon: 'group', link: 'users' },
+  { name: 'Device management', icon: 'dns', link: 'devices' },
+  { name: 'System log', icon: 'list-alt', link: 'logs' }
+]
 </script>
 
 <template>
@@ -9,28 +14,37 @@ const $r = useRouter()
     Setup
     <span class="down-icon">&#9660;</span>
     <q-menu :offset="[0, 10]">
-      <q-list style="min-width: 220px">
+      <div v-for="(item, idx) in menus" :key="idx">
+        <div>{{ item.name }}</div>
+      </div>
+      <div>
         <!-- Users -->
-        <q-item clickable v-close-popup @click="$r.push('/admin/users')">
-          <q-item-section avatar>
-            <q-icon name="group" color="primary" />
-          </q-item-section>
-          <q-item-section> User management </q-item-section>
-        </q-item>
+        <div
+          class="row no-wrap items-center q-py-sm q-gutter-x-md cursor-pointer menu-item"
+          v-close-popup
+          @click="$r.push('/admin/users')"
+        >
+          <q-icon name="group" color="primary" size="20px" />
+          <div class="ubuntumono-font">User management</div>
+        </div>
         <!-- Device registration -->
-        <q-item clickable v-close-popup @click="$r.push('/admin/devices')">
-          <q-item-section avatar>
-            <q-icon name="dns" color="primary" />
-          </q-item-section>
-          <q-item-section> Device management </q-item-section>
-        </q-item>
-        <q-item clickable v-close-popup @click="$r.push('/admin/logs')">
-          <q-item-section avatar>
-            <q-icon name="list_alt" color="primary" />
-          </q-item-section>
-          <q-item-section>System Log</q-item-section>
-        </q-item>
-      </q-list>
+        <div
+          class="row no-wrap items-center q-py-sm q-gutter-x-md cursor-pointer menu-item"
+          v-close-popup
+          @click="$r.push('/admin/devices')"
+        >
+          <q-icon name="dns" color="primary" size="20px" />
+          <div class="ubuntumono-font">Device management</div>
+        </div>
+        <div
+          class="row no-wrap items-center q-py-sm q-gutter-x-md cursor-pointer menu-item"
+          v-close-popup
+          @click="$r.push('/admin/logs')"
+        >
+          <q-icon name="list_alt" color="primary" size="20px" />
+          <div class="ubuntumono-font">System Log</div>
+        </div>
+      </div>
     </q-menu>
   </div>
 </template>

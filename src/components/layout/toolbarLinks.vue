@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 // components
 import UserAvatar from './userAvatar'
 import BroadcastMenu from './menus/broadcastMenu'
+import DeviceMenu from './menus/deviceMenu'
 import SetupMenu from './menus/setupMenu'
 // stores
 import { useUserStore } from 'src/stores/user'
@@ -18,7 +19,8 @@ const { user } = useUserStore()
   <div class="row no-wrap items-center">
     <div class="btn cursor-pointer">Summary</div>
     <BroadcastMenu />
-    <div class="btn cursor-pointer" @click="$r.push('/devices')">Device</div>
+    <DeviceMenu />
+    <!-- <div class="btn cursor-pointer" @click="$r.push('/devices')">Device</div> -->
     <SetupMenu />
     <div class="q-ml-sm">
       <UserAvatar />
