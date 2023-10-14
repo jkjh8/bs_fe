@@ -67,10 +67,10 @@ const signout = async () => {
     <q-menu style="border-radius: 8px; padding: 10px 20px" :offset="[10, 20]">
       <div class="q-pt-md q-gutter-y-sm">
         <div class="row justify-center q-gutter-x-sm">
-          <q-avatar color="primary" textColor="white" size="sm">{{
+          <q-avatar color="primary" textColor="white" size="xl">{{
             getUserNickname()
           }}</q-avatar>
-          <div>
+          <div class="q-mt-lg">
             {{ user.email }}
           </div>
         </div>
