@@ -48,7 +48,8 @@ const routes = [
     path: '/devices',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/devices/devicesPage.vue') }
+      { path: '', component: () => import('pages/devices/devicesPage.vue') },
+      { path: 'qsys', component: () => import('pages/devices/qsysPage.vue') }
     ]
   },
   // Always leave this as last one,

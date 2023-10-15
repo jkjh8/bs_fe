@@ -2,7 +2,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
 // composables
-import useRules from 'src/composables/usrRules.js'
+import useRules from 'src/composables/useRules.js'
 import makeUid from 'src/composables/useMakeUid.js'
 import useExists from 'src/composables/useExists'
 // emit
@@ -134,3 +134,4 @@ onMounted(() => {
 </template>
 
 <style scoped></style>
+src/composables/useRules.js

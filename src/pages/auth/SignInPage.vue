@@ -8,7 +8,7 @@ import { useUserStore } from 'src/stores/user.js'
 // components
 import AuthLink from 'components/auth/authLink'
 // composables
-import useRules from 'src/composables/usrRules'
+import useRules from 'src/composables/useRules'
 import useAuth from 'src/composables/useAuth'
 import useNotify from 'src/composables/useNotify'
 // stores
@@ -134,3 +134,4 @@ onMounted(() => {
   border-radius: 7px;
 }
 </style>
+src/composables/useRules

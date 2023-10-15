@@ -6,7 +6,7 @@ import { api } from 'boot/axios'
 // components
 import AuthLink from 'components/auth/authLink'
 // Composables
-import useRules from 'src/composables/usrRules'
+import useRules from 'src/composables/useRules'
 import useAuth from 'src/composables/useAuth'
 import useNotify from 'src/composables/useNotify'
 // Variables
@@ -157,3 +157,4 @@ const onSubmit = async () => {
   border-radius: 7px;
 }
 </style>
+src/composables/useRules
