@@ -5,7 +5,7 @@ import { api } from 'boot/axios'
 import axios from 'axios'
 
 // components
-import DeviceAddDialog from 'src/components/dialog/deviceAddDialog'
+import DeviceAddDialog from 'src/components/dialog/deviceAdd'
 import ConfirmDeialog from 'src/components/dialog/confirmDialog'
 // composables
 import columns from 'src/composables/columns/devices'

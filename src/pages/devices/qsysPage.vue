@@ -5,6 +5,7 @@ import { api } from 'boot/axios'
 // components
 import Table from 'src/components/devices/deviceTable.vue'
 import deviceAdd from 'src/components/dialog/deviceAdd.vue'
+import ConfirmDialog from 'src/components/dialog/confirmDialog'
 // initialize
 const $q = useQuasar()
 
@@ -21,10 +22,29 @@ const openDialogQSysAdd = () => {
     console.log(item)
     $q.loading.show()
     const r = await api.post('/devices/qsys', { ...item })
+    $q.loading.hide()
     if (r && r.data) {
       getQsys()
     }
+    // TODO: send devices data bridge
+  })
+}
+
+const openDialogQSysRemove = (args) => {
+  $q.dialog({
+    component: ConfirmDialog,
+    componentProps: {
+      icon: 'delete',
+      iconColor: 'red',
+      title: 'Remove Q-SYS Device',
+      message: `Are you sure to remove ${args.name}:${args.ipaddress}-${args.deviceId}?`
+    }
+  }).onOk(async () => {
+    $q.loading.show()
+    await api.delete('/devices/qsys', { data: { ...args } })
     $q.loading.hide()
+    getQsys()
+    // TODO: send devices data bridge
   })
 }
 
@@ -129,7 +149,7 @@ onMounted(() => {
                   color="red-10"
                   size="sm"
                   icon="delete"
-                  @click="openDialogForRemove(props.row)"
+                  @click="openDialogQSysRemove(props.row)"
                 />
               </div>
             </q-td>
