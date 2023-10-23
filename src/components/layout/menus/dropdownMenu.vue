@@ -30,7 +30,7 @@ const menus = [
           <q-icon
             :name="item.icon"
             color="primary"
-            :size="item.iconSize ? iconSize : '20px'"
+            :size="item.iconSize ? item.iconSize : '20px'"
           />
           <div class="ubuntumono-font">{{ item.name }}</div>
         </div>

@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
+import { api } from 'boot/axios'
 // components
 import Table from 'src/components/devices/deviceTable.vue'
 import deviceAdd from 'src/components/dialog/deviceAdd.vue'
@@ -16,8 +17,30 @@ const openDialogQSysAdd = () => {
   // add qsys device
   $q.dialog({
     component: deviceAdd
+  }).onOk(async (item) => {
+    console.log(item)
+    $q.loading.show()
+    const r = await api.post('/devices/qsys', { ...item })
+    if (r && r.data) {
+      getQsys()
+    }
+    $q.loading.hide()
   })
 }
+
+const getQsys = async () => {
+  loading.value = true
+  const r = await api.get('/devices/qsys')
+  console.log(r)
+  if (r && r.data) {
+    rows.value = r.data.devices
+  }
+  loading.value = false
+}
+
+onMounted(() => {
+  getQsys()
+})
 </script>
 
 <template>
@@ -85,6 +108,33 @@ const openDialogQSysAdd = () => {
           }
         ]"
       >
+        <template #body="props">
+          <q-tr :props="props">
+            <q-td key="name" :props="props">
+              {{ props.row.name }}
+            </q-td>
+            <q-td key="deviceId" :props="props">
+              {{ props.row.deviceId }}
+            </q-td>
+            <q-td key="ipaddress" :props="props">
+              <a :href="`http://${props.row.ipaddress}`" target="_blank">{{
+                props.row.ipaddress
+              }}</a>
+            </q-td>
+            <q-td key="actions" :props="props">
+              <div>
+                <q-btn
+                  round
+                  flat
+                  color="red-10"
+                  size="sm"
+                  icon="delete"
+                  @click="openDialogForRemove(props.row)"
+                />
+              </div>
+            </q-td>
+          </q-tr>
+        </template>
       </q-table>
     </div>
   </div>

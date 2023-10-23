@@ -4,13 +4,14 @@ import { useDialogPluginComponent } from 'quasar'
 // composables
 import makeUid from 'src/composables/useMakeUid.js'
 import useRules from 'src/composables/useRules.js'
-
+import useExists from 'src/composables/useExists'
 // emit
 const emit = defineEmits([...useDialogPluginComponent.emits])
 // initialize
 const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } =
   useDialogPluginComponent()
 const { required, ckIPv4 } = useRules()
+const { fnExist } = useExists()
 // variables
 const newDevice = reactive({
   name: '',
@@ -50,7 +51,7 @@ const makeNewDeviceId = () => {
               dense
               outlined
               label="Device ID"
-              :rules="[required]"
+              :rules="[required, (val) => fnExist({ deviceId: val })]"
               lazy-rules
             >
               <template #append>
@@ -67,7 +68,7 @@ const makeNewDeviceId = () => {
               dense
               outlined
               label="IP Address"
-              :rules="[required, ckIPv4]"
+              :rules="[required, ckIPv4, (val) => fnExist({ ipaddress: val })]"
               lazy-rules
             />
           </div>
