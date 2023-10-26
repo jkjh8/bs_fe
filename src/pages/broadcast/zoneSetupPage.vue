@@ -8,14 +8,13 @@ import { useQsysStore } from 'src/stores/qsys'
 const { qsysDevices } = storeToRefs(useQsysStore())
 const { getQsysDevices } = useQsysStore()
 
-const fnVolumeUp = async (deviceId, zone, value) => {
+const fnVolume = async (deviceId, zone, value) => {
   await api.put('/devices/qsys/volume', {
     deviceId,
     zone,
-    value: value + 1
+    value
   })
 }
-const fnVolumeDown = (deviceId, zone, value) => {}
 
 onMounted(async () => {
   await getQsysDevices()
@@ -122,7 +121,7 @@ onMounted(async () => {
                           icon="keyboard_arrow_up"
                           size="xs"
                           @click="
-                            volumeup(device.deviceId, zone.Zone, zone.gain)
+                            fnVolume(device.deviceId, zone.Zone, zone.gain + 1)
                           "
                         />
                         <q-btn
@@ -130,6 +129,9 @@ onMounted(async () => {
                           flat
                           icon="keyboard_arrow_down"
                           size="xs"
+                          @click="
+                            fnVolume(device.deviceId, zone.Zone, zone.gain - 1)
+                          "
                         />
                       </div>
                     </div>
