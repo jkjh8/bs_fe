@@ -24,7 +24,8 @@ export default boot(({ app }) => {
     console.log(`disconnect to socket.io id=${socket.id}`)
   })
 
-  socket.on('qsys:data', (data) => {
+  socket.on('qsys:data', (args) => {
+    const data = JSON.parse(args)
     console.log(data)
     switch (data.key) {
       case 'connect':
