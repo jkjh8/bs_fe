@@ -15,7 +15,9 @@ const fnVolume = async (deviceId, zone, value) => {
     value
   })
 }
-
+const fnMute = async (deviceId, zone, value) => {
+  await api.put('/devices/qsys/mute', { deviceId, zone, value })
+}
 onMounted(async () => {
   await getQsysDevices()
 })
@@ -142,6 +144,7 @@ onMounted(async () => {
                     flat
                     :icon="zone.mute ? 'volume_off' : 'volume_up'"
                     :color="zone.mute ? 'red' : 'primary'"
+                    @click="fnMute(device.deviceId, zone.Zone, !zone.mute)"
                   >
                     <q-tooltip>Mute</q-tooltip>
                   </q-btn>
