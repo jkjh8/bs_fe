@@ -20,7 +20,8 @@ const { user } = useUserStore()
       name="Broadcast"
       :offset="[20, 10]"
       :items="[
-        { name: 'Eventlog', icon: 'list_alt', link: '/broadcast/eventlog' }
+        { name: 'Eventlog', icon: 'list_alt', link: '/broadcast/eventlog' },
+        { name: 'Zone Setup', icon: 'map', link: '/broadcast/zonesetup' }
       ]"
     />
     <DropdownMenu

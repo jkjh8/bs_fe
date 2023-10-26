@@ -24,6 +24,10 @@ const routes = [
       {
         path: 'eventlog',
         component: () => import('pages/broadcast/eventlogPage.vue')
+      },
+      {
+        path: 'zonesetup',
+        component: () => import('pages/broadcast/zoneSetupPage.vue')
       }
     ]
   },

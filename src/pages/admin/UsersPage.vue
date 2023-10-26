@@ -37,10 +37,12 @@ onMounted(async () => {
 
 <template>
   <div class="q-pa-md">
-    <div class="list">
-      <div class="row no-wrap items-center" style="padding: 10px 20px">
-        <q-icon name="group" size="24px" color="primary" />
-        <div class="text-h6">User Management</div>
+    <div class="borderd">
+      <div class="q-px-lg q-py-sm row no-wrap items-center bg-grey-2">
+        <div class="row no-wrap items-cetner q-gutter-x-sm">
+          <q-icon name="group" size="24px" color="primary" />
+          <div class="text-h6">User Management</div>
+        </div>
         <q-space />
         <!-- table search input -->
         <q-input

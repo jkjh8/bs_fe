@@ -69,13 +69,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="page">
-    <div class="list">
-      <div class="row no-wrap items-center">
+  <div class="q-pa-md">
+    <div class="borderd">
+      <!-- title -->
+      <div class="q-px-lg q-py-sm row no-wrap items-center bg-grey-2">
         <q-icon name="dns" size="20px" color="primary" />
         <div class="text-h6">Device ID</div>
       </div>
-      <div class="q-pa-sm q-pt-lg q-gutter-y-sm">
+      <div class="q-pa-lg q-gutter-y-sm">
         <!-- qsys bridge block -->
         <div class="row no-wrap">
           <div class="self-center">Q-SYS Bridge</div>
