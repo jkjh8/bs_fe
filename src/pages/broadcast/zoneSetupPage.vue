@@ -1,13 +1,21 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { api } from 'boot/axios'
+import { storeToRefs } from 'pinia'
 
-const qsysDevices = ref([])
+import { useQsysStore } from 'src/stores/qsys'
 
-const getQsysDevices = async () => {
-  const r = await api.get('/devices/qsys')
-  qsysDevices.value = r.data.devices
+const { qsysDevices } = storeToRefs(useQsysStore())
+const { getQsysDevices } = useQsysStore()
+
+const fnVolumeUp = async (deviceId, zone, value) => {
+  await api.put('/devices/qsys/volume', {
+    deviceId,
+    zone,
+    value: value + 1
+  })
 }
+const fnVolumeDown = (deviceId, zone, value) => {}
 
 onMounted(async () => {
   await getQsysDevices()
@@ -113,6 +121,9 @@ onMounted(async () => {
                           flat
                           icon="keyboard_arrow_up"
                           size="xs"
+                          @click="
+                            volumeup(device.deviceId, zone.Zone, zone.gain)
+                          "
                         />
                         <q-btn
                           class="btn"

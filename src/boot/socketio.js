@@ -1,5 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import { io } from 'socket.io-client'
+import { useQsysStore } from 'src/stores/qsys'
 
 let socket
 
@@ -21,6 +22,16 @@ export default boot(({ app }) => {
 
   socket.on('disconnect', () => {
     console.log(`disconnect to socket.io id=${socket.id}`)
+  })
+
+  socket.on('qsys:data', (data) => {
+    console.log(data)
+    switch (data.key) {
+      case 'connect':
+      case 'devices':
+        useQsysStore().updateQsysDevices(data.value)
+        break
+    }
   })
 
   app.config.globalProperties.$socket = socket
