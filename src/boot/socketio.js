@@ -32,6 +32,9 @@ export default boot(({ app }) => {
       case 'devices':
         useQsysStore().updateQsysDevices(data.value)
         break
+      case 'ZoneStatus':
+        useQsysStore().updateQsysDevice(data.deviceId, data.ZoneStatus)
+        break
     }
   })
 

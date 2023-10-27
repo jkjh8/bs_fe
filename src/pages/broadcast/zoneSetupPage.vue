@@ -1,23 +1,52 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 import { storeToRefs } from 'pinia'
-
 import { useQsysStore } from 'src/stores/qsys'
 
+import ZoneNameDialog from 'src/components/dialog/zoneName.vue'
+// initialize
+const $q = useQuasar()
 const { qsysDevices } = storeToRefs(useQsysStore())
 const { getQsysDevices } = useQsysStore()
+// dialogs
+const modifyZoneName = (name, zone, deviceId) => {
+  $q.dialog({
+    component: ZoneNameDialog,
+    componentProps: {
+      currentName: name,
+      zone: zone
+    }
+  }).onOk(async (modifiedName) => {
+    $q.loading.show()
+    const r = await api.put('/devices/qsys/modifiedzonename', {
+      deviceId,
+      zone,
+      name: modifiedName
+    })
+    console.log(r)
+    useQsysStore().updateQsysDevices(r.data.devices)
+    $q.loading.hide()
+  })
+}
 
+// functions
 const fnVolume = async (deviceId, zone, value) => {
+  $q.loading.show()
   await api.put('/devices/qsys/volume', {
     deviceId,
     zone,
     value
   })
+  $q.loading.hide()
 }
 const fnMute = async (deviceId, zone, value) => {
+  $q.loading.show()
   await api.put('/devices/qsys/mute', { deviceId, zone, value })
+  $q.loading.hide()
 }
+
 onMounted(async () => {
   await getQsysDevices()
 })
@@ -86,7 +115,17 @@ onMounted(async () => {
                       <span>
                         {{ zone.name ? zone.name : 'No Name' }}
                       </span>
-                      <q-btn round flat icon="edit" color="primary" size="sm">
+                      <!-- modify zone name -->
+                      <q-btn
+                        round
+                        flat
+                        icon="edit"
+                        color="primary"
+                        size="sm"
+                        @click="
+                          modifyZoneName(zone.name, zone.Zone, device.deviceId)
+                        "
+                      >
                         <q-tooltip>Edit Name</q-tooltip>
                       </q-btn>
                     </div>
@@ -144,7 +183,9 @@ onMounted(async () => {
                     flat
                     :icon="zone.mute ? 'volume_off' : 'volume_up'"
                     :color="zone.mute ? 'red' : 'primary'"
-                    @click="fnMute(device.deviceId, zone.Zone, !zone.mute)"
+                    @click="
+                      fnMute(device.deviceId, zone.Zone, zone.mute ? 0 : 1)
+                    "
                   >
                     <q-tooltip>Mute</q-tooltip>
                   </q-btn>
