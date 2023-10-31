@@ -25,7 +25,6 @@ const modifyZoneName = (name, zone, deviceId) => {
       zone,
       name: modifiedName
     })
-    console.log(r)
     useQsysStore().updateQsysDevices(r.data.devices)
     $q.loading.hide()
   })
@@ -34,16 +33,18 @@ const modifyZoneName = (name, zone, deviceId) => {
 // functions
 const fnVolume = async (deviceId, zone, value) => {
   $q.loading.show()
-  await api.put('/devices/qsys/volume', {
+  const r = await api.put('/devices/qsys/volume', {
     deviceId,
     zone,
     value
   })
+  useQsysStore().updateQsysDevices(r.data.devices)
   $q.loading.hide()
 }
 const fnMute = async (deviceId, zone, value) => {
   $q.loading.show()
-  await api.put('/devices/qsys/mute', { deviceId, zone, value })
+  const r = await api.put('/devices/qsys/mute', { deviceId, zone, value })
+  useQsysStore().updateQsysDevices(r.data.devices)
   $q.loading.hide()
 }
 

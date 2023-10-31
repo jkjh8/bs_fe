@@ -22,12 +22,16 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
-        path: 'eventlog',
-        component: () => import('pages/broadcast/eventlogPage.vue')
-      },
-      {
         path: 'zonesetup',
         component: () => import('pages/broadcast/zoneSetupPage.vue')
+      },
+      {
+        path: 'files',
+        component: () => import('pages/broadcast/filesPage.vue')
+      },
+      {
+        path: 'eventlog',
+        component: () => import('pages/broadcast/eventlogPage.vue')
       }
     ]
   },
