@@ -2,9 +2,10 @@ import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 
 let api
+let apiUrl
 
 export default boot(({ app }) => {
-  const apiUrl =
+  apiUrl =
     process.env.NODE_ENV === 'production'
       ? '/api'
       : `http://${window.location.hostname}:3000/api`
@@ -14,4 +15,4 @@ export default boot(({ app }) => {
   app.config.globalProperties.$api = api
 })
 
-export { api }
+export { api, apiUrl }

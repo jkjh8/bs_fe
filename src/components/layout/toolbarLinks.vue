@@ -21,7 +21,7 @@ const { user } = useUserStore()
       :offset="[20, 10]"
       :items="[
         { name: 'Zone Setup', icon: 'map', link: '/broadcast/zonesetup' },
-        { name: 'Files', icon: 'folder', link: '/broadcast/files' },
+        { name: 'Files', icon: 'folder_open', link: '/broadcast/files' },
         { name: 'Eventlog', icon: 'list_alt', link: '/broadcast/eventlog' }
       ]"
     />

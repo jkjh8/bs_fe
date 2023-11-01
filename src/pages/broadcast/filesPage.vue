@@ -1,9 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { api } from 'boot/axios'
-import { useQuasar } from 'quasar'
+import { useQuasar, format } from 'quasar'
 // components
 import AddFolder from 'src/components/dialog/addFolder.vue'
+import ConfirmDeialog from 'src/components/dialog/confirmDialog.vue'
+import UploadFile from 'src/components/dialog/uploadFile.vue'
 // variables
 const selected = ref([])
 const folders = ref([])
@@ -30,6 +32,32 @@ const addFolder = async () => {
     })
     await getFiles()
     $q.loading.hide()
+  })
+}
+
+const removeFile = async () => {
+  if (!selected.value.length) return
+  $q.dialog({
+    component: ConfirmDeialog,
+    componentProps: {
+      title: `Remove ${
+        selected.value[0].type === 'folder' ? 'Folder' : 'File'
+      }`,
+      message: 'Are you shure to remove File or Folder?'
+    }
+  }).onOk(async () => {
+    $q.loading.show()
+    await api.delete('/files/remove', { data: { ...selected.value[0] } })
+    await getFiles()
+    $q.loading.hide()
+  })
+}
+const FileUploader = async () => {
+  $q.dialog({
+    component: UploadFile,
+    componentProps: {
+      folders: folders.value.join('/')
+    }
   })
 }
 // lifecycle hooks
@@ -63,7 +91,14 @@ onMounted(async () => {
             >
               <q-tooltip>New Folder</q-tooltip>
             </q-btn>
-            <q-btn round flat icon="upload" color="primary" size="sm">
+            <q-btn
+              round
+              flat
+              icon="upload"
+              color="primary"
+              size="sm"
+              @click="FileUploader"
+            >
               <q-tooltip>File upload</q-tooltip>
             </q-btn>
             <q-btn round flat icon="download" color="primary" size="sm">
@@ -79,7 +114,14 @@ onMounted(async () => {
             >
               <q-tooltip>File rename</q-tooltip>
             </q-btn>
-            <q-btn round flat icon="delete_outline" color="red" size="sm">
+            <q-btn
+              round
+              flat
+              icon="delete_outline"
+              color="red"
+              size="sm"
+              @click="removeFile"
+            >
               <q-tooltip>Delete</q-tooltip>
             </q-btn>
           </div>
@@ -123,6 +165,37 @@ onMounted(async () => {
             <q-th :props="props" style="width: 60%">
               {{ props.col.label }}
             </q-th>
+          </template>
+          <template #body="props">
+            <q-tr :props="props">
+              <q-td auto-width>
+                <q-checkbox dense v-model="props.selected" />
+              </q-td>
+              <q-td key="name" :props="props">
+                <!-- icons -->
+                <span v-if="props.row.type === 'folder'">
+                  <q-icon name="folder_open" color="primary" size="16px" />
+                </span>
+                <span v-else-if="props.row.type === 'wav'">
+                  <q-icon name="play_arrow" color="primary" size="16px" />
+                </span>
+                <span v-else-if="props.row.type === 'mp3'">
+                  <q-icon name="play_arrow" color="primary" size="16px" />
+                </span>
+                <!-- name -->
+                {{ props.row.name }}
+              </q-td>
+              <q-td key="type" :props="props">
+                {{ props.row.type }}
+              </q-td>
+              <q-td key="size" :props="props">
+                {{
+                  props.row.type !== 'folder'
+                    ? format.humanStorageSize(props.row.size)
+                    : ''
+                }}
+              </q-td>
+            </q-tr>
           </template>
         </q-table>
       </div>
