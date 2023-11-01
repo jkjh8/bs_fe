@@ -1,15 +1,43 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { api } from 'boot/axios'
-
-const selected = ref(null)
-const folders = ref(['media'])
+import { useQuasar } from 'quasar'
+// components
+import AddFolder from 'src/components/dialog/addFolder.vue'
+// variables
+const selected = ref([])
+const folders = ref([])
 const files = ref([])
-
+// initialize
+const $q = useQuasar()
+// functions
 const getFiles = async () => {
-  const r = await api.get('/files', { parmas: folders.value.join('/') })
-  console.log(r)
+  const r = await api.get('/files', {
+    params: { folders: folders.value.join('/') }
+  })
+  files.value = r.data.files
+  // files.value = r.data.files
 }
+
+const addFolder = async () => {
+  $q.dialog({
+    component: AddFolder
+  }).onOk(async (name) => {
+    $q.loading.show()
+    await api.post('/files/newfolder', {
+      folders: folders.value.join('/'),
+      name: name
+    })
+    await getFiles()
+    $q.loading.hide()
+  })
+}
+// lifecycle hooks
+onMounted(async () => {
+  $q.loading.show()
+  await getFiles()
+  $q.loading.hide()
+})
 </script>
 
 <template>
@@ -20,7 +48,9 @@ const getFiles = async () => {
         <div class="row no-wrap items-center q-gutter-x-sm full-width">
           <q-icon name="folder" size="20px" color="primary" />
           <span class="text-h6">Files</span>
-          <div class="text-caption q-mt-xs q-ml-md">media</div>
+          <div class="text-caption q-mt-xs q-ml-md">
+            <span class="cursor-pointer text-underline">media</span>
+          </div>
           <q-space />
           <div class="row no-wrap">
             <q-btn
@@ -29,6 +59,7 @@ const getFiles = async () => {
               icon="create_new_folder"
               color="primary"
               size="sm"
+              @click="addFolder"
             >
               <q-tooltip>New Folder</q-tooltip>
             </q-btn>
@@ -58,6 +89,7 @@ const getFiles = async () => {
       <div>
         <q-table
           flat
+          dense
           :columns="[
             {
               name: 'name',
@@ -81,38 +113,16 @@ const getFiles = async () => {
               sortable: true
             }
           ]"
+          :rows="files"
           row-key="name"
           selection="single"
           v-model:selected="selected"
+          :pagination="{ rowsPerPage: 0 }"
         >
-          <template #header="props">
-            <q-tr :props="props">
-              <q-th
-                name="name"
-                align="left"
-                field="name"
-                :sortable="true"
-                :auto-width="false"
-                style="width: 60%"
-                >Name</q-th
-              >
-              <q-th
-                name="type"
-                align="center"
-                field="type"
-                :sortable="true"
-                :auto-width="false"
-                >Type</q-th
-              >
-              <q-th
-                name="size"
-                align="center"
-                field="size"
-                :sortable="true"
-                :auto-width="false"
-                >Size</q-th
-              >
-            </q-tr>
+          <template #header-cell-name="props">
+            <q-th :props="props" style="width: 60%">
+              {{ props.col.label }}
+            </q-th>
           </template>
         </q-table>
       </div>
