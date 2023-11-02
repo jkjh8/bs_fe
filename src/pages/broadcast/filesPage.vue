@@ -79,6 +79,7 @@ const fileDownload = async () => {
   link.click()
   link.remove()
   $q.loading.hide()
+  selected.value = []
 }
 // lifecycle hooks
 onMounted(async () => {
