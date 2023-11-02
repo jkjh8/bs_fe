@@ -67,6 +67,7 @@ const fileUploader = async () => {
 
 const fileDownload = async () => {
   if (!selected.value.length) return
+  if (selected.value[0].type === 'folder') return
   $q.loading.show()
   const link = document.createElement('a')
   link.setAttribute(
