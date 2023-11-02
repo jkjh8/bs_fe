@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { api } from 'boot/axios'
+import { api, apiUrl } from 'boot/axios'
 import { useQuasar, format } from 'quasar'
 // components
 import AddFolder from 'src/components/dialog/addFolder.vue'
@@ -52,13 +52,32 @@ const removeFile = async () => {
     $q.loading.hide()
   })
 }
-const FileUploader = async () => {
+const fileUploader = async () => {
   $q.dialog({
     component: UploadFile,
     componentProps: {
       folders: folders.value.join('/')
     }
+  }).onOk(async () => {
+    $q.loading.show()
+    await getFiles()
+    $q.loading.hide()
   })
+}
+
+const fileDownload = async () => {
+  if (!selected.value.length) return
+  $q.loading.show()
+  const link = document.createElement('a')
+  link.setAttribute(
+    'href',
+    `${apiUrl}/files/download/${encodeURIComponent(
+      JSON.stringify(selected.value[0])
+    )}`
+  )
+  link.click()
+  link.remove()
+  $q.loading.hide()
 }
 // lifecycle hooks
 onMounted(async () => {
@@ -97,11 +116,18 @@ onMounted(async () => {
               icon="upload"
               color="primary"
               size="sm"
-              @click="FileUploader"
+              @click="fileUploader"
             >
               <q-tooltip>File upload</q-tooltip>
             </q-btn>
-            <q-btn round flat icon="download" color="primary" size="sm">
+            <q-btn
+              round
+              flat
+              icon="download"
+              color="primary"
+              size="sm"
+              @click="fileDownload"
+            >
               <q-tooltip>File download</q-tooltip>
             </q-btn>
             <q-separator vertical spaced inset />
