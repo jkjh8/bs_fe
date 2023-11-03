@@ -6,6 +6,7 @@ import { useQuasar, format } from 'quasar'
 import AddFolder from 'src/components/dialog/addFolder.vue'
 import ConfirmDeialog from 'src/components/dialog/confirmDialog.vue'
 import UploadFile from 'src/components/dialog/uploadFile.vue'
+import RenameFile from 'src/components/dialog/renameFile.vue'
 // variables
 const selected = ref([])
 const folders = ref([])
@@ -25,6 +26,7 @@ const addFolder = async () => {
   $q.dialog({
     component: AddFolder
   }).onOk(async (name) => {
+    if (!name) return
     $q.loading.show()
     await api.post('/files/newfolder', {
       folders: folders.value.join('/'),
@@ -81,6 +83,45 @@ const fileDownload = async () => {
   $q.loading.hide()
   selected.value = []
 }
+
+const rename = async () => {
+  $q.dialog({
+    component: RenameFile,
+    componentProps: {
+      current: selected.value[0]
+    }
+  }).onOk(async (obj) => {
+    if (!obj && !Object.keys(obj).length) return
+    $q.loading.show()
+    console.log(obj)
+    await api.put('/files/rename', { ...obj })
+    await getFiles()
+    selected.value = []
+    $q.loading.hide()
+  })
+}
+
+const moveDownFolder = async (folder) => {
+  console.log(folder)
+  $q.loading.show()
+  folders.value.push(folder)
+  await getFiles()
+  $q.loading.hide()
+}
+
+const moveUpFolder = async (item) => {
+  $q.loading.show()
+  if (!item) {
+    folders.value = []
+    await getFiles()
+  } else {
+    const idx = folders.value.findIndex((e) => e === item)
+    folders.value = folders.value.slice(0, idx + 1)
+    await getFiles()
+  }
+  $q.loading.hide()
+}
+
 // lifecycle hooks
 onMounted(async () => {
   $q.loading.show()
@@ -98,7 +139,18 @@ onMounted(async () => {
           <q-icon name="folder" size="20px" color="primary" />
           <span class="text-h6">Files</span>
           <div class="text-caption q-mt-xs q-ml-md">
-            <span class="cursor-pointer text-underline">media</span>
+            <span class="cursor-pointer text-underline" @click="moveUpFolder()"
+              >media</span
+            >
+            <span v-for="(item, idx) in folders" :key="idx">
+              <span class="q-mx-xs">/</span>
+              <span
+                class="cursor-pointer text-underline"
+                @click="moveUpFolder(item)"
+              >
+                {{ item }}
+              </span>
+            </span>
           </div>
           <q-space />
           <div class="row no-wrap">
@@ -139,6 +191,7 @@ onMounted(async () => {
               icon="drive_file_rename_outline"
               color="primary"
               size="sm"
+              @click="rename"
             >
               <q-tooltip>File rename</q-tooltip>
             </q-btn>
@@ -211,7 +264,16 @@ onMounted(async () => {
                   <q-icon name="play_arrow" color="primary" size="16px" />
                 </span>
                 <!-- name -->
-                {{ props.row.name }}
+                <span
+                  v-if="props.row.type === 'folder'"
+                  class="q-ml-xs text-underline cursor-pointer"
+                  @click="moveDownFolder(props.row.name)"
+                >
+                  {{ props.row.name }}
+                </span>
+                <span v-else>
+                  {{ props.row.name }}
+                </span>
               </q-td>
               <q-td key="type" :props="props">
                 {{ props.row.type }}

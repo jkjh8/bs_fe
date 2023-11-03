@@ -30,6 +30,7 @@ function onRejected(rejectedEntries) {
         { name: 'folders', value: props.folders ? props.folders : '' }
       ]"
       @rejected="onRejected"
+      @finish="onDialogOK"
     >
       <template #header="scope">
         <div class="row no-wrap items-center q-pa-sm q-gutter-x-xs">
