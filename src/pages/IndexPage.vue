@@ -1,17 +1,20 @@
+<script setup>
+import BroadcastStatus from 'src/components/devices/broadcastStatus'
+</script>
+
 <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    >
-  </q-page>
+  <div class="q-pa-md">
+    <div class="borderd">
+      <!-- title -->
+      <div class="q-px-lg q-py-sm row items-center bg-grey-2">
+        <div class="row no-wrap items-center q-gutter-x-sm">
+          <q-icon name="map" size="20px" color="primary" />
+          <span class="text-h6">Broadcast Status</span>
+        </div>
+      </div>
+      <BroadcastStatus />
+    </div>
+  </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'IndexPage'
-})
-</script>
+<style scoped></style>
