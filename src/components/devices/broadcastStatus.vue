@@ -3,11 +3,16 @@ import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useQsysStore } from 'src/stores/qsys'
+import ZoneStatus from 'src/components/devices/zoneStatus'
 
 // initialize
 const $q = useQuasar()
 const { qsysDevices } = storeToRefs(useQsysStore())
-const { getQsysDevvices } = useQsysStore()
+const { getQsysDevices } = useQsysStore()
+
+onMounted(async () => {
+  await getQsysDevices()
+})
 </script>
 
 <template>
@@ -29,6 +34,7 @@ const { getQsysDevvices } = useQsysStore()
           </q-item-label>
         </q-item-section>
       </template>
+      <ZoneStatus :zones="device.ZoneStatus" />
     </q-expansion-item>
   </q-list>
 </template>
