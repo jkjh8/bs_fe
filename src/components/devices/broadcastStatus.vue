@@ -10,6 +10,17 @@ const $q = useQuasar()
 const { qsysDevices } = storeToRefs(useQsysStore())
 const { getQsysDevices } = useQsysStore()
 
+function checkActiveZones(zones) {
+  console.log(zones)
+  const activeZones = 0
+  for (let i = 0; i < zones.length; i++) {
+    if (zones[i].Active) {
+      activeZones = activeZones + 1
+    }
+  }
+  return activeZones
+}
+
 onMounted(async () => {
   await getQsysDevices()
 })
@@ -32,6 +43,12 @@ onMounted(async () => {
           <q-item-label caption>
             {{ device.ipaddress }}
           </q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          Zones
+          <div>
+            {{ checkActiveZones(device.ZoneStatus) }}
+          </div>
         </q-item-section>
       </template>
       <ZoneStatus :zones="device.ZoneStatus" />

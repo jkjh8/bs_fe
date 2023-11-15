@@ -17,6 +17,7 @@ export const useQsysStore = defineStore('qsys', () => {
   function updateQsysDevice(deviceId, args) {
     const key = qsysDevices.value.findIndex((r) => r.deviceId === deviceId)
     qsysDevices.value[key].ZoneStatus = args
+    console.log('updated device')
   }
 
   return { qsysDevices, getQsysDevices, updateQsysDevices, updateQsysDevice }
