@@ -2,15 +2,22 @@
 import { ref, onMounted } from 'vue'
 import { api, apiUrl } from 'boot/axios'
 import { useQuasar, format } from 'quasar'
+// store
+import { storeToRefs } from 'pinia'
+import { useUserStore } from 'src/stores/user'
 // components
 import AddFolder from 'src/components/dialog/addFolder.vue'
 import ConfirmDeialog from 'src/components/dialog/confirmDialog.vue'
 import UploadFile from 'src/components/dialog/uploadFile.vue'
 import RenameFile from 'src/components/dialog/renameFile.vue'
 // variables
+const { user } = storeToRefs(useUserStore())
 const selected = ref([])
 const folders = ref([])
+const folderTree = ref([])
 const files = ref([])
+const splitterModel = ref(20)
+const selectedFolder = ref('')
 // initialize
 const $q = useQuasar()
 // functions
@@ -20,6 +27,19 @@ const getFiles = async () => {
   })
   files.value = r.data.files
   // files.value = r.data.files
+}
+
+const getDirs = async () => {
+  try {
+    const r = await api.get('/files/dir')
+    folderTree.value = r.data
+    console.log(r.data)
+    if (!selectedFolder.value) {
+      selectedFolder.value = r.data[0].path
+    }
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 const addFolder = async () => {
@@ -42,9 +62,7 @@ const removeFile = async () => {
   $q.dialog({
     component: ConfirmDeialog,
     componentProps: {
-      title: `Remove ${
-        selected.value[0].type === 'folder' ? 'Folder' : 'File'
-      }`,
+      title: `Remove ${selected.value[0].type === 'folder' ? 'Folder' : 'File'}`,
       message: 'Are you shure to remove File or Folder?'
     }
   }).onOk(async () => {
@@ -74,9 +92,7 @@ const fileDownload = async () => {
   const link = document.createElement('a')
   link.setAttribute(
     'href',
-    `${apiUrl}/files/download/${encodeURIComponent(
-      JSON.stringify(selected.value[0])
-    )}`
+    `${apiUrl}/files/download/${encodeURIComponent(JSON.stringify(selected.value[0]))}`
   )
   link.click()
   link.remove()
@@ -122,10 +138,16 @@ const moveUpFolder = async (item) => {
   $q.loading.hide()
 }
 
+const updatedSelectedFolder = (val) => {
+  console.log(val)
+}
+
 // lifecycle hooks
 onMounted(async () => {
+  console.log(user.value)
   $q.loading.show()
   await getFiles()
+  await getDirs()
   $q.loading.hide()
 })
 </script>
@@ -139,49 +161,23 @@ onMounted(async () => {
           <q-icon name="folder" size="20px" color="primary" />
           <span class="text-h6">Files</span>
           <div class="text-caption q-mt-xs q-ml-md">
-            <span class="cursor-pointer text-underline" @click="moveUpFolder()"
-              >media</span
-            >
+            <span class="cursor-pointer text-underline" @click="moveUpFolder()">media</span>
             <span v-for="(item, idx) in folders" :key="idx">
               <span class="q-mx-xs">/</span>
-              <span
-                class="cursor-pointer text-underline"
-                @click="moveUpFolder(item)"
-              >
+              <span class="cursor-pointer text-underline" @click="moveUpFolder(item)">
                 {{ item }}
               </span>
             </span>
           </div>
           <q-space />
           <div class="row no-wrap">
-            <q-btn
-              round
-              flat
-              icon="create_new_folder"
-              color="primary"
-              size="sm"
-              @click="addFolder"
-            >
+            <q-btn round flat icon="create_new_folder" color="primary" size="sm" @click="addFolder">
               <q-tooltip>New Folder</q-tooltip>
             </q-btn>
-            <q-btn
-              round
-              flat
-              icon="upload"
-              color="primary"
-              size="sm"
-              @click="fileUploader"
-            >
+            <q-btn round flat icon="upload" color="primary" size="sm" @click="fileUploader">
               <q-tooltip>File upload</q-tooltip>
             </q-btn>
-            <q-btn
-              round
-              flat
-              icon="download"
-              color="primary"
-              size="sm"
-              @click="fileDownload"
-            >
+            <q-btn round flat icon="download" color="primary" size="sm" @click="fileDownload">
               <q-tooltip>File download</q-tooltip>
             </q-btn>
             <q-separator vertical spaced inset />
@@ -195,14 +191,7 @@ onMounted(async () => {
             >
               <q-tooltip>File rename</q-tooltip>
             </q-btn>
-            <q-btn
-              round
-              flat
-              icon="delete_outline"
-              color="red"
-              size="sm"
-              @click="removeFile"
-            >
+            <q-btn round flat icon="delete_outline" color="red" size="sm" @click="removeFile">
               <q-tooltip>Delete</q-tooltip>
             </q-btn>
           </div>
@@ -210,7 +199,24 @@ onMounted(async () => {
       </div>
       <!-- table -->
       <div>
-        <q-table
+        <q-splitter v-model="splitterModel">
+          <template v-slot:before>
+            <div class="q-ma-md">
+              <q-tree
+                :nodes="folderTree"
+                selected-color="primary"
+                node-key="path"
+                v-model:selected="selectedFolder"
+                no-selection-unset
+                @update:selected="updatedSelectedFolder"
+              ></q-tree>
+            </div>
+          </template>
+          <template v-slot:after>
+            <div>2</div>
+          </template>
+        </q-splitter>
+        <!-- <q-table
           flat
           dense
           :columns="[
@@ -253,7 +259,6 @@ onMounted(async () => {
                 <q-checkbox dense v-model="props.selected" />
               </q-td>
               <q-td key="name" :props="props">
-                <!-- icons -->
                 <span v-if="props.row.type === 'folder'">
                   <q-icon name="folder_open" color="primary" size="16px" />
                 </span>
@@ -263,7 +268,6 @@ onMounted(async () => {
                 <span v-else-if="props.row.type === 'mp3'">
                   <q-icon name="play_arrow" color="primary" size="16px" />
                 </span>
-                <!-- name -->
                 <span
                   v-if="props.row.type === 'folder'"
                   class="q-ml-xs text-underline cursor-pointer"
@@ -287,7 +291,7 @@ onMounted(async () => {
               </q-td>
             </q-tr>
           </template>
-        </q-table>
+        </q-table> -->
       </div>
     </div>
   </div>
