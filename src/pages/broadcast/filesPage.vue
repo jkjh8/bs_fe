@@ -11,13 +11,14 @@ import AddFolder from 'src/components/dialog/addFolder.vue'
 import ConfirmDeialog from 'src/components/dialog/confirmDialog.vue'
 import UploadFile from 'src/components/dialog/uploadFile.vue'
 import RenameFile from 'src/components/dialog/renameFile.vue'
+import DeleteFiles from 'src/components/dialog/deleteFiles.vue'
 
 import FolderTree from 'src/components/files/folderTree.vue'
 import FilesTable from 'src/components/files/filesTable'
 // variables
 const { user } = storeToRefs(useUserStore())
 const { files, folders, selectedFolder, selectedFiles } = storeToRefs(useFilesStore())
-const { getFolders, getFiles, updateSelectedFolder, newFolder } = useFilesStore()
+const { getFolders, getFiles, updateSelectedFolder, newFolder, deleteFiles } = useFilesStore()
 
 const selected = ref([])
 const splitterModel = ref(20)
@@ -39,16 +40,15 @@ const addFolder = async () => {
 }
 
 const removeFile = async () => {
-  if (!selected.value.length) return
+  if (!selectedFiles.value.length) return
   $q.dialog({
-    component: ConfirmDeialog,
+    component: DeleteFiles,
     componentProps: {
-      title: `Remove ${selected.value[0].type === 'folder' ? 'Folder' : 'File'}`,
-      message: 'Are you shure to remove File or Folder?'
+      files: selectedFiles.value
     }
   }).onOk(async () => {
     $q.loading.show()
-    await api.delete('/files/remove', { data: { ...selected.value[0] } })
+    await deleteFiles([...selectedFiles.value])
     await getFiles(selectedFolder.value)
     $q.loading.hide()
   })

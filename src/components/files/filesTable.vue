@@ -51,9 +51,9 @@ const updateFolder = (val) => {
   >
     <template #header="props">
       <q-tr :props="props">
-        <q-td key="selection" auto-width>
+        <q-th auto-width>
           <q-checkbox size="22px" v-model="props.selected" />
-        </q-td>
+        </q-th>
         <q-th key="name" :props="props"> NAME </q-th>
         <q-th key="size" :props="props"> SIZE </q-th>
       </q-tr>
@@ -61,7 +61,7 @@ const updateFolder = (val) => {
     <template #body="props">
       <q-tr :props="props">
         <q-td auto-width>
-          <q-checkbox size="22px" v-model="props.selected" />
+          <q-checkbox size="22px" v-model="props.selected" v-if="props.row.name !== '..'" />
         </q-td>
         <q-td key="name" :props="props">
           <span v-if="props.row.type === 'folder'">

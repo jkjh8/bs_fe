@@ -55,6 +55,10 @@ export const useFilesStore = defineStore('files', () => {
     })
   }
 
+  async function deleteFiles(fileList) {
+    await api.delete('/files/remove', { files: fileList })
+  }
+
   return {
     files,
     folders,
@@ -63,6 +67,7 @@ export const useFilesStore = defineStore('files', () => {
     getFolders,
     getFiles,
     updateSelectedFolder,
-    newFolder
+    newFolder,
+    deleteFiles
   }
 })
