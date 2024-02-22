@@ -2,11 +2,10 @@
 import { useDialogPluginComponent, useQuasar } from 'quasar'
 import { apiUrl } from 'boot/axios'
 
-const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } =
-  useDialogPluginComponent()
+const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } = useDialogPluginComponent()
 
 const props = defineProps({
-  folders: String
+  folder: String
 })
 
 const $q = useQuasar()
@@ -23,12 +22,11 @@ function onRejected(rejectedEntries) {
   <q-dialog ref="dialogRef" persistent>
     <q-uploader
       class="uploader"
+      style="border-radius: 0.6rem"
       multiple
       :url="`${apiUrl}/files`"
       accept="audio/*"
-      :headers="[
-        { name: 'folders', value: props.folders ? props.folders : '' }
-      ]"
+      :headers="[{ name: 'folder', value: encodeURIComponent(folder) }]"
       @rejected="onRejected"
       @finish="onDialogOK"
     >
@@ -46,13 +44,7 @@ function onRejected(rejectedEntries) {
             <q-tooltip>Clear All</q-tooltip>
           </q-btn>
           <!-- remove uploaded files -->
-          <q-btn
-            v-if="scope.uploadedFiles.length > 0"
-            round
-            flat
-            icon="done_all"
-            size="sm"
-          >
+          <q-btn v-if="scope.uploadedFiles.length > 0" round flat icon="done_all" size="sm">
             <q-tooltip>Remove Uploaded Files</q-tooltip>
           </q-btn>
           <!-- is uploading -->
@@ -78,36 +70,15 @@ function onRejected(rejectedEntries) {
             <q-tooltip>Pick Files</q-tooltip>
           </q-btn>
           <!-- upload files -->
-          <q-btn
-            v-if="scope.canUpload"
-            round
-            dense
-            flat
-            icon="cloud_upload"
-            @click="scope.upload"
-          >
+          <q-btn v-if="scope.canUpload" round dense flat icon="cloud_upload" @click="scope.upload">
             <q-tooltip>Upload Files</q-tooltip>
           </q-btn>
           <!-- abort upload -->
-          <q-btn
-            v-if="scope.isUploading"
-            round
-            flat
-            icon="clear"
-            size="sm"
-            @click="scope.abort"
-          >
+          <q-btn v-if="scope.isUploading" round flat icon="clear" size="sm" @click="scope.abort">
             <q-tooltip>Abort Upload</q-tooltip>
           </q-btn>
           <!-- close dialog -->
-          <q-btn
-            round
-            flat
-            color="blue-grey-2"
-            icon="close"
-            size="sm"
-            @click="onDialogOK"
-          >
+          <q-btn round flat color="blue-grey-2" icon="close" size="sm" @click="onDialogOK">
             <q-tooltip>Close</q-tooltip>
           </q-btn>
         </div>

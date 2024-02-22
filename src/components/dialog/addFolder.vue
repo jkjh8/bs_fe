@@ -4,42 +4,28 @@ import { useDialogPluginComponent } from 'quasar'
 // emit
 const emit = defineEmits([...useDialogPluginComponent.emits])
 // initialize
-const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } =
-  useDialogPluginComponent()
+const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } = useDialogPluginComponent()
 // variables
 const name = ref('')
 </script>
 
 <template>
   <q-dialog ref="dialogRef" @hide="onDialogHide">
-    <q-card class="q-dialog-plugin">
+    <q-card class="q-dialog-plugin" style="border-radius: 0.6rem">
       <q-card-section>
         <div class="q-px-sm">
-          <div class="dialogName">Add New Folder</div>
+          <div class="dialogName">새폴더</div>
         </div>
       </q-card-section>
       <q-card-section>
         <div class="q-px-sm">
-          <q-input v-model="name" dense outlined label="Name" />
+          <q-input v-model="name" dense outlined label="이름" />
         </div>
       </q-card-section>
       <q-card-actions align="right">
         <div class="q-px-sm">
-          <q-btn
-            round
-            flat
-            color="red-10"
-            icon="cancel"
-            @click="onDialogCancel"
-          />
-          <q-btn
-            round
-            flat
-            no-caps
-            color="primary"
-            icon="check_circle"
-            @click="onDialogOK(name)"
-          />
+          <q-btn round flat color="red-10" icon="cancel" @click="onDialogCancel" />
+          <q-btn round flat no-caps color="primary" icon="check_circle" @click="onDialogOK(name)" />
         </div>
       </q-card-actions>
     </q-card>
