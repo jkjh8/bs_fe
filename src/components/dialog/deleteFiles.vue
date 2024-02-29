@@ -9,6 +9,10 @@ const emits = defineEmits([...useDialogPluginComponent.emits])
 const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } = useDialogPluginComponent()
 // variables
 const list = ref([])
+
+onMounted(() => {
+  list.value = [...props.files]
+})
 </script>
 
 <template>
@@ -21,7 +25,14 @@ const list = ref([])
       </q-card-section>
       <q-card-section>
         <div class="q-px-sm">
-          {{ files }}
+          <div v-for="(item, idx) in list" :key="idx">
+            <div v-if="item.name !== '..'">
+              <span v-if="item.type === 'folder'"
+                ><q-icon name="folder" color="yellow-8"></q-icon
+              ></span>
+              {{ item.base }}
+            </div>
+          </div>
         </div>
       </q-card-section>
       <q-card-actions align="right">

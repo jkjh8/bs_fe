@@ -24,6 +24,7 @@ function onRejected(rejectedEntries) {
       class="uploader"
       style="border-radius: 0.6rem"
       multiple
+      bordered
       :url="`${apiUrl}/files`"
       accept="audio/*"
       :headers="[{ name: 'folder', value: encodeURIComponent(folder) }]"
@@ -31,7 +32,7 @@ function onRejected(rejectedEntries) {
       @finish="onDialogOK"
     >
       <template #header="scope">
-        <div class="row no-wrap items-center q-pa-sm q-gutter-x-xs">
+        <div class="row no-wrap items-center q-pa-sm q-gutter-x-xs bg-white text-black">
           <!-- clear all btn -->
           <q-btn
             v-if="scope.queuedFiles.length > 0"
@@ -81,6 +82,9 @@ function onRejected(rejectedEntries) {
           <q-btn round flat color="blue-grey-2" icon="close" size="sm" @click="onDialogOK">
             <q-tooltip>Close</q-tooltip>
           </q-btn>
+        </div>
+        <div>
+          <q-separator color="grey-5" />
         </div>
       </template>
     </q-uploader>

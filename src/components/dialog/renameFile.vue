@@ -8,15 +8,14 @@ const props = defineProps({
   current: Object
 })
 // initialize
-const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } =
-  useDialogPluginComponent()
+const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } = useDialogPluginComponent()
 // variables
 const name = ref('')
 
 const onClickOK = () => {
   if (name.value) {
     onDialogOK({
-      oldName: props.current.fileFullPath,
+      oldName: props.current.fullpath,
       newName: `${props.current.dir}/${name.value}${props.current.ext}`
     })
   } else {
@@ -25,6 +24,7 @@ const onClickOK = () => {
 }
 
 onMounted(() => {
+  console.log(props.current)
   name.value = props.current.name
 })
 </script>
@@ -34,9 +34,7 @@ onMounted(() => {
     <q-card class="q-dialog-plugin">
       <q-card-section>
         <div class="q-px-sm">
-          <div class="dialogName">
-            Rename {{ current.type === 'folder' ? 'Folder' : 'File' }}
-          </div>
+          <div class="dialogName">이름변경</div>
         </div>
       </q-card-section>
       <q-card-section>
@@ -46,21 +44,8 @@ onMounted(() => {
       </q-card-section>
       <q-card-actions align="right">
         <div class="q-px-sm">
-          <q-btn
-            round
-            flat
-            color="red-10"
-            icon="cancel"
-            @click="onDialogCancel"
-          />
-          <q-btn
-            round
-            flat
-            no-caps
-            color="primary"
-            icon="check_circle"
-            @click="onClickOK"
-          />
+          <q-btn round flat color="red-10" icon="cancel" @click="onDialogCancel" />
+          <q-btn round flat no-caps color="primary" icon="check_circle" @click="onClickOK" />
         </div>
       </q-card-actions>
     </q-card>

@@ -22,7 +22,7 @@ const props = defineProps({
   selectedFiles: Array
 })
 
-const emits = defineEmits(['update:selected', 'update:folder'])
+const emits = defineEmits(['update:selected', 'update:folder', 'update:preview'])
 
 const selected = computed({
   get() {
@@ -32,10 +32,6 @@ const selected = computed({
     emits('update:selected', val)
   }
 })
-
-const updateFolder = (val) => {
-  emits('update:folder', val.fullpath)
-}
 </script>
 
 <template>
@@ -70,12 +66,20 @@ const updateFolder = (val) => {
           <span
             v-if="props.row.type === 'folder'"
             class="q-ml-xs cursor-pointer"
-            @click="updateFolder(props.row)"
+            @click="emits('update:folder', props.row.fullpath)"
           >
             {{ props.row.name }}
           </span>
           <span v-else>
             {{ props.row.name }}
+            <q-btn
+              flat
+              round
+              size="xs"
+              color="primary"
+              icon="play_arrow"
+              @click="emits('update:preview', props.row)"
+            />
           </span>
         </q-td>
         <q-td key="size" :props="props">

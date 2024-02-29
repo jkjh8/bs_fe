@@ -15,8 +15,9 @@ const { user } = useUserStore()
 
 <template>
   <div class="row no-wrap items-center">
-    <div class="btn cursor-pointer">Summary</div>
+    <div class="btn cursor-pointer" @click="$r.push('/')">Summary</div>
     <DropdownMenu
+      v-if="user"
       name="Broadcast"
       :offset="[20, 10]"
       :items="[
@@ -26,6 +27,7 @@ const { user } = useUserStore()
       ]"
     />
     <DropdownMenu
+      v-if="user"
       name="Devices"
       :offset="[35, 10]"
       :items="[
@@ -44,6 +46,7 @@ const { user } = useUserStore()
       ]"
     />
     <DropdownMenu
+      v-if="user && user.isAdmin"
       name="Setup"
       :offset="[0, 10]"
       :items="[
