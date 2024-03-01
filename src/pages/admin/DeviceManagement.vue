@@ -1,6 +1,7 @@
 <script setup>
 // components
 import DeleteTempFiles from 'src/components/admin/management/deleteTempFile.vue'
+import TTSServerAddr from 'src/components/admin/management/ttsServerAddr.vue'
 </script>
 
 <template>
@@ -9,11 +10,12 @@ import DeleteTempFiles from 'src/components/admin/management/deleteTempFile.vue'
       <!-- title -->
       <div class="q-px-lg q-py-sm row no-wrap items-center bg-grey-2">
         <q-icon name="dns" size="20px" color="primary" />
-        <div class="text-h6 q-ml-sm">서버 관리</div>
+        <div class="q-ml-sm title">서버 관리</div>
       </div>
       <div class="q-pa-lg q-gutter-y-sm">
         <!-- remove temp file -->
         <DeleteTempFiles />
+        <TTSServerAddr />
       </div>
     </div>
   </div>

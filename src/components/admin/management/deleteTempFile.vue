@@ -46,7 +46,7 @@ onMounted(async () => {
       <span class="caption">총용량: {{ format.humanStorageSize(tempSize) }}</span>
     </div>
     <q-space />
-    <q-btn flat round icon="delete_outline" color="red" @click="action" />
+    <q-btn flat round icon="delete_outline" color="red" size="sm" @click="action" />
   </div>
 </template>
 

@@ -18,7 +18,7 @@ const emit = defineEmits([...useDialogPluginComponent.emits])
 <template>
   <q-dialog ref="dialogRef" @hide="onDialogHide">
     <q-card class="q-dialog-plugin border-radius sans-font" style="border-radius: 8px">
-      <q-card-section class="row no-wrap q-gutter-sm">
+      <q-card-section class="row no-wrap q-gutter-sm items-center">
         <q-icon
           v-if="icon"
           style="margin-top: 10px"
