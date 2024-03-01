@@ -43,7 +43,7 @@ const routes = [
       { path: 'users', component: () => import('pages/admin/UsersPage.vue') },
       {
         path: 'devices',
-        component: () => import('pages/admin/DeviceRegistration.vue')
+        component: () => import('pages/admin/DeviceManagement.vue')
       },
       {
         path: 'logs',

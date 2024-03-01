@@ -80,14 +80,7 @@ onMounted(() => {
           />
         </div>
         <q-space />
-        <q-input
-          v-model="filter"
-          borderless
-          dense
-          debounce="300"
-          clearable
-          placeholder="Search"
-        >
+        <q-input v-model="filter" borderless dense debounce="300" clearable placeholder="Search">
           <template #append>
             <q-icon name="search" />
           </template>
