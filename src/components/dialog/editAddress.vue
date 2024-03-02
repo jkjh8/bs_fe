@@ -6,7 +6,9 @@ const emit = defineEmits([...useDialogPluginComponent.emits])
 // props
 const props = defineProps({
   name: String,
-  current: String
+  current: String,
+  type: String,
+  label: String
 })
 // initialize
 const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } = useDialogPluginComponent()
@@ -29,7 +31,13 @@ onMounted(() => {
       </q-card-section>
       <q-card-section>
         <div class="q-px-sm">
-          <q-input v-model="newName" dense outlined label="Address" />
+          <q-input
+            v-model="newName"
+            dense
+            outlined
+            :label="label ? label : 'Address'"
+            :type="type ? type : 'String'"
+          />
         </div>
       </q-card-section>
       <q-card-actions align="right">
@@ -50,6 +58,7 @@ onMounted(() => {
 <style scoped>
 .dialogName {
   font-size: 1rem;
+
   font-family: ubuntumono;
   font-weight: bold;
 }

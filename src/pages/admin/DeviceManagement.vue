@@ -2,6 +2,7 @@
 // components
 import DeleteTempFiles from 'src/components/admin/management/deleteTempFile.vue'
 import TTSServerAddr from 'src/components/admin/management/ttsServerAddr.vue'
+import TCPServerPort from 'src/components/admin/management/tcpServerPort.vue'
 </script>
 
 <template>
@@ -16,6 +17,7 @@ import TTSServerAddr from 'src/components/admin/management/ttsServerAddr.vue'
         <!-- remove temp file -->
         <DeleteTempFiles />
         <TTSServerAddr />
+        <TCPServerPort />
       </div>
     </div>
   </div>
