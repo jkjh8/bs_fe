@@ -124,6 +124,7 @@ export const useFilesStore = defineStore('files', () => {
   }
 
   const renameFile = async () => {
+    if (!selectedFiles.value.length) return
     $q.dialog({
       component: RenameFile,
       componentProps: {

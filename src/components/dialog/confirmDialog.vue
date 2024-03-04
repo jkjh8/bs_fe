@@ -1,8 +1,7 @@
 <script setup>
 import { useQuasar, useDialogPluginComponent } from 'quasar'
 // dialog functions
-const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
-  useDialogPluginComponent()
+const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
 // props
 const props = defineProps({
   icon: String,
@@ -18,8 +17,8 @@ const emit = defineEmits([...useDialogPluginComponent.emits])
 
 <template>
   <q-dialog ref="dialogRef" @hide="onDialogHide">
-    <q-card class="q-dialog-plugin border-radius sans-font">
-      <q-card-section class="row no-wrap q-gutter-sm">
+    <q-card class="q-dialog-plugin border-radius sans-font" style="border-radius: 8px">
+      <q-card-section class="row no-wrap q-gutter-sm items-center">
         <q-icon
           v-if="icon"
           style="margin-top: 10px"
@@ -27,7 +26,10 @@ const emit = defineEmits([...useDialogPluginComponent.emits])
           :color="iconColor ? iconColor : 'primary'"
           size="1.5rem"
         />
-        <div class="text-subtitle1">{{ title }}</div>
+        <div>
+          <div class="text-subtitle1">{{ title }}</div>
+          <div v-if="caption" class="caption">{{ caption }}</div>
+        </div>
       </q-card-section>
 
       <q-card-section v-if="message">
@@ -36,13 +38,7 @@ const emit = defineEmits([...useDialogPluginComponent.emits])
         </div>
       </q-card-section>
       <q-card-actions align="right">
-        <q-btn
-          round
-          flat
-          color="red-10"
-          icon="cancel"
-          @click="onDialogCancel"
-        />
+        <q-btn round flat color="red-10" icon="cancel" @click="onDialogCancel" />
         <q-btn
           round
           flat
