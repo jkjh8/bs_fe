@@ -4,14 +4,12 @@ import { useDialogPluginComponent } from 'quasar'
 // composables
 import makeUid from 'src/composables/useMakeUid.js'
 import useRules from 'src/composables/useRules.js'
-import useExists from 'src/composables/useExists'
+import fnExist from 'src/composables/devices/useQsysExists'
 // emit
 const emit = defineEmits([...useDialogPluginComponent.emits])
 // initialize
-const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } =
-  useDialogPluginComponent()
+const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } = useDialogPluginComponent()
 const { required, ckIPv4 } = useRules()
-const { fnExist } = useExists()
 // variables
 const newDevice = reactive({
   name: '',
@@ -75,21 +73,8 @@ const makeNewDeviceId = () => {
         </q-card-section>
         <q-card-actions align="right">
           <div class="q-px-sm">
-            <q-btn
-              round
-              flat
-              color="red-10"
-              icon="cancel"
-              @click="onDialogCancel"
-            />
-            <q-btn
-              round
-              flat
-              no-caps
-              color="primary"
-              icon="check_circle"
-              type="submit"
-            />
+            <q-btn round flat color="red-10" icon="cancel" @click="onDialogCancel" />
+            <q-btn round flat no-caps color="primary" icon="check_circle" type="submit" />
           </div>
         </q-card-actions>
       </q-form>
@@ -98,7 +83,7 @@ const makeNewDeviceId = () => {
 </template>
 
 <style scoped>
-.dialogName {
+.dialogN ame {
   font-size: 1rem;
   font-family: ubuntumono;
   font-weight: bold;

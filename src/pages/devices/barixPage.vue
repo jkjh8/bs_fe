@@ -4,7 +4,7 @@ import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 // components
 import Table from 'src/components/devices/deviceTable.vue'
-import deviceAdd from 'src/components/dialog/deviceAdd.vue'
+import deviceAdd from 'src/components/dialog/qsysAdd.vue'
 import ConfirmDialog from 'src/components/dialog/confirmDialog'
 // initialize
 const $q = useQuasar()
@@ -80,14 +80,7 @@ onMounted(() => {
           />
         </div>
         <q-space />
-        <q-input
-          v-model="filter"
-          borderless
-          dense
-          debounce="300"
-          clearable
-          placeholder="Search"
-        >
+        <q-input v-model="filter" borderless dense debounce="300" clearable placeholder="Search">
           <template #append>
             <q-icon name="search" />
           </template>

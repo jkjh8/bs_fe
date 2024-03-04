@@ -4,13 +4,12 @@ import { useRouter } from 'vue-router'
 // components
 import UserAvatar from './userAvatar'
 import DropdownMenu from './menus/dropdownMenu'
-// stores
-import { useUserStore } from 'src/stores/user'
+// composables
+import { user } from 'src/composables/user'
 // computed
 const current = computed(() => router.currentRoute.value)
 // variables
 const $r = useRouter()
-const { user } = useUserStore()
 </script>
 
 <template>

@@ -3,23 +3,20 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
-// store
-import { useUserStore } from 'src/stores/user.js'
+
 // components
 import AuthLink from 'components/auth/authLink'
 // composables
 import useRules from 'src/composables/useRules'
-import useAuth from 'src/composables/useAuth'
+import useAuth from 'src/composables/user/useAuth'
 import useNotify from 'src/composables/useNotify'
 // stores
-const { updateUser } = useUserStore()
 // Variables
 const router = useRouter()
 const $q = useQuasar()
 const { notifyError } = useNotify()
 const { required, minLength, ckEmail } = useRules()
-const { auth, rememberCheck, getEmailFromStorage, setEmailToStorage } =
-  useAuth()
+const { auth, rememberCheck, getEmailFromStorage, setEmailToStorage } = useAuth()
 const showPass = ref(false)
 // functions
 const onSubmit = async () => {
@@ -52,9 +49,7 @@ onMounted(() => {
 
     <q-form class="q-gutter-y-md" @submit="onSubmit">
       <!------------------------------- Title -------------------------------->
-      <div class="text-subtitle1 text-bold q-ma-none">
-        Sign in to your account
-      </div>
+      <div class="text-subtitle1 text-bold q-ma-none">Sign in to your account</div>
       <!--------------------------- Input data tab --------------------------->
       <div>
         <div>
@@ -134,4 +129,4 @@ onMounted(() => {
   border-radius: 7px;
 }
 </style>
-src/composables/useRules
+src/composables/useRules src/composables/user/useAuth

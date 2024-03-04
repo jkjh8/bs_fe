@@ -5,7 +5,7 @@ import { api } from 'boot/axios'
 import axios from 'axios'
 
 // components
-import DeviceAddDialog from 'src/components/dialog/deviceAdd'
+import DeviceAddDialog from 'src/components/dialog/qsysAdd'
 import ConfirmDeialog from 'src/components/dialog/confirmDialog'
 // composables
 import columns from 'src/composables/columns/devices'
@@ -55,22 +55,9 @@ onMounted(async () => {
       <div class="q-px-lg q-py-sm row items-center bg-grey-2">
         <q-icon name="dns" size="20px" color="primary" />
         <span class="text-h6">Devices</span>
-        <q-btn
-          round
-          flat
-          icon="add_circle"
-          color="primary"
-          @click="openDialogForAddDevice"
-        />
+        <q-btn round flat icon="add_circle" color="primary" @click="openDialogForAddDevice" />
         <q-space />
-        <q-input
-          v-model="filter"
-          borderless
-          dense
-          debounce="300"
-          clearable
-          placeholder="Search"
-        >
+        <q-input v-model="filter" borderless dense debounce="300" clearable placeholder="Search">
           <template #append>
             <q-icon name="search" />
           </template>

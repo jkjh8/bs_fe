@@ -7,7 +7,7 @@ import { api } from 'boot/axios'
 import AuthLink from 'components/auth/authLink'
 // Composables
 import useRules from 'src/composables/useRules'
-import useAuth from 'src/composables/useAuth'
+import useAuth from 'src/composables/user/useAuth'
 import useNotify from 'src/composables/useNotify'
 // Variables
 const router = useRouter()
@@ -41,11 +41,7 @@ const onSubmit = async () => {
     $q.loading.show()
     const r = await api.post('/auth/signup', { auth: auth })
     $q.loading.hide()
-    notifyInfo(
-      '회원 가입 완료',
-      '회원가입이 완료되었습니다. 메인페이지로 이동합니다.',
-      'top'
-    )
+    notifyInfo('회원 가입 완료', '회원가입이 완료되었습니다. 메인페이지로 이동합니다.', 'top')
     router.push('/auth')
   } catch (err) {
     $q.loading.hide()
@@ -79,13 +75,7 @@ const onSubmit = async () => {
         <!-- User name -->
         <div>
           <div class="input-caption sans-font">User name</div>
-          <q-input
-            v-model="auth.userName"
-            outlined
-            dense
-            :rules="[required]"
-            lazy-rules
-          />
+          <q-input v-model="auth.userName" outlined dense :rules="[required]" lazy-rules />
         </div>
         <!-- Password -->
         <div>
@@ -157,4 +147,4 @@ const onSubmit = async () => {
   border-radius: 7px;
 }
 </style>
-src/composables/useRules
+src/composables/useRules src/composables/user/useAuth

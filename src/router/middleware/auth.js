@@ -1,9 +1,7 @@
 import { api } from 'boot/axios'
-import { useUserStore } from 'src/stores/user'
+import { fnUpdateUser } from 'src/composables/user'
 
 export default function (Router) {
-  const { updateUser } = useUserStore()
-
   Router.beforeEach(async (to, from, next) => {
     switch (to.path) {
       case '/auth':
@@ -14,13 +12,13 @@ export default function (Router) {
         try {
           const r = await api.get('/auth')
           if (r.data) {
-            updateUser(r.data)
+            fnUpdateUser(r.data)
           } else {
-            updateUser(null)
+            fnUpdateUser(null)
           }
         } catch (err) {
-          console.error('Router Check User Error: ', err)
-          updateUser(null)
+          console.error(`사용자 인증 오류: ${err}`)
+          fnUpdateUser(null)
         }
         next()
         break
