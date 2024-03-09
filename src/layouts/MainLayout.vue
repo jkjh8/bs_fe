@@ -1,11 +1,19 @@
 <script setup>
+import { onMounted } from 'vue'
 // components
 import HomeLogo from 'src/components/layout/homeLogo'
 import ToolbarLinks from 'src/components/layout/toolbarLinks'
 // composables
+import { fnGetGainStep } from 'src/composables/useServer.js'
+
 // computed
 // Variables
 // Functions
+
+//lifecycle
+onMounted(() => {
+  fnGetGainStep()
+})
 </script>
 
 <template>

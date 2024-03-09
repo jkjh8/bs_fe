@@ -3,6 +3,7 @@
 import DeleteTempFiles from 'src/components/admin/management/deleteTempFile.vue'
 import TTSServerAddr from 'src/components/admin/management/ttsServerAddr.vue'
 import TCPServerPort from 'src/components/admin/management/tcpServerPort.vue'
+import GainStep from 'src/components/admin/management/gainStep.vue'
 </script>
 
 <template>
@@ -18,6 +19,7 @@ import TCPServerPort from 'src/components/admin/management/tcpServerPort.vue'
         <DeleteTempFiles />
         <TTSServerAddr />
         <TCPServerPort />
+        <GainStep />
       </div>
     </div>
   </div>

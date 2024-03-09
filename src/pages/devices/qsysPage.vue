@@ -3,9 +3,13 @@ import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 // components
-import Table from 'src/components/devices/deviceTable.vue'
-import deviceAdd from 'src/components/dialog/qsysAdd.vue'
-import ConfirmDialog from 'src/components/dialog/confirmDialog'
+import Table from 'components/devices/deviceTable.vue'
+import deviceAdd from 'components/dialog/qsysAdd.vue'
+import ConfirmDialog from 'components/dialog/confirmDialog'
+
+// composables
+import { qsys, fnGetQsys } from 'src/composables/qsys/useQsys.js'
+
 // initialize
 const $q = useQuasar()
 
@@ -24,7 +28,7 @@ const openDialogQSysAdd = () => {
     const r = await api.post('/devices/qsys', { ...item })
     $q.loading.hide()
     if (r && r.data) {
-      getQsys()
+      fnGetQsys()
     }
     // TODO: send devices data bridge
   })
@@ -48,18 +52,8 @@ const openDialogQSysRemove = (args) => {
   })
 }
 
-const getQsys = async () => {
-  loading.value = true
-  const r = await api.get('/devices/qsys')
-  console.log(r)
-  if (r && r.data) {
-    rows.value = r.data.devices
-  }
-  loading.value = false
-}
-
 onMounted(() => {
-  getQsys()
+  fnGetQsys()
 })
 </script>
 
@@ -91,7 +85,7 @@ onMounted(() => {
         flat
         :filter="filter"
         :loading="loading"
-        :rows="rows"
+        :rows="qsys"
         :columns="[
           {
             name: 'name',
