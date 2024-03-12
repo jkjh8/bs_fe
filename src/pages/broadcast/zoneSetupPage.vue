@@ -4,6 +4,7 @@ import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 // component
 import ZoneNameDialog from 'components/dialog/zoneName.vue'
+import SelectZone from 'components/dialog/zones/selectBarix.vue'
 // composables
 import { qsys, fnGetQsys } from 'src/composables/qsys/useQsys.js'
 import { fnVolumeUp, fnVolumeDn, fnMute } from 'src/composables/qsys/useVol.js'
@@ -27,6 +28,12 @@ const modifyZoneName = (name, zone, deviceId) => {
     })
     // useQsysStore().updateQsysDevices(r.data.devices)
     $q.loading.hide()
+  })
+}
+
+const selectZone = (current) => {
+  $q.dialog({ component: SelectZone }).onOk(async (selected) => {
+    console.log(selected)
   })
 }
 
@@ -109,7 +116,7 @@ onMounted(async () => {
                       {{ zone.destination ? zone.destination : 'Local' }}
                     </div>
                   </div>
-                  <q-btn round flat icon="edit" color="primary" size="sm">
+                  <q-btn round flat icon="edit" color="primary" size="sm" @click="selectZone(zone)">
                     <q-tooltip>Edit Destination</q-tooltip>
                   </q-btn>
                 </div>
