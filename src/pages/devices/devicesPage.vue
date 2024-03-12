@@ -5,12 +5,12 @@ import { api } from 'boot/axios'
 import axios from 'axios'
 
 // components
-import DeviceAddDialog from 'src/components/dialog/qsysAdd'
-import ConfirmDeialog from 'src/components/dialog/confirmDialog'
+import DeviceAddDialog from 'components/dialog/devices/addDevice'
+import ConfirmDeialog from 'components/dialog/confirmDialog'
 // composables
-import columns from 'src/composables/columns/devices'
+import columns from 'composables/columns/devices'
 // stores
-import { useDevicesStore } from '/src/stores/devices.js'
+import { useDevicesStore } from 'stores/devices.js'
 
 // variables
 const $q = useQuasar()

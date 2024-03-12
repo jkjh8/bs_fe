@@ -3,10 +3,10 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { api } from 'boot/axios'
 
-import AddFolder from 'src/components/dialog/addFolder.vue'
-import UploadFile from 'src/components/dialog/uploadFile.vue'
-import DeleteFiles from 'src/components/dialog/deleteFiles.vue'
-import RenameFile from 'src/components/dialog/renameFile.vue'
+import AddFolder from 'src/components/dialog/files/addFolder.vue'
+import UploadFile from 'src/components/dialog/files/uploadFile.vue'
+import DeleteFiles from 'src/components/dialog/files/deleteFiles.vue'
+import RenameFile from 'src/components/dialog/files/renameFile.vue'
 
 export const useFilesStore = defineStore('files', () => {
   const $q = useQuasar()
@@ -144,8 +144,8 @@ export const useFilesStore = defineStore('files', () => {
     await getFiles(val)
   }
 
-  async function deleteFiles(fileList) {
-    await api.delete('/files', { data: { files: fileList } })
+  async function deleteFiles() {
+    await api.delete('/files', { data: { files: selectedFiles.value } })
   }
 
   async function refreshFoldersAndFiles() {

@@ -4,6 +4,7 @@ import DeleteTempFiles from 'src/components/admin/management/deleteTempFile.vue'
 import TTSServerAddr from 'src/components/admin/management/ttsServerAddr.vue'
 import TCPServerPort from 'src/components/admin/management/tcpServerPort.vue'
 import GainStep from 'src/components/admin/management/gainStep.vue'
+import GetInterval from 'components/admin/management/getInterval.vue'
 </script>
 
 <template>
@@ -20,6 +21,7 @@ import GainStep from 'src/components/admin/management/gainStep.vue'
         <TTSServerAddr />
         <TCPServerPort />
         <GainStep />
+        <GetInterval />
       </div>
     </div>
   </div>

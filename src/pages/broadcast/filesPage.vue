@@ -1,37 +1,41 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useQuasar, format } from 'quasar'
-// store
-import { storeToRefs } from 'pinia'
-import { useFilesStore } from 'src/stores/files'
-import { usePreviewStore } from 'src/stores/preview.js'
 // components
 import FileHeader from 'src/components/files/filesHeader'
 import FolderTree from 'src/components/files/folderTree.vue'
 import FilesTable from 'src/components/files/filesTable'
 import PreviewFile from 'src/components/previewFile'
-// variables
-const { files, folders, selectedFolder, selectedFiles } = storeToRefs(useFilesStore())
-const { modal, previewFile } = storeToRefs(usePreviewStore())
-const { refreshFoldersAndFiles, updateSelectedFolder } = useFilesStore()
+// composables
+import {
+  files,
+  folders,
+  selectedFiles,
+  selectedFolder,
+  globalFolder,
+  userFolder,
+  fnMakeFolder,
+  fnGetFolders,
+  fnGetFiles,
+  fnDeleteFiles,
+  fnRenameFile,
+  fnUpdateSelectedFolder,
+  fnRefreshFoldersAndFiles
+} from 'composables/files/useFiles'
+
+import { modal, previewFile, fnStartPreview, fnInitAudioPlayer } from 'composables/files/usePreview'
 
 const selectedPreview = ref(null)
 const selected = ref([])
 const splitterModel = ref(20)
 // initialize
 const $q = useQuasar()
-// functions
-function startPreview(file) {
-  previewFile.value = file
-  modal.value = true
-  usePreviewStore().setSource()
-}
 // lifecycle hooks
 onMounted(async () => {
   $q.loading.show()
-  await refreshFoldersAndFiles()
+  await fnRefreshFoldersAndFiles()
+  fnInitAudioPlayer()
   $q.loading.hide()
-  usePreviewStore().initAudioPlayer()
 })
 </script>
 
@@ -48,7 +52,7 @@ onMounted(async () => {
               class="q-pa-sm"
               :folders="folders"
               :selected="selectedFolder"
-              @update:selected="updateSelectedFolder"
+              @update:selected="fnUpdateSelectedFolder"
             />
           </template>
           <template v-slot:after>
@@ -56,8 +60,8 @@ onMounted(async () => {
               :files="files"
               :selectedFiles="selectedFiles"
               @update:selected="(v) => (selectedFiles = v)"
-              @update:folder="updateSelectedFolder"
-              @update:preview="startPreview"
+              @update:folder="fnUpdateSelectedFolder"
+              @update:preview="fnStartPreview"
             />
           </template>
         </q-splitter>
@@ -66,5 +70,5 @@ onMounted(async () => {
   </div>
   <PreviewFile />
 </template>
-
+src/composables/files/useFiles
 <style scoped></style>

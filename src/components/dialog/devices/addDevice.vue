@@ -1,11 +1,12 @@
 <script setup>
 import { reactive, onMounted } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
+import { api } from 'boot/axios'
 // composables
-import makeUid from 'src/composables/useMakeUid.js'
-import useRules from 'src/composables/useRules.js'
-import fnExist from 'src/composables/devices/useQsysExists'
+import makeUid from 'composables/useMakeUid.js'
+import useRules from 'composables/useRules.js'
 // emit
+const props = defineProps({ title: String, type: String })
 const emit = defineEmits([...useDialogPluginComponent.emits])
 // initialize
 const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } = useDialogPluginComponent()
@@ -16,6 +17,20 @@ const newDevice = reactive({
   deviceId: makeUid(12),
   ipaddress: ''
 })
+
+// exist
+const fnExist = async (val) => {
+  try {
+    const r = await api.get(`/devices/${props.type}/exists`, { params: { value: val } })
+    if (r.data.result) {
+      return '이미 사용중인 값입니다.'
+    } else {
+      return true
+    }
+  } catch (error) {
+    return '검증 오류'
+  }
+}
 
 // functions
 const makeNewDeviceId = () => {
@@ -30,7 +45,7 @@ const makeNewDeviceId = () => {
         <!-- name -->
         <q-card-section>
           <div class="q-px-sm">
-            <div class="dialogName">Q-SYS Device Add</div>
+            <div class="dialogName">{{ title }}</div>
           </div>
         </q-card-section>
         <!-- input list -->
@@ -40,7 +55,7 @@ const makeNewDeviceId = () => {
               v-model="newDevice.name"
               dense
               outlined
-              label="Name"
+              label="이름"
               :rules="[required]"
               lazy-rules
             />
@@ -48,7 +63,7 @@ const makeNewDeviceId = () => {
               v-model="newDevice.deviceId"
               dense
               outlined
-              label="Device ID"
+              label="장치 ID"
               :rules="[required, (val) => fnExist({ deviceId: val })]"
               lazy-rules
             >
@@ -65,7 +80,7 @@ const makeNewDeviceId = () => {
               v-model="newDevice.ipaddress"
               dense
               outlined
-              label="IP Address"
+              label="IP 주소"
               :rules="[required, ckIPv4, (val) => fnExist({ ipaddress: val })]"
               lazy-rules
             />
@@ -89,3 +104,4 @@ const makeNewDeviceId = () => {
   font-weight: bold;
 }
 </style>
+src/composables/qsys/useQsysExists

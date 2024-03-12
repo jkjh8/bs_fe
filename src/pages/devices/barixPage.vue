@@ -3,28 +3,32 @@ import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 // components
-import Table from 'src/components/devices/deviceTable.vue'
-import deviceAdd from 'src/components/dialog/qsysAdd.vue'
-import ConfirmDialog from 'src/components/dialog/confirmDialog'
+import Table from 'components/devices/deviceTable.vue'
+import deviceAdd from 'components/dialog/devices/addDevice.vue'
+import ConfirmDialog from 'components/dialog/confirmDialog'
+// composables
+import { barix, fnGetBarix } from 'composables/barix/useBarix'
 // initialize
 const $q = useQuasar()
 
 // variables
 const filter = ref('')
-const rows = ref([])
 const loading = ref(false)
 // functions
 const openDialogQSysAdd = () => {
   // add qsys device
   $q.dialog({
-    component: deviceAdd
+    component: deviceAdd,
+    componentProps: {
+      title: 'IP 오디오 전송장치 추가',
+      type: 'barix'
+    }
   }).onOk(async (item) => {
-    console.log(item)
     $q.loading.show()
-    const r = await api.post('/devices/qsys', { ...item })
+    const r = await api.post('/devices/barix', { ...item })
     $q.loading.hide()
     if (r && r.data) {
-      getQsys()
+      await fnGetBarix()
     }
     // TODO: send devices data bridge
   })
@@ -36,30 +40,20 @@ const openDialogQSysRemove = (args) => {
     componentProps: {
       icon: 'delete',
       iconColor: 'red',
-      title: 'Remove Q-SYS Device',
-      message: `Are you sure to remove ${args.name}:${args.ipaddress}-${args.deviceId}?`
+      title: '네트워크 오디오 전송장치 삭제',
+      message: `${args.name} - ${args.ipaddress} - ${args.deviceId}?`
     }
   }).onOk(async () => {
     $q.loading.show()
-    await api.delete('/devices/qsys', { data: { ...args } })
+    await api.delete('/devices/barix', { data: { ...args } })
     $q.loading.hide()
-    getQsys()
+    await fnGetBarix()
     // TODO: send devices data bridge
   })
 }
 
-const getQsys = async () => {
-  loading.value = true
-  const r = await api.get('/devices/qsys')
-  console.log(r)
-  if (r && r.data) {
-    rows.value = r.data.devices
-  }
-  loading.value = false
-}
-
-onMounted(() => {
-  getQsys()
+onMounted(async () => {
+  await fnGetBarix()
 })
 </script>
 
@@ -91,7 +85,7 @@ onMounted(() => {
         flat
         :filter="filter"
         :loading="loading"
-        :rows="rows"
+        :rows="barix"
         :columns="[
           {
             name: 'name',

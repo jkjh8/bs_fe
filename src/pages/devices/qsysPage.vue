@@ -4,7 +4,7 @@ import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 // components
 import Table from 'components/devices/deviceTable.vue'
-import deviceAdd from 'components/dialog/qsysAdd.vue'
+import deviceAdd from 'components/dialog/devices/addDevice.vue'
 import ConfirmDialog from 'components/dialog/confirmDialog'
 
 // composables
@@ -21,9 +21,9 @@ const loading = ref(false)
 const openDialogQSysAdd = () => {
   // add qsys device
   $q.dialog({
-    component: deviceAdd
+    component: deviceAdd,
+    componentProps: { title: '주장치 추가', type: 'qsys' }
   }).onOk(async (item) => {
-    console.log(item)
     $q.loading.show()
     const r = await api.post('/devices/qsys', { ...item })
     $q.loading.hide()
@@ -40,8 +40,8 @@ const openDialogQSysRemove = (args) => {
     componentProps: {
       icon: 'delete',
       iconColor: 'red',
-      title: 'Remove Q-SYS Device',
-      message: `Are you sure to remove ${args.name}:${args.ipaddress}-${args.deviceId}?`
+      title: '주장치 삭제',
+      message: `${args.name} - ${args.ipaddress} - ${args.deviceId}`
     }
   }).onOk(async () => {
     $q.loading.show()

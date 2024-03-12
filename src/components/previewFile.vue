@@ -1,16 +1,21 @@
 <script setup>
 import { ref } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
-import { storeToRefs } from 'pinia'
-import { usePreviewStore } from 'src/stores/preview.js'
-const { audioplayer, modal, previewFile, time, playStatus } = storeToRefs(usePreviewStore())
+import {
+  audioPlayer,
+  modal,
+  previewFile,
+  fnStartPreview,
+  playStatus,
+  playTime
+} from 'composables/files/usePreview'
 </script>
 
 <template>
-  <audio ref="audioplayer" />
+  <audio ref="audioPlayer" />
   <q-dialog v-model="modal" seamless position="bottom">
     <q-card style="width: 350px">
-      <q-linear-progress :value="time" color="primary" />
+      <q-linear-progress :value="playTime" color="primary" />
 
       <q-card-section class="row items-center no-wrap">
         <div>
@@ -23,10 +28,10 @@ const { audioplayer, modal, previewFile, time, playStatus } = storeToRefs(usePre
           round
           icon="pause"
           color="yellow-8"
-          @click="audioplayer.pause()"
+          @click="audioPlayer.pause()"
         />
-        <q-btn v-else flat round icon="play_arrow" color="primary" @click="audioplayer.play()" />
-        <q-btn flat round icon="close" v-close-popup @click="audioplayer.pause()" />
+        <q-btn v-else flat round icon="play_arrow" color="primary" @click="audioPlayer.play()" />
+        <q-btn flat round icon="close" v-close-popup @click="audioPlayer.pause()" />
       </q-card-section>
     </q-card>
   </q-dialog>
