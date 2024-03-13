@@ -5,6 +5,8 @@ import { api } from 'boot/axios'
 // component
 import ZoneNameDialog from 'components/dialog/zoneName.vue'
 import SelectZone from 'components/dialog/zones/selectBarix.vue'
+import MuteAndGain from 'components/broadcast/muteAndGain.vue'
+import Destination from 'components/broadcast/destinationView.vue'
 // composables
 import { qsys, fnGetQsys } from 'src/composables/qsys/useQsys.js'
 import { fnVolumeUp, fnVolumeDn, fnMute } from 'src/composables/qsys/useVol.js'
@@ -110,53 +112,11 @@ onMounted(async () => {
                   </div>
 
                   <!-- destination -->
-                  <div class="q-ml-xl q-gutter-x-sm text-caption text-grey">
-                    <div>Destination</div>
-                    <div>
-                      {{ zone.destination ? zone.destination : 'Local' }}
-                    </div>
-                  </div>
-                  <q-btn round flat icon="edit" color="primary" size="sm" @click="selectZone(zone)">
-                    <q-tooltip>Edit Destination</q-tooltip>
-                  </q-btn>
+                  <Destination :zone="zone" :device="device" />
                 </div>
 
                 <q-space />
-
-                <div class="row no-wrap items-center">
-                  <!-- gain -->
-                  <div class="row no-wrap">
-                    <div class="row no-wrap items-center q-gutter-x-xs">
-                      <div class="gain">{{ zone.gain }}</div>
-                      <div class="fit column no-wrap justify-start items-start content-start">
-                        <q-btn
-                          class="btn"
-                          flat
-                          icon="keyboard_arrow_up"
-                          size="xs"
-                          @click="fnVolumeUp(device.deviceId, zone.Zone)"
-                        />
-                        <q-btn
-                          class="btn"
-                          flat
-                          icon="keyboard_arrow_down"
-                          size="xs"
-                          @click="fnVolumeDn(device.deviceId, zone.Zone)"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- mute -->
-                  <q-btn
-                    round
-                    flat
-                    :icon="zone.mute ? 'volume_off' : 'volume_up'"
-                    :color="zone.mute ? 'red' : 'primary'"
-                    @click="fnMute(device.deviceId, zone.Zone, zone.mute ? 0 : 1)"
-                  >
-                    <q-tooltip>Mute</q-tooltip>
-                  </q-btn>
-                </div>
+                <MuteAndGain :zone="zone" :deviceId="device.deviceId" />
               </div>
             </div>
           </q-expansion-item>
