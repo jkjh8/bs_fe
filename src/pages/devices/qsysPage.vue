@@ -3,36 +3,37 @@ import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 // components
-import Table from 'components/devices/deviceTable.vue'
+import QsysTable from 'components/devices/qsysTable.vue'
 import deviceAdd from 'components/dialog/devices/addDevice.vue'
 import ConfirmDialog from 'components/dialog/confirmDialog'
 
 // composables
 import { qsys, fnGetQsys } from 'src/composables/qsys/useQsys.js'
-
+import { useQsysFunc } from 'composables/qsys/useQsysFunc.js'
 // initialize
 const $q = useQuasar()
+const { addQsysDevice } = useQsysFunc()
 
 // variables
 const filter = ref('')
 const rows = ref([])
 const loading = ref(false)
 // functions
-const openDialogQSysAdd = () => {
-  // add qsys device
-  $q.dialog({
-    component: deviceAdd,
-    componentProps: { title: '주장치 추가', type: 'qsys' }
-  }).onOk(async (item) => {
-    $q.loading.show()
-    const r = await api.post('/devices/qsys', { ...item })
-    $q.loading.hide()
-    if (r && r.data) {
-      fnGetQsys()
-    }
-    // TODO: send devices data bridge
-  })
-}
+// const openDialogQSysAdd = () => {
+//   // add qsys device
+//   $q.dialog({
+//     component: deviceAdd,
+//     componentProps: { title: '주장치 추가', type: 'qsys' }
+//   }).onOk(async (item) => {
+//     $q.loading.show()
+//     const r = await api.post('/devices/qsys', { ...item })
+//     $q.loading.hide()
+//     if (r && r.data) {
+//       fnGetQsys()
+//     }
+//     // TODO: send devices data bridge
+//   })
+// }
 
 const openDialogQSysRemove = (args) => {
   $q.dialog({
@@ -70,7 +71,7 @@ onMounted(() => {
             name="add_circle"
             color="primary"
             size="sm"
-            @click="openDialogQSysAdd"
+            @click="addQsysDevice"
           />
         </div>
         <q-space />
@@ -81,68 +82,7 @@ onMounted(() => {
         </q-input>
       </div>
       <!-- table -->
-      <q-table
-        flat
-        :filter="filter"
-        :loading="loading"
-        :rows="qsys"
-        :columns="[
-          {
-            name: 'name',
-            label: 'Name',
-            align: 'center',
-            field: 'name',
-            sortable: true
-          },
-          {
-            name: 'deviceId',
-            label: 'Device ID',
-            align: 'center',
-            field: 'deviceId',
-            sortable: true
-          },
-          {
-            name: 'ipaddress',
-            label: 'IP Address',
-            align: 'center',
-            field: 'ipaddress',
-            sortable: true
-          },
-          {
-            name: 'actions',
-            label: 'FN',
-            align: 'center'
-          }
-        ]"
-      >
-        <template #body="props">
-          <q-tr :props="props">
-            <q-td key="name" :props="props">
-              {{ props.row.name }}
-            </q-td>
-            <q-td key="deviceId" :props="props">
-              {{ props.row.deviceId }}
-            </q-td>
-            <q-td key="ipaddress" :props="props">
-              <a :href="`http://${props.row.ipaddress}`" target="_blank">{{
-                props.row.ipaddress
-              }}</a>
-            </q-td>
-            <q-td key="actions" :props="props">
-              <div>
-                <q-btn
-                  round
-                  flat
-                  color="red-10"
-                  size="sm"
-                  icon="delete"
-                  @click="openDialogQSysRemove(props.row)"
-                />
-              </div>
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
+      <QsysTable :rows="qsys" :filter="filter" :loading="loading" />
     </div>
   </div>
 </template>
