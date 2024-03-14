@@ -3,54 +3,19 @@ import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 // components
-import Table from 'components/devices/deviceTable.vue'
-import deviceAdd from 'components/dialog/devices/addDevice.vue'
-import ConfirmDialog from 'components/dialog/confirmDialog'
+import DeviceTable from 'components/devices/deviceTable.vue'
 // composables
 import { barix, fnGetBarix } from 'composables/barix/useBarix'
+import { useBarixFunc } from 'composables/barix/useBarixFunc'
+
 // initialize
 const $q = useQuasar()
+const { fnAddBarixDevice, fnDeleteBarixDevice } = useBarixFunc()
 
 // variables
 const filter = ref('')
 const loading = ref(false)
 // functions
-const openDialogQSysAdd = () => {
-  // add qsys device
-  $q.dialog({
-    component: deviceAdd,
-    componentProps: {
-      title: 'IP 오디오 전송장치 추가',
-      type: 'barix'
-    }
-  }).onOk(async (item) => {
-    $q.loading.show()
-    const r = await api.post('/devices/barix', { ...item })
-    $q.loading.hide()
-    if (r && r.data) {
-      await fnGetBarix()
-    }
-    // TODO: send devices data bridge
-  })
-}
-
-const openDialogQSysRemove = (args) => {
-  $q.dialog({
-    component: ConfirmDialog,
-    componentProps: {
-      icon: 'delete',
-      iconColor: 'red',
-      title: '네트워크 오디오 전송장치 삭제',
-      message: `${args.name} - ${args.ipaddress} - ${args.deviceId}?`
-    }
-  }).onOk(async () => {
-    $q.loading.show()
-    await api.delete('/devices/barix', { data: { ...args } })
-    $q.loading.hide()
-    await fnGetBarix()
-    // TODO: send devices data bridge
-  })
-}
 
 onMounted(async () => {
   await fnGetBarix()
@@ -70,7 +35,7 @@ onMounted(async () => {
             name="add_circle"
             color="primary"
             size="sm"
-            @click="openDialogQSysAdd"
+            @click="fnAddBarixDevice"
           />
         </div>
         <q-space />
@@ -81,68 +46,13 @@ onMounted(async () => {
         </q-input>
       </div>
       <!-- table -->
-      <q-table
-        flat
+      <DeviceTable
+        :rows="barix"
         :filter="filter"
         :loading="loading"
-        :rows="barix"
-        :columns="[
-          {
-            name: 'name',
-            label: 'Name',
-            align: 'center',
-            field: 'name',
-            sortable: true
-          },
-          {
-            name: 'deviceId',
-            label: 'Device ID',
-            align: 'center',
-            field: 'deviceId',
-            sortable: true
-          },
-          {
-            name: 'ipaddress',
-            label: 'IP Address',
-            align: 'center',
-            field: 'ipaddress',
-            sortable: true
-          },
-          {
-            name: 'actions',
-            label: 'FN',
-            align: 'center'
-          }
-        ]"
-      >
-        <template #body="props">
-          <q-tr :props="props">
-            <q-td key="name" :props="props">
-              {{ props.row.name }}
-            </q-td>
-            <q-td key="deviceId" :props="props">
-              {{ props.row.deviceId }}
-            </q-td>
-            <q-td key="ipaddress" :props="props">
-              <a :href="`http://${props.row.ipaddress}`" target="_blank">{{
-                props.row.ipaddress
-              }}</a>
-            </q-td>
-            <q-td key="actions" :props="props">
-              <div>
-                <q-btn
-                  round
-                  flat
-                  color="red-10"
-                  size="sm"
-                  icon="delete"
-                  @click="openDialogQSysRemove(props.row)"
-                />
-              </div>
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
+        @remove="fnDeleteBarixDevice"
+        deviceType="barix"
+      />
     </div>
   </div>
 </template>

@@ -19,22 +19,40 @@ const filterFn = (val, update, abort) => {
   })
 }
 
+const dub = () => {
+  $q.notify({
+    type: 'negative',
+    icon: 'warning',
+    position: 'top',
+    message: '네트워크 방송 송출 지역이 이미 사용중입니다.'
+  })
+}
+
 const onOkDialog = async () => {
-  const r = await api.get('/devices/qsys/existszone', { params: { id: selected.value } })
-  if (selected.value !== null && r.data && r.data.value.length) {
-    return $q.notify({
-      type: 'negative',
-      icon: 'warning',
-      position: 'top',
-      message: '네트워크 방송 송출 지역이 이미 사용중입니다.'
-    })
+  if (selected.value === null) {
+    onDialogOK(selected.value)
+  } else {
+    const r = await api.get('/devices/qsys/existszone', { params: { id: selected.value } })
+    if (r.data && r.data.value && r.data.value.length) {
+      const zones = r.data.value[0].ZoneStatus
+      const idx = zones.findIndex((v) => v.destination === selected.value)
+      if (idx === props.zone.Zone - 1) {
+        return onDialogHide()
+      }
+      return dub()
+    } else {
+      onDialogOK(selected.value)
+    }
   }
-  onDialogOK(selected.value)
 }
 
 onMounted(async () => {
   await fnGetBarix()
   options.value = barix.value
+  if (props.zone.destination && props.zone.destination._id) {
+    selected.value = props.zone.destination._id
+  }
+  console.log(props.zone)
 })
 </script>
 

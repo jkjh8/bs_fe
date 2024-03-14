@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import { io } from 'socket.io-client'
-import { qsys, fnUpdateZoneStatus } from 'composables/qsys/useQsys.js'
+import { qsys, qsysAll, fnUpdateZoneStatus } from 'composables/qsys/useQsys.js'
 let socket
 
 export default boot(({ app }) => {

@@ -3,10 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 // components
-import QsysTable from 'components/devices/qsysTable.vue'
-import deviceAdd from 'components/dialog/devices/addDevice.vue'
-import ConfirmDialog from 'components/dialog/confirmDialog'
-
+import DeviceTable from 'components/devices/deviceTable.vue'
 // composables
 import { qsys, fnGetQsys } from 'src/composables/qsys/useQsys.js'
 import { useQsysFunc } from 'composables/qsys/useQsysFunc.js'
@@ -16,26 +13,7 @@ const { fnAddQsysDevice, fnDeleteQsysDevice } = useQsysFunc()
 
 // variables
 const filter = ref('')
-const rows = ref([])
 const loading = ref(false)
-
-const openDialogQSysRemove = (args) => {
-  $q.dialog({
-    component: ConfirmDialog,
-    componentProps: {
-      icon: 'delete',
-      iconColor: 'red',
-      title: '주장치 삭제',
-      message: `${args.name} - ${args.ipaddress} - ${args.deviceId}`
-    }
-  }).onOk(async () => {
-    $q.loading.show()
-    await api.delete('/devices/qsys', { data: { ...args } })
-    $q.loading.hide()
-    getQsys()
-    // TODO: send devices data bridge
-  })
-}
 
 onMounted(() => {
   fnGetQsys()
@@ -66,7 +44,13 @@ onMounted(() => {
         </q-input>
       </div>
       <!-- table -->
-      <QsysTable :rows="qsys" :filter="filter" :loading="loading" @remove="fnDeleteQsysDevice" />
+      <DeviceTable
+        :rows="qsys"
+        :filter="filter"
+        :loading="loading"
+        @remove="fnDeleteQsysDevice"
+        deviceType="qsys"
+      />
     </div>
   </div>
 </template>

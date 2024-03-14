@@ -29,7 +29,7 @@ const mkdir = () => {
   $q.dialog({ component: AddFolder }).onOk(async (name) => {
     $q.loading.show()
     await fnMakeFolder(name)
-    $q.laoding.hide()
+    $q.loading.hide()
   })
 }
 

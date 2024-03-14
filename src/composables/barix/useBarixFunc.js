@@ -1,26 +1,26 @@
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
-import { fnGetQsys } from './useQsys'
+import { fnGetBarix } from './useBarix'
 
 import DeviceAdd from 'components/dialog/devices/addDevice.vue'
 import ConfirmDialog from 'components/dialog/confirmDialog'
 
-export const useQsysFunc = () => {
+export const useBarixFunc = () => {
   const $q = useQuasar()
 
-  const fnAddQsysDevice = () => {
+  const fnAddBarixDevice = () => {
     console.log('add')
     $q.dialog({
       component: DeviceAdd,
       componentProps: {
-        title: '주장치 추가',
-        type: 'qsys'
+        title: 'IP오디오 전송장치 추가',
+        type: 'barix'
       }
     }).onOk(async (items) => {
       $q.loading.show()
       try {
-        await api.post('/devices/qsys', { ...items })
-        await fnGetQsys()
+        await api.post('/devices/barix', { ...items })
+        await fnGetBarix()
         $q.loading.hide()
       } catch (error) {
         $q.loading.hide()
@@ -29,20 +29,20 @@ export const useQsysFunc = () => {
     })
   }
 
-  const fnDeleteQsysDevice = (item) => {
+  const fnDeleteBarixDevice = (item) => {
     $q.dialog({
       component: ConfirmDialog,
       componentProps: {
         icon: 'delete',
         iconColor: 'red',
-        title: '주장치 삭제',
+        title: 'IP오디오 전송장치 삭제',
         message: `${item.name} - ${item.ipaddress}`
       }
     }).onOk(async () => {
       $q.loading.show()
       try {
-        await api.delete('/devices/qsys', { data: { ...item } })
-        await fnGetQsys()
+        await api.delete('/devices/barix', { data: { ...item } })
+        await fnGetBarix()
         $q.loading.hide()
       } catch (error) {
         $q.loading.hide()
@@ -52,7 +52,7 @@ export const useQsysFunc = () => {
   }
 
   return {
-    fnAddQsysDevice,
-    fnDeleteQsysDevice
+    fnAddBarixDevice,
+    fnDeleteBarixDevice
   }
 }
