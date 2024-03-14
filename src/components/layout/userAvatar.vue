@@ -8,7 +8,7 @@ import ConfirmDialog from 'src/components/dialog/confirmDialog'
 // composables
 import useNotify from 'src/composables/useNotify'
 // stores
-import { user, fnUpdateUser, fnGetUserNickName } from 'src/composables/user'
+import { user, fnUpdateUser, fnGetUserNickName } from 'composables/user/useUser.js'
 
 const { notifyError } = useNotify()
 const $r = useRouter()
@@ -38,7 +38,7 @@ const confirmSignout = () => {
 const signout = async () => {
   try {
     await api.get('/auth/signout')
-    fnUpdateUser(null)
+    user.value = null
     $r.push('/')
   } catch (err) {
     notifyError(

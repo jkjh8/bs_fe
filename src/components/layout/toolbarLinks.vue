@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import UserAvatar from './userAvatar'
 import DropdownMenu from './menus/dropdownMenu'
 // composables
-import { user } from 'src/composables/user'
+import { user } from 'src/composables/user/useUser'
 // computed
 const current = computed(() => router.currentRoute.value)
 // variables

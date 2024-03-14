@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 // component
+import DeviceHeader from 'components/broadcast/setup/deviceHeader.vue'
 import ZoneNameDialog from 'components/dialog/zoneName.vue'
 import SelectZone from 'components/dialog/zones/selectBarix.vue'
 import MuteAndGain from 'components/broadcast/muteAndGain.vue'
@@ -69,17 +70,7 @@ onMounted(async () => {
           >
             <!-- header -->
             <template #header>
-              <q-item-section avatar>
-                <q-icon :color="device.connected ? 'primary' : 'red-10'" name="location_on" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label class="q-gutter-x-sm">
-                  <span>
-                    {{ device.name }}
-                  </span>
-                </q-item-label>
-                <q-item-label caption>{{ device.ipaddress }}</q-item-label>
-              </q-item-section>
+              <DeviceHeader :device="device" />
             </template>
             <!-- zones -->
             <div class="q-px-md q-ml-lg">
@@ -91,7 +82,7 @@ onMounted(async () => {
                 <!-- zone name tag -->
                 <div class="row no-wrap items-center q-gutter-x-lg">
                   <q-avatar color="grey-2" size="26px">{{ zone.Zone }}</q-avatar>
-                  <div>
+                  <div style="width: 150px">
                     <div class="q-gutter-x-sm">
                       <span>
                         {{ zone.name ? zone.name : 'No Name' }}

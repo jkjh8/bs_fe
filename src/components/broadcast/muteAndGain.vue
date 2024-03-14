@@ -10,24 +10,29 @@ const props = defineProps({
   <div class="row no-wrap items-center">
     <!-- gain -->
     <div class="row no-wrap">
-      <div class="row no-wrap items-center q-gutter-x-xs">
-        <div class="gain">{{ zone.gain }}</div>
-        <div class="fit column no-wrap justify-start items-start content-start">
-          <q-btn
-            class="btn"
-            flat
-            icon="keyboard_arrow_up"
-            size="xs"
-            @click="fnVolumeUp(deviceId, zone.Zone)"
-          />
-          <q-btn
-            class="btn"
-            flat
-            icon="keyboard_arrow_down"
-            size="xs"
-            @click="fnVolumeDn(deviceId, zone.Zone)"
-          />
+      <div class="row no-wrap justify-center items-center q-gutter-x-xs" style="width: 70px">
+        <div class="text-grey q-pr-sm">VOL</div>
+        <div class="row justify-center">
+          <div>
+            {{ zone.gain }}
+          </div>
         </div>
+      </div>
+      <div class="column no-wrap">
+        <q-btn
+          class="btn"
+          flat
+          icon="keyboard_arrow_up"
+          size="xs"
+          @click="fnVolumeUp(deviceId, zone.Zone)"
+        />
+        <q-btn
+          class="btn"
+          flat
+          icon="keyboard_arrow_down"
+          size="xs"
+          @click="fnVolumeDn(deviceId, zone.Zone)"
+        />
       </div>
     </div>
     <!-- mute -->
@@ -43,4 +48,8 @@ const props = defineProps({
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.gain {
+  width: 20px;
+}
+</style>

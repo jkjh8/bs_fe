@@ -51,8 +51,19 @@ export const useQsysFunc = () => {
     })
   }
 
+  const fnRefreshAllQsysStreamAddr = async (deviceId) => {
+    try {
+      $q.loading.show()
+      await api.get('/devices/qsys/refreshall', { params: { deviceId } })
+      $q.loading.hide()
+    } catch (error) {
+      $q.loading.hide()
+    }
+  }
+
   return {
     fnAddQsysDevice,
-    fnDeleteQsysDevice
+    fnDeleteQsysDevice,
+    fnRefreshAllQsysStreamAddr
   }
 }

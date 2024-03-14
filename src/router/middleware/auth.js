@@ -1,5 +1,5 @@
 import { api } from 'boot/axios'
-import { fnUpdateUser } from 'src/composables/user'
+import { user } from 'src/composables/user/useUser'
 
 export default function (Router) {
   Router.beforeEach(async (to, from, next) => {
@@ -12,13 +12,13 @@ export default function (Router) {
         try {
           const r = await api.get('/auth')
           if (r.data) {
-            fnUpdateUser(r.data)
+            user.value = r.data
           } else {
-            fnUpdateUser(null)
+            user.value = null
           }
         } catch (err) {
           console.error(`사용자 인증 오류: ${err}`)
-          fnUpdateUser(null)
+          user.value = null
         }
         next()
         break

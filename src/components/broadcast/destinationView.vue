@@ -22,10 +22,14 @@ const selectZone = () => {
 </script>
 
 <template>
-  <div class="q-ml-xl q-gutter-x-sm text-caption text-grey">
-    <div>Destination</div>
-    <div>
-      {{ zone.destination ? zone.destination : 'Local' }}
+  <div class="q-ml-xl q-gutter-x-sm text-caption text-grey justify-start">
+    <div>오디오 출력 디바이스</div>
+    <div class="text-black">
+      <div v-if="zone.destination" class="q-gutter-x-sm">
+        <span>{{ zone.destination.name }}</span>
+        <span>{{ zone.destination.ipaddress }}</span>
+      </div>
+      <div v-else>Local</div>
     </div>
   </div>
   <q-btn round flat icon="edit" color="primary" size="sm" @click="selectZone(zone)">
