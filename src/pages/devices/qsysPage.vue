@@ -12,28 +12,12 @@ import { qsys, fnGetQsys } from 'src/composables/qsys/useQsys.js'
 import { useQsysFunc } from 'composables/qsys/useQsysFunc.js'
 // initialize
 const $q = useQuasar()
-const { addQsysDevice } = useQsysFunc()
+const { fnAddQsysDevice, fnDeleteQsysDevice } = useQsysFunc()
 
 // variables
 const filter = ref('')
 const rows = ref([])
 const loading = ref(false)
-// functions
-// const openDialogQSysAdd = () => {
-//   // add qsys device
-//   $q.dialog({
-//     component: deviceAdd,
-//     componentProps: { title: '주장치 추가', type: 'qsys' }
-//   }).onOk(async (item) => {
-//     $q.loading.show()
-//     const r = await api.post('/devices/qsys', { ...item })
-//     $q.loading.hide()
-//     if (r && r.data) {
-//       fnGetQsys()
-//     }
-//     // TODO: send devices data bridge
-//   })
-// }
 
 const openDialogQSysRemove = (args) => {
   $q.dialog({
@@ -71,7 +55,7 @@ onMounted(() => {
             name="add_circle"
             color="primary"
             size="sm"
-            @click="addQsysDevice"
+            @click="fnAddQsysDevice"
           />
         </div>
         <q-space />
@@ -82,7 +66,7 @@ onMounted(() => {
         </q-input>
       </div>
       <!-- table -->
-      <QsysTable :rows="qsys" :filter="filter" :loading="loading" />
+      <QsysTable :rows="qsys" :filter="filter" :loading="loading" @remove="fnDeleteQsysDevice" />
     </div>
   </div>
 </template>
