@@ -2,7 +2,7 @@ import { useQuasar } from 'quasar'
 
 export default function useNotify() {
   const $q = useQuasar()
-  const notifyInfo = (msg, caption, location) => {
+  const fnNotiInfo = (msg, caption, location) => {
     $q.notify({
       type: 'positive',
       message: msg,
@@ -18,7 +18,7 @@ export default function useNotify() {
       ]
     })
   }
-  const notifyError = (msg, caption, location) => {
+  const fnNotiError = (msg, caption, location) => {
     $q.notify({
       type: 'negative',
       message: msg,
@@ -34,22 +34,21 @@ export default function useNotify() {
       ]
     })
   }
-  const notifyErrorFeedback = (res) => {
+  const fnNotiFB = (res) => {
     let msg
     let caption
     switch (res.status) {
       case 401:
-        msg = 'Unauthorized'
-        caption = 'please login to use this service and try again'
+        msg = '인증 오류'
+        caption = '로그인 후에 다시 시도해 주세요.'
         break
       case 403:
-        msg = 'Forbidden'
-        caption = 'do not have permission to use this service'
+        msg = '권한 오류'
+        caption = '해당 서비스에 대한 권한이 없습니다.'
         break
       default:
-        msg = 'Internal server error'
-        caption =
-          'A server error has occurred. Please try again in a few minutes'
+        msg = '서버 오류'
+        caption = '서버 오류가 발생하였습니다. 잠시 후에 다시 시도 해주세요.'
         break
     }
 
@@ -61,5 +60,5 @@ export default function useNotify() {
       actions: [{ icon: 'close', color: 'white', round: true, dense: true }]
     })
   }
-  return { notifyInfo, notifyError, notifyErrorFeedback }
+  return { fnNotiInfo, fnNotiError, fnNotiFB }
 }

@@ -2,21 +2,13 @@
 import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 // components
-import ZoneStatus from 'src/components/devices/zoneStatus'
+import ZoneStatus from './zoneStatus'
 // composables
 import { qsys, fnGetQsys } from 'composables/qsys/useQsys.js'
+import { useQsysFunc } from 'composables/qsys/useQsysFunc.js'
 // initialize
 const $q = useQuasar()
-
-function checkActiveZones(zones) {
-  const activeZones = 0
-  for (let i = 0; i < zones.length; i++) {
-    if (zones[i].Active) {
-      activeZones = activeZones + 1
-    }
-  }
-  return activeZones
-}
+const { fnCheckActiveZones } = useQsysFunc()
 
 onMounted(async () => {
   await fnGetQsys()
@@ -40,7 +32,7 @@ onMounted(async () => {
         </q-item-section>
         <q-item-section side>
           <div class="row q-gutter-x-sm">
-            {{ checkActiveZones(device.ZoneStatus) }}
+            {{ fnCheckActiveZones(device.ZoneStatus) }}
             <span>지역 방송중</span>
           </div>
         </q-item-section>

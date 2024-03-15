@@ -1,5 +1,5 @@
 <script setup>
-import BroadcastStatus from 'src/components/devices/broadcastStatus'
+import BroadcastStatus from 'src/components/broadcast/status/broadcastStatus'
 </script>
 
 <template>
