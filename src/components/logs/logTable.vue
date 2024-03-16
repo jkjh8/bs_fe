@@ -3,59 +3,62 @@ import { ref, onMounted } from 'vue'
 import moment from 'moment'
 import { api } from 'boot/axios'
 // composables
-import columns from 'src/composables/columns/logs'
-
+import {
+  rows,
+  logLevel,
+  loading,
+  pagination,
+  fnGetLogs,
+  fnSetColorLog
+} from 'composables/utils/useLogs'
 // initializes
-moment.locale = 'ko-KR'
+import { fnGetTimeFormat } from 'composables/utils/useTime'
 
 // props
-const props = defineProps({ mode: String, filter: String })
+const props = defineProps(['mode', 'filter', 'level'])
 // variables
-const loading = ref(false)
-const current = ref([])
-const pagination = ref({
-  sortBy: 'createdAt',
-  descending: false,
-  page: 1,
-  rowsPerPage: 10,
-  rowsNumber: 0
-})
-
-// functions
-function setLogColor(level) {
-  switch (level) {
-    case 'error':
-      return 'bg-red text-white'
-    case 'warn':
-      return 'bg-yellow'
-    case 'debug':
-      return 'bg-blue-3'
-    case 'info':
-      return 'text-green'
+const columns = [
+  {
+    name: 'createdAt',
+    label: 'Time',
+    align: 'center',
+    field: 'createdAt',
+    sortable: true
+  },
+  {
+    name: 'level',
+    label: 'Level',
+    align: 'center',
+    field: 'level',
+    sortable: true
+  },
+  {
+    name: 'source',
+    label: 'Source',
+    align: 'center',
+    field: 'source',
+    sortable: true
+  },
+  {
+    name: 'zones',
+    label: 'Zones',
+    align: 'center',
+    field: 'zones',
+    sortable: true
+  },
+  {
+    name: 'message',
+    label: 'Message',
+    align: 'left',
+    field: 'message',
+    sortable: true
   }
-}
-async function onRequest(args) {
-  loading.value = true
-  const r = await api.get(`/logs${props.mode ? '/' + props.mode : ''}`, {
-    params: {
-      search: args.filter,
-      limit: args.pagination.rowsPerPage,
-      page: args.pagination.page
-    }
-  })
-  console.log(r)
-  pagination.value.rowsNumber = Number(r.data.count)
-  pagination.value.page = Number(r.data.page)
-  pagination.value.rowsPerPage = Number(r.data.limit)
-  current.value = r.data.current
-  loading.value = false
-}
+]
+
 // lifecycle hooks
 onMounted(async () => {
-  await onRequest({
-    filter: props.filter.value,
-    pagination: pagination.value
-  })
+  logLevel.value = props.level
+  await fnGetLogs({ pagination: { ...pagination.value }, filter: props.filter.value })
 })
 </script>
 
@@ -64,38 +67,33 @@ onMounted(async () => {
   <q-table
     flat
     :columns="columns"
-    :rows="current"
+    :rows="rows"
     :filter="filter"
     :loading="loading"
+    wrap-cells="false"
     row-key="_id"
     v-model:pagination="pagination"
-    @request="onRequest"
+    @request="fnGetLogs"
   >
     <template #body="props">
-      <q-tr :props="props" :class="setLogColor(props.row.level)">
+      <q-tr :props="props" :class="fnSetColorLog(props.row.level)">
         <q-td key="createdAt" :props="props">
-          {{ moment(props.row.createdAt).format('YYYY-MM-DD hh:mm:ss A') }}
+          {{ fnGetTimeFormat(props.row.createdAt) }}
         </q-td>
         <q-td key="level" :props="props">
           {{ props.row.level.toUpperCase() }}
         </q-td>
         <q-td key="source" :props="props">
+          {{ props.row.source }}
+        </q-td>
+        <q-td key="zones" :props="props">
           {{
-            props.row.source
-              ? props.row.source.charAt(0).toUpperCase() +
-                props.row.source.slice(1)
+            props.row.zones
+              ? props.row.zones.charAt(0).toUpperCase() + props.row.zones.slice(1)
               : ''
           }}
         </q-td>
-        <q-td key="category" :props="props">
-          {{
-            props.row.category
-              ? props.row.category.charAt(0).toUpperCase() +
-                props.row.category.slice(1)
-              : ''
-          }}
-        </q-td>
-        <q-td key="message" :props="props">
+        <q-td class="message" key="message" :props="props">
           {{ props.row.message }}
         </q-td>
       </q-tr>
@@ -103,4 +101,12 @@ onMounted(async () => {
   </q-table>
 </template>
 
-<style scoped></style>
+<style scoped>
+.message {
+  overflow: hidden;
+  white-space: initial;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+</style>

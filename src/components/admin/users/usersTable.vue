@@ -1,5 +1,7 @@
 <script setup>
 import TimeFormat2Lines from 'components/utils/timeFormat2line.vue'
+import UserActions from 'components/admin/users/userActions.vue'
+import UserZones from 'components/admin/users/userZones.vue'
 const columns = [
   {
     name: 'email',
@@ -22,7 +24,13 @@ const columns = [
     field: 'isAdmin',
     sortable: true
   },
-
+  {
+    name: 'zones',
+    label: 'Zones',
+    align: 'center',
+    field: 'zones',
+    sortable: true
+  },
   {
     name: 'loginAt',
     label: 'Last login',
@@ -65,13 +73,18 @@ const emits = defineEmits(['update:admin'])
             <q-icon v-else name="block" color="red-10" size="16px" />
           </div>
         </q-td>
+        <q-td key="zones" :props="props">
+          <UserZones :user="props.row" />
+        </q-td>
         <q-td key="loginAt" :props="props">
           <TimeFormat2Lines :time="props.row.loginAt" />
         </q-td>
         <q-td key="createdAt" :props="props">
           <TimeFormat2Lines :time="props.row.createdAt" />
         </q-td>
-        <q-td key="actions" :props="props"> </q-td>
+        <q-td key="actions" :props="props">
+          <UserActions :user="props.row" />
+        </q-td>
       </q-tr>
     </template>
   </q-table>

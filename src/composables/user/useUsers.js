@@ -4,6 +4,7 @@ import { api } from 'boot/axios'
 import moment from 'moment'
 
 import ConfirmDialog from 'components/dialog/confirmDialog.vue'
+import SelectQsys from 'components/dialog/zones/selectQsys.vue'
 
 import useNotify from 'composables/useNotify'
 
@@ -48,7 +49,26 @@ const useUsersFunc = () => {
     })
   }
 
-  return { fnGetUsers, fnSetAdmin }
+  const fnUserZones = async (user) => {
+    $q.dialog({
+      component: SelectQsys,
+      componentProps: {
+        zones: user.zones
+      }
+    }).onOk(async (selected) => {
+      $q.loading.show()
+      try {
+        await api.put('/users', { user, update: { zones: selected } })
+        await fnGetUsers()
+        $q.loading.hide()
+      } catch (error) {
+        $q.loading.hide()
+        fnNotiFB(error)
+      }
+    })
+  }
+
+  return { fnGetUsers, fnSetAdmin, fnUserZones }
 }
 
 export { users, useUsersFunc }

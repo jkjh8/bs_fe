@@ -14,21 +14,14 @@ const filter = ref('')
         <q-icon name="list_alt" size="24px" color="primary"></q-icon>
         <span class="text-h6">Event Log</span>
         <q-space />
-        <q-input
-          v-model="filter"
-          borderless
-          dense
-          debounce="300"
-          placeholder="Search"
-          clearable
-        >
+        <q-input v-model="filter" borderless dense debounce="300" placeholder="Search" clearable>
           <template #append>
             <q-icon name="search" />
           </template>
         </q-input>
       </div>
       <!-- body -->
-      <Table mode="eventlog" :filter="filter" />
+      <Table mode="eventlog" :filter="filter" :level="2" />
     </div>
   </div>
 </template>

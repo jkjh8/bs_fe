@@ -4,10 +4,13 @@ import useNotify from 'composables/useNotify'
 moment.locale = 'ko-KR'
 
 const fnGetTimeFormat = (time) => {
-  return {
-    yyyymmdd: moment(time).formay('YYYY-MM-DD'),
-    hhmmssa: moment(time).formay('hh:mm:ss a')
-  }
+  return moment(time).format('YYYY-MM-DD hh:mm:ss A')
 }
 
-export { fnGetTimeFormat }
+const fnGetTimeFormat2Line = (time) => {
+  return {
+    yyyymmdd: moment(time).format('YYYY-MM-DD'),
+    hhmmssa: moment(time).format('hh:mm:ss a')
+  }
+}
+export { fnGetTimeFormat, fnGetTimeFormat2Line }
