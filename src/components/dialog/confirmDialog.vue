@@ -33,7 +33,7 @@ const emit = defineEmits([...useDialogPluginComponent.emits])
       </q-card-section>
 
       <q-card-section v-if="message">
-        <div class="row justify-center">
+        <div class="row justify-center q-px-md">
           {{ message }}
         </div>
       </q-card-section>

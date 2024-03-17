@@ -68,7 +68,29 @@ const useUsersFunc = () => {
     })
   }
 
-  return { fnGetUsers, fnSetAdmin, fnUserZones }
+  const fnDeleteUser = (user) => {
+    $q.dialog({
+      component: ConfirmDialog,
+      componentProps: {
+        icon: 'delete',
+        iconColor: 'red-10',
+        title: '사용자 삭제',
+        message: `${user.name} - ${user.email} 사용자를 삭제 하시겠습니까?`
+      }
+    }).onOk(async () => {
+      $q.loading.show()
+      try {
+        await api.delete('/users', { data: { user } })
+        await fnGetUsers()
+        $q.loading.hide()
+      } catch (error) {
+        $q.loading.hide()
+        fnNotiFB(error)
+      }
+    })
+  }
+
+  return { fnGetUsers, fnSetAdmin, fnUserZones, fnDeleteUser }
 }
 
 export { users, useUsersFunc }

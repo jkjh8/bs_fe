@@ -30,7 +30,7 @@ const dub = () => {
 
 const onOkDialog = async () => {
   if (selected.value === null) {
-    onDialogOK(selected.value)
+    onDialogOK({ selected: selected.value, ipaddress: '' })
   } else {
     const r = await api.get('/devices/qsys/existszone', { params: { id: selected.value } })
     if (r.data && r.data.value && r.data.value.length) {
@@ -41,7 +41,10 @@ const onOkDialog = async () => {
       }
       return dub()
     } else {
-      onDialogOK(selected.value)
+      onDialogOK({
+        selected: selected.value,
+        ipaddress: barix.value[barix.value.findIndex((v) => v._id === selected.value)].ipaddress
+      })
     }
   }
 }

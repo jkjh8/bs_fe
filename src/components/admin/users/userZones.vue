@@ -21,12 +21,12 @@ const names = computed(() => {
     for (let id of zones) {
       const idx = qsys.value.findIndex((e) => e.deviceId === id)
       if (idx !== -1) {
-        r.push(qsys.value[idx].name)
+        r.push(qsys.value[idx])
       }
     }
-    return r.join(', ')
+    return r
   } else {
-    return 'N/A'
+    return []
   }
 })
 
@@ -36,9 +36,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="row justify-center items-center q-gutter-x-sm">
-    <span>
-      {{ names }}
+  <div class="zones row justify-center items-center q-gutter-x-sm">
+    <span v-for="item in names" :key="item.deviceId">
+      <q-chip outline icon="map" size="sm" color="primary" text-color="white">
+        {{ item.name }}
+      </q-chip>
     </span>
     <span>
       <q-icon
@@ -52,4 +54,11 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.zones {
+  max-width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>

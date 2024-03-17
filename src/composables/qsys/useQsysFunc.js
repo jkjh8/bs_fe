@@ -52,6 +52,7 @@ export const useQsysFunc = () => {
   }
 
   const fnRefreshAllQsysStreamAddr = async (deviceId) => {
+    console.log(deviceId)
     try {
       $q.loading.show()
       await api.get('/devices/qsys/refreshall', { params: { deviceId } })

@@ -57,7 +57,7 @@ const emits = defineEmits(['update:admin'])
 </script>
 
 <template>
-  <q-table flat :columns="columns" :rows="rows" :filter="filter">
+  <q-table flat :columns="columns" :rows="rows" :filter="filter" wrap-cells="true">
     <!-- table body -->
     <template #body="props">
       <q-tr :props="props">
@@ -67,13 +67,16 @@ const emits = defineEmits(['update:admin'])
         <q-td key="name" :props="props">
           {{ props.row.name }}
         </q-td>
-        <q-td key="isAdmin" class="row justify-center items-center" :props="props">
-          <div class="cursor-pointer" style="width: 16px" @click="emits('update:admin', props.row)">
-            <q-icon v-if="props.row.isAdmin" name="check_circle" color="primary" size="16px" />
-            <q-icon v-else name="block" color="red-10" size="16px" />
-          </div>
+        <q-td key="isAdmin" :props="props">
+          <q-icon
+            class="cursor-pointer"
+            :name="props.row.isAdmin ? 'check_circle' : 'block'"
+            :color="props.row.isAdmin ? 'primary' : 'red-10'"
+            size="16px"
+            @click="emits('update:admin', props.row)"
+          />
         </q-td>
-        <q-td key="zones" :props="props">
+        <q-td key="zones" class="row justify-center" :props="props">
           <UserZones :user="props.row" />
         </q-td>
         <q-td key="loginAt" :props="props">

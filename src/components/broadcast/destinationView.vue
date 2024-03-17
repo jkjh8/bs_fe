@@ -8,16 +8,16 @@ const props = defineProps({ zone: Object, device: Object })
 const $q = useQuasar()
 
 const selectZone = () => {
-  $q.dialog({ component: SelectZone, componentProps: { zone: props.zone } }).onOk(
-    async (selected) => {
-      await api.put('/devices/qsys/zoneupdate', {
-        id: props.device._id,
-        zone: props.zone.Zone,
-        destination: selected
-      })
-      await fnGetQsys()
-    }
-  )
+  $q.dialog({ component: SelectZone, componentProps: { zone: props.zone } }).onOk(async (args) => {
+    await api.put('/devices/qsys/zoneupdate', {
+      id: props.device._id,
+      deviceId: props.device.deviceId,
+      zone: props.zone.Zone,
+      destination: args.selected,
+      ipaddress: args.ipaddress
+    })
+    await fnGetQsys()
+  })
 }
 </script>
 
