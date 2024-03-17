@@ -63,7 +63,7 @@ export const useQsysFunc = () => {
   }
 
   const fnCheckActiveZones = (zones) => {
-    const az = []
+    let az = []
     for (let i = 0; i < zones.length; i++) {
       if (zones[i].Active) {
         az += 1
@@ -76,12 +76,12 @@ export const useQsysFunc = () => {
     switch (priority) {
       case 1:
       case 2:
-        return 'bg-red'
+        return 'bg-red text-white'
       case 3:
       case 4:
         return 'bg-yellow'
       case 5:
-        return 'bg-green'
+        return 'bg-green text-white'
       default:
         return ''
     }

@@ -16,12 +16,12 @@ const props = defineProps(['zones'])
         <div class="text-bold">
           <span> {{ zone.Zone }}. </span>
         </div>
-        <div class="text-grey">{{ zone.name ?? 'No Name' }}</div>
+        <div class="">{{ zone.name ?? 'No Name' }}</div>
         <div v-if="zone.destination">
           <div>
             <q-separator class="q-my-sm" />
           </div>
-          <div class="column items-end text-grey text-caption">
+          <div class="column items-end text-caption">
             <div class="row q-gutter-x-xs">
               {{ zone.destination.name }}
               <LEDInd :barix="zone.destination" />
