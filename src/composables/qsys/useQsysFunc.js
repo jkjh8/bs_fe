@@ -52,7 +52,7 @@ export const useQsysFunc = () => {
     })
   }
 
-  const fnCancalAll = (device) => {
+  const fnCancelAll = (device) => {
     $q.dialog({
       component: ConfirmDialog,
       componentProps: {
@@ -76,6 +76,6 @@ export const useQsysFunc = () => {
   return {
     fnAddQsysDevice,
     fnDeleteQsysDevice,
-    fnCancalAll
+    fnCancelAll
   }
 }

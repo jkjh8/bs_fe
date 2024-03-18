@@ -4,7 +4,8 @@ import { qsys, qsysAll, fnUpdateZoneStatus } from 'composables/qsys/useQsys.js'
 let socket
 
 export default boot(({ app }) => {
-  const url = process.env.NODE_ENV === 'production' ? '/' : 'http://192.168.1.70:3000'
+  const url =
+    process.env.NODE_ENV === 'production' ? '/clients' : 'http://192.168.1.70:3000/clients'
   socket = io(url, {
     reconnectionDelayMax: 5000,
     transports: ['websocket'],

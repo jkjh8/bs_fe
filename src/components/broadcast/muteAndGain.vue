@@ -41,7 +41,7 @@ const props = defineProps({
       flat
       :icon="zone.mute ? 'volume_off' : 'volume_up'"
       :color="zone.mute ? 'red' : 'primary'"
-      @click="fnMute(device.deviceId, zone.Zone, zone.mute ? 0 : 1)"
+      @click="fnMute(deviceId, zone.Zone, zone.mute ? 0 : 1)"
     >
       <q-tooltip>Mute</q-tooltip>
     </q-btn>

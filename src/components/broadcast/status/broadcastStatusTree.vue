@@ -5,7 +5,7 @@ import { fnCheckActiveZones } from 'composables/status/useStatus.js'
 import { useQsysFunc } from 'composables/qsys/useQsysFunc.js'
 import { user } from 'composables/user/useUser.js'
 
-const { fnCancalAll } = useQsysFunc()
+const { fnCancelAll } = useQsysFunc()
 
 function deviceIdFilder(value) {
   const devices = user.value.zones
@@ -16,6 +16,7 @@ function deviceIdFilder(value) {
 }
 
 const locations = computed(() => {
+  if (!user.value) return []
   if (user.value.isAdmin) return qsys.value
   const arr = qsys.value.filter(deviceIdFilder)
   return arr
@@ -41,7 +42,7 @@ onMounted(() => {})
             round
             flat
             icon="cancel"
-            @click.prevent.stop="fnCancalAll(prop.node.deviceId)"
+            @click.prevent.stop="fnCancelAll(prop.node)"
           />
         </div>
       </div>
