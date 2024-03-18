@@ -8,8 +8,7 @@ const props = defineProps({
 })
 const emit = defineEmits([...useDialogPluginComponent.emits])
 // initialize
-const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } =
-  useDialogPluginComponent()
+const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } = useDialogPluginComponent()
 // variables
 const name = ref('')
 
@@ -25,7 +24,7 @@ onMounted(() => {
     <q-card class="q-dialog-plugin">
       <q-card-section>
         <div class="q-px-sm">
-          <div class="dialogName">{{ `Modify Zone ${zone} Name` }}</div>
+          <div class="dialogName">{{ `방송구간 채널 ${zone} 이름 변경` }}</div>
         </div>
       </q-card-section>
       <q-card-section>
@@ -35,21 +34,8 @@ onMounted(() => {
       </q-card-section>
       <q-card-actions align="right">
         <div class="q-px-sm">
-          <q-btn
-            round
-            flat
-            color="red-10"
-            icon="cancel"
-            @click="onDialogCancel"
-          />
-          <q-btn
-            round
-            flat
-            no-caps
-            color="primary"
-            icon="check_circle"
-            @click="onDialogOK(name)"
-          />
+          <q-btn round flat color="red-10" icon="cancel" @click="onDialogCancel" />
+          <q-btn round flat no-caps color="primary" icon="check_circle" @click="onDialogOK(name)" />
         </div>
       </q-card-actions>
     </q-card>

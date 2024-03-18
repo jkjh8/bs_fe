@@ -4,6 +4,7 @@ import { fnGetQsys } from './useQsys'
 
 import DeviceAdd from 'components/dialog/devices/addDevice.vue'
 import ConfirmDialog from 'components/dialog/confirmDialog'
+import { loading } from '../utils/useLogs'
 
 export const useQsysFunc = () => {
   const $q = useQuasar()
@@ -51,47 +52,30 @@ export const useQsysFunc = () => {
     })
   }
 
-  const fnRefreshAllQsysStreamAddr = async (deviceId) => {
-    console.log(deviceId)
-    try {
-      $q.loading.show()
-      await api.get('/devices/qsys/refreshall', { params: { deviceId } })
-      $q.loading.hide()
-    } catch (error) {
-      $q.loading.hide()
-    }
-  }
-
-  const fnCheckActiveZones = (zones) => {
-    let az = []
-    for (let i = 0; i < zones.length; i++) {
-      if (zones[i].Active) {
-        az += 1
+  const fnCancalAll = (device) => {
+    $q.dialog({
+      component: ConfirmDialog,
+      componentProps: {
+        icon: 'cancel',
+        iconColor: 'orange',
+        title: '방송 강제 취소',
+        message: `${device.name} - ${device.ipaddress}의 진행중인 방송을 취소하시겠습니까?`
       }
-    }
-    return az.length
-  }
-
-  const fnCheckPriority = (priority) => {
-    switch (priority) {
-      case 1:
-      case 2:
-        return 'bg-red text-white'
-      case 3:
-      case 4:
-        return 'bg-yellow'
-      case 5:
-        return 'bg-green text-white'
-      default:
-        return ''
-    }
+    }).onOk(async () => {
+      $q.loading.show()
+      try {
+        await api.get('/devices/qsys/cancel', { params: { deviceId: device.deviceId } })
+        $q.loading.hide()
+      } catch (error) {
+        console.log(error)
+        $q.loading.hide()
+      }
+    })
   }
 
   return {
     fnAddQsysDevice,
     fnDeleteQsysDevice,
-    fnRefreshAllQsysStreamAddr,
-    fnCheckActiveZones,
-    fnCheckPriority
+    fnCancalAll
   }
 }

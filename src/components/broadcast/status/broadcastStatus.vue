@@ -3,12 +3,12 @@ import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 // components
 import ZoneStatus from './zoneStatus'
+import BrStatusTree from './broadcastStatusTree.vue'
 // composables
 import { qsys, fnGetQsys } from 'composables/qsys/useQsys.js'
-import { useQsysFunc } from 'composables/qsys/useQsysFunc.js'
 // initialize
 const $q = useQuasar()
-const { fnCheckActiveZones } = useQsysFunc()
+import { fnCheckActiveZones } from 'composables/status/useStatus.js'
 
 onMounted(async () => {
   await fnGetQsys()
@@ -40,6 +40,7 @@ onMounted(async () => {
       <ZoneStatus :zones="device.ZoneStatus" />
     </q-expansion-item>
   </q-list>
+  <BrStatusTree />
 </template>
 
 <style scoped></style>

@@ -3,7 +3,6 @@ import { ref, computed } from 'vue'
 const props = defineProps(['barix'])
 
 const color = computed(() => {
-  console.log(props.barix)
   if (props.barix.status) {
     if (props.barix.streamurl) {
       return '#00a000'

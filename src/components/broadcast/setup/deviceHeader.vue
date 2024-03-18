@@ -1,7 +1,7 @@
 <script setup>
-import { useQsysFunc } from 'composables/qsys/useQsysFunc'
+import { useSetupFunc } from 'composables/setup/useSetupFunc'
 const props = defineProps(['device'])
-const { fnRefreshAllQsysStreamAddr } = useQsysFunc()
+const { fnRefreshAllQsysStreamAddr } = useSetupFunc()
 </script>
 
 <template>

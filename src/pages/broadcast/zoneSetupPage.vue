@@ -1,44 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useQuasar } from 'quasar'
-import { api } from 'boot/axios'
+import { onMounted } from 'vue'
 // component
 import DeviceHeader from 'components/broadcast/setup/deviceHeader.vue'
-import ZoneNameDialog from 'components/dialog/zoneName.vue'
-import SelectZone from 'components/dialog/zones/selectBarix.vue'
-import MuteAndGain from 'components/broadcast/muteAndGain.vue'
-import Destination from 'components/broadcast/destinationView.vue'
+import DeviceSetup from 'components/broadcast/setup/setupExpansion.vue'
 // composables
-import { qsys, fnGetQsys } from 'src/composables/qsys/useQsys.js'
-import { fnVolumeUp, fnVolumeDn, fnMute } from 'src/composables/qsys/useVol.js'
-// initialize
-const $q = useQuasar()
-
-// dialogs
-const modifyZoneName = (name, zone, deviceId) => {
-  $q.dialog({
-    component: ZoneNameDialog,
-    componentProps: {
-      currentName: name,
-      zone: zone
-    }
-  }).onOk(async (modifiedName) => {
-    $q.loading.show()
-    const r = await api.put('/devices/qsys/modifiedzonename', {
-      deviceId,
-      zone,
-      name: modifiedName
-    })
-    // useQsysStore().updateQsysDevices(r.data.devices)
-    $q.loading.hide()
-  })
-}
-
-const selectZone = (current) => {
-  $q.dialog({ component: SelectZone }).onOk(async (selected) => {
-    console.log(selected)
-  })
-}
+import { fnGetQsys } from 'src/composables/qsys/useQsys.js'
 
 onMounted(async () => {
   await fnGetQsys()
@@ -61,57 +27,7 @@ onMounted(async () => {
       </div>
       <!-- devices -->
       <div>
-        <q-list>
-          <!-- locations -->
-          <q-expansion-item
-            v-for="(device, idx) in qsys"
-            :key="idx"
-            header-class="q-px-lg bg-blue-grey-1"
-          >
-            <!-- header -->
-            <template #header>
-              <DeviceHeader :device="device" />
-            </template>
-            <!-- zones -->
-            <div class="q-px-md q-ml-lg">
-              <div
-                v-for="zone in device.ZoneStatus"
-                :key="zone.Zone"
-                class="row no-wrap items-center q-px-sm"
-              >
-                <!-- zone name tag -->
-                <div class="row no-wrap items-center q-gutter-x-lg">
-                  <q-avatar color="grey-2" size="26px">{{ zone.Zone }}</q-avatar>
-                  <div style="width: 150px">
-                    <div class="q-gutter-x-sm">
-                      <span>
-                        {{ zone.name ? zone.name : 'No Name' }}
-                      </span>
-                      <!-- modify zone name -->
-                      <q-btn
-                        round
-                        flat
-                        icon="edit"
-                        color="primary"
-                        size="sm"
-                        @click="modifyZoneName(zone.name, zone.Zone, device.deviceId)"
-                      >
-                        <q-tooltip>Edit Name</q-tooltip>
-                      </q-btn>
-                    </div>
-                    <div class="text-caption text-grey">Zone {{ zone.Zone }}</div>
-                  </div>
-
-                  <!-- destination -->
-                  <Destination :zone="zone" :device="device" />
-                </div>
-
-                <q-space />
-                <MuteAndGain :zone="zone" :deviceId="device.deviceId" />
-              </div>
-            </div>
-          </q-expansion-item>
-        </q-list>
+        <DeviceSetup />
       </div>
     </div>
   </div>

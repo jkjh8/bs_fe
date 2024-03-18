@@ -1,8 +1,7 @@
 <script setup>
 import LEDInd from './ledIndicator'
-import { useQsysFunc } from 'composables/qsys/useQsysFunc'
+import { fnCheckPriority } from 'composables/status/useStatus.js'
 
-const { fnCheckPriority } = useQsysFunc()
 const props = defineProps(['zones'])
 </script>
 
