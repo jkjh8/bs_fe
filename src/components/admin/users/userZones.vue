@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
 import { useUsersFunc } from 'composables/user/useUsers'
-import { qsys, fnGetQsys } from 'composables/qsys/useQsys'
+import { qsys } from 'composables/qsys/useQsys'
 const props = defineProps(['user'])
 const { fnUserZones } = useUsersFunc()
 
@@ -28,10 +28,6 @@ const names = computed(() => {
   } else {
     return []
   }
-})
-
-onMounted(async () => {
-  await fnGetQsys()
 })
 </script>
 

@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 import UsersTable from 'components/admin/users/usersTable.vue'
 // composables
 import { users, useUsersFunc } from 'composables/user/useUsers'
+import { fnGetQsys } from 'composables/qsys/useQsys'
 
 const { fnGetUsers, fnSetAdmin } = useUsersFunc()
 const filter = ref('')
@@ -11,6 +12,7 @@ const filter = ref('')
 // life cycle hooks
 onMounted(async () => {
   await fnGetUsers()
+  await fnGetQsys()
 })
 </script>
 
