@@ -1,63 +1,63 @@
 <script setup>
-import TimeFormat2Lines from 'components/utils/timeFormat2line.vue'
-import UserActions from 'components/admin/users/userActions.vue'
-import UserZones from 'components/admin/users/userZones.vue'
+import TimeFormat2Lines from "components/utils/timeFormat2line.vue";
+import UserActions from "components/admin/users/userActions.vue";
+import UserZones from "components/admin/users/userZones.vue";
 const columns = [
   {
-    name: 'email',
-    label: 'E-mail',
-    align: 'center',
-    field: 'email',
-    sortable: true
+    name: "email",
+    label: "E-mail",
+    align: "center",
+    field: "email",
+    sortable: true,
   },
   {
-    name: 'name',
-    label: 'Name',
-    align: 'center',
-    field: 'name',
-    sortable: true
+    name: "name",
+    label: "Name",
+    align: "center",
+    field: "name",
+    sortable: true,
   },
   {
-    name: 'isAdmin',
-    label: 'isAdmin',
-    align: 'center',
-    field: 'isAdmin',
-    sortable: true
+    name: "isAdmin",
+    label: "isAdmin",
+    align: "center",
+    field: "isAdmin",
+    sortable: true,
   },
   {
-    name: 'zones',
-    label: 'Zones',
-    align: 'center',
-    field: 'zones',
-    sortable: true
+    name: "zones",
+    label: "Zones",
+    align: "center",
+    field: "zones",
+    sortable: true,
   },
   {
-    name: 'loginAt',
-    label: 'Last login',
-    align: 'center',
-    field: 'loginAt',
-    sortable: true
+    name: "loginAt",
+    label: "Last login",
+    align: "center",
+    field: "loginAt",
+    sortable: true,
   },
   {
-    name: 'createdAt',
-    label: 'Created at',
-    align: 'center',
-    field: 'createdAt',
-    sortable: true
+    name: "createdAt",
+    label: "Created at",
+    align: "center",
+    field: "createdAt",
+    sortable: true,
   },
   {
-    name: 'actions',
-    label: 'FN',
-    align: 'center'
-  }
-]
+    name: "actions",
+    label: "FN",
+    align: "center",
+  },
+];
 
-const props = defineProps(['rows', 'filter'])
-const emits = defineEmits(['update:admin'])
+const props = defineProps(["rows", "filter"]);
+const emits = defineEmits(["update:admin"]);
 </script>
 
 <template>
-  <q-table flat :columns="columns" :rows="rows" :filter="filter" wrap-cells="true">
+  <q-table flat :columns="columns" :rows="rows" :filter="filter" :wrap-cells="false">
     <!-- table body -->
     <template #body="props">
       <q-tr :props="props">

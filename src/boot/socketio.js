@@ -26,6 +26,10 @@ export default boot(({ app }) => {
     qsys.value = args
   })
 
+  socket.on('qsys:device', (args) => {
+    console.log('socket rt qsys:device', args)
+  })
+
   socket.on('qsys:data', (args) => {
     const data = JSON.parse(args)
     switch (data.key) {
