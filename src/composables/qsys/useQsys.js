@@ -21,4 +21,9 @@ const fnUpdateZoneStatus = (deviceId, ZoneStatus) => {
   }
 }
 
-export { qsys, fnGetQsys, fnUpdateZoneStatus }
+const fnUpdateDevice = (deviceId, data) => {
+  const idx = qsys.value.findIndex((e) => e.deviceId === deviceId)
+  qsys.value[idx] = { ...qsys.value[idx], ...data }
+}
+
+export { qsys, fnGetQsys, fnUpdateZoneStatus, fnUpdateDevice }

@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import { io } from 'socket.io-client'
-import { qsys, qsysAll, fnUpdateZoneStatus } from 'composables/qsys/useQsys.js'
+import { qsys, qsysAll, fnUpdateZoneStatus, fnUpdateDevice } from 'composables/qsys/useQsys.js'
 let socket
 
 export default boot(({ app }) => {
@@ -22,32 +22,11 @@ export default boot(({ app }) => {
   })
 
   socket.on('qsys:devices', (args) => {
-    console.log('socket rt qsys:devices', args)
     qsys.value = args
   })
 
   socket.on('qsys:device', (args) => {
-    console.log('socket rt qsys:device', args)
-  })
-
-  socket.on('qsys:data', (args) => {
-    const data = JSON.parse(args)
-    switch (data.key) {
-      case 'connect':
-      case 'devices':
-        break
-      case 'ZoneStatus':
-        break
-    }
-  })
-
-  socket.on('qsys:ZoneStatus', (args) => {
-    try {
-      const { deviceId, ZoneStatus } = args
-      fnUpdateZoneStatus(deviceId, ZoneStatus)
-    } catch (error) {
-      console.error(error)
-    }
+    fnUpdateDevice(args.deviceId, args.data)
   })
 
   app.config.globalProperties.$socket = socket
