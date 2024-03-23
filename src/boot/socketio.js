@@ -9,19 +9,15 @@ export default boot(({ app }) => {
     secure: true,
     // reconnectionDelayMax: 5000,
     // rejectUnauthorized: false,
-    recognitionUnauthorized: false,
+    // recognitionUnauthorized: false,
     // transports: ['websocket'],
-    autoConnect: true,
+    // autoConnect: true,
     withCredentials: true
   })
 
   socket.on('connect', () => {
     console.log(`connected socket.io id=${socket.id}`)
   })
-  socket.io.engine.on('upgrade', (transport) => {
-    console.log(`transport upgraded to ${transport.name}`)
-  })
-
   socket.on('connect_error', (err) => {
     console.log(`connect_error due to ${err.message}`)
   })

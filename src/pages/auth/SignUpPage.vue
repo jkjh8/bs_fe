@@ -12,7 +12,7 @@ import useNotify from 'src/composables/useNotify'
 // Variables
 const router = useRouter()
 const $q = useQuasar()
-const { notifyInfo, notifyError } = useNotify()
+const { fnNotiInfo, fnNotiError } = useNotify()
 const { required, minLength, ckEmail } = useRules()
 const showPass = ref(false)
 const showChkPass = ref(false)
@@ -26,7 +26,7 @@ const auth = reactive({
 const chkUserExist = async (u) => {
   try {
     const r = await api.get('/auth/exists_email', { params: { email: u } })
-    if (r.data && r.data.user.length) {
+    if (r.data && r.data.user) {
       return '이미 사용된 이메일 입니다.'
     } else {
       return true
@@ -41,11 +41,11 @@ const onSubmit = async () => {
     $q.loading.show()
     const r = await api.post('/auth/signup', { auth: auth })
     $q.loading.hide()
-    notifyInfo('회원 가입 완료', '회원가입이 완료되었습니다. 메인페이지로 이동합니다.', 'top')
+    fnNotiInfo('회원 가입 완료', '회원가입이 완료되었습니다. 메인페이지로 이동합니다.', 'top')
     router.push('/auth')
   } catch (err) {
     $q.loading.hide()
-    notifyError(
+    fnNotiError(
       '회원 가입 실패',
       '잠시후 다시 시도해주세요. 문제가 계속되면 관리자에게 문의 해주세요.',
       'top'

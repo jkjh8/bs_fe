@@ -3,6 +3,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
+import { socket } from 'boot/socketio'
 
 // components
 import AuthLink from 'components/auth/authLink'
@@ -14,7 +15,7 @@ import useNotify from 'src/composables/useNotify'
 // Variables
 const router = useRouter()
 const $q = useQuasar()
-const { notifyError } = useNotify()
+const { fnNotiError } = useNotify()
 const { required, minLength, ckEmail } = useRules()
 const { auth, rememberCheck, getEmailFromStorage, setEmailToStorage } = useAuth()
 const showPass = ref(false)
@@ -31,9 +32,14 @@ const onSubmit = async () => {
     })
     $q.loading.hide()
     router.push('/')
+
+    if (!socket.connected) {
+      socket.connect()
+    }
   } catch (err) {
+    console.log(err)
     $q.loading.hide()
-    notifyError('로그인 오류', err.response.data.info.message, 'top')
+    fnNotiError('로그인 오류', err.response.data.info.message, 'top')
   }
 }
 // Lifecycle hooks
