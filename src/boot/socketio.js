@@ -11,7 +11,7 @@ export default boot(({ app }) => {
     // rejectUnauthorized: false,
     // recognitionUnauthorized: false,
     // transports: ['websocket'],
-    // autoConnect: true,
+    autoConnect: true,
     withCredentials: true
   })
 
