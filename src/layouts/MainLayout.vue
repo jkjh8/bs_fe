@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
+import { socket } from 'boot/socketio'
 // components
 import HomeLogo from 'src/components/layout/homeLogo'
 import ToolbarLinks from 'src/components/layout/toolbarLinks'

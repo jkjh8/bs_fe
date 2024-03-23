@@ -5,10 +5,12 @@ let socket
 
 export default boot(({ app }) => {
   const url =
-    process.env.NODE_ENV === 'production' ? '/clients' : 'http://192.168.1.70:3000/clients'
+    process.env.NODE_ENV === 'production' ? '/clients' : 'https://192.168.1.70:3443/clients'
   socket = io(url, {
-    reconnectionDelayMax: 5000,
-    transports: ['websocket'],
+    secure: true,
+    // reconnectionDelayMax: 5000,
+    // // rejectUnauthorized: false,
+    // transports: ['websocket'],
     autoConnect: true,
     withCredentials: true
   })
