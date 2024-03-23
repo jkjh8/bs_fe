@@ -4,8 +4,7 @@ import { qsys, qsysAll, fnUpdateZoneStatus, fnUpdateDevice } from 'composables/q
 let socket
 
 export default boot(({ app }) => {
-  const url =
-    process.env.NODE_ENV === 'production' ? '/clients' : 'https://192.168.1.70:3443/clients'
+  const url = process.env.NODE_ENV === 'production' ? '/client' : 'https://192.168.1.70:3443/client'
   socket = io(url, {
     secure: true,
     // reconnectionDelayMax: 5000,
