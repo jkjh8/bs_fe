@@ -20,6 +20,8 @@ const $r = useRouter()
       name="Broadcast"
       :offset="[20, 10]"
       :items="[
+        { name: '라이브 방송', icon: 'mic', link: '/broadcast/live' },
+        { name: '예약 방송', icon: 'schedule', link: '/broadcast/schedule' },
         { name: 'Zone Setup', icon: 'map', link: '/broadcast/zonesetup' },
         { name: 'Files', icon: 'folder_open', link: '/broadcast/files' },
         { name: 'Eventlog', icon: 'list_alt', link: '/broadcast/eventlog' }

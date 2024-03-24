@@ -22,8 +22,16 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
+        path: 'live',
+        component: () => import('pages/broadcast/liveStream.vue')
+      },
+      {
         path: 'zonesetup',
         component: () => import('pages/broadcast/zoneSetupPage.vue')
+      },
+      {
+        path: 'schedule',
+        component: () => import('pages/broadcast/scheduleStream.vue')
       },
       {
         path: 'files',
