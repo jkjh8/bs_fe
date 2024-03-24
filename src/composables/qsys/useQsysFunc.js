@@ -4,7 +4,6 @@ import { fnGetQsys } from './useQsys'
 
 import DeviceAdd from 'components/dialog/devices/addDevice.vue'
 import ConfirmDialog from 'components/dialog/confirmDialog'
-import { loading } from '../utils/useLogs'
 
 export const useQsysFunc = () => {
   const $q = useQuasar()
@@ -52,6 +51,49 @@ export const useQsysFunc = () => {
     })
   }
 
+  const fnGTrs = (item) => {
+    $q.dialog({
+      component: ConfirmDialog,
+      componentProps: {
+        icon: 'warning',
+        iconColor: 'yellow-8',
+        title: '전송장치갱신',
+        message: `${item.name} - ${item.ipaddress} 네트워크 전송 채널을 재수집합니다.`
+      }
+    }).onOk(async () => {
+      try {
+        $q.loading.show()
+        await api.get('/devices/qsys/gtrs', { params: { deviceId: item.deviceId } })
+        await fnGetQsys()
+        $q.loading.hide()
+      } catch (error) {
+        $q.loading.hide()
+        console.error(error)
+      }
+    })
+  }
+
+  const fnSTrs = (item) => {
+    $q.dialog({
+      component: ConfirmDialog,
+      componentProps: {
+        icon: 'warning',
+        iconColor: 'yellow-8',
+        title: '전송장치재설정',
+        message: `${item.name} - ${item.ipaddress} 네트워크 전송 채널을 재설정합니다.`
+      }
+    }).onOk(async () => {
+      try {
+        $q.loading.show()
+        await api.put('/devices/qsys/strs', { device: item })
+        $q.loading.hide()
+      } catch (error) {
+        $q.loading.hide()
+        console.error(error)
+      }
+    })
+  }
+
   const fnCancelAll = (device) => {
     $q.dialog({
       component: ConfirmDialog,
@@ -76,6 +118,8 @@ export const useQsysFunc = () => {
   return {
     fnAddQsysDevice,
     fnDeleteQsysDevice,
-    fnCancelAll
+    fnCancelAll,
+    fnGTrs,
+    fnSTrs
   }
 }

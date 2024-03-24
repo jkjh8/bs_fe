@@ -1,7 +1,8 @@
 <script setup>
 import { useSetupFunc } from 'composables/setup/useSetupFunc'
+import { useQsysFunc } from 'composables/qsys/useQsysFunc'
 const props = defineProps(['device'])
-const { fnRefreshAllQsysStreamAddr } = useSetupFunc()
+const { fnSTrs } = useQsysFunc()
 </script>
 
 <template>
@@ -14,11 +15,7 @@ const { fnRefreshAllQsysStreamAddr } = useSetupFunc()
         {{ device.name }}
       </span>
       <span>
-        <q-icon
-          name="refresh"
-          color="primary"
-          @click.prevent.stop="fnRefreshAllQsysStreamAddr(device.deviceId)"
-        ></q-icon>
+        <q-icon name="refresh" color="primary" @click.prevent.stop="fnSTrs(device)"></q-icon>
       </span>
     </q-item-label>
     <q-item-label caption>{{ device.ipaddress }}</q-item-label>
