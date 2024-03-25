@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 // components
@@ -13,12 +13,19 @@ const $q = useQuasar()
 const { fnAddBarixDevice, fnDeleteBarixDevice } = useBarixFunc()
 
 // variables
+let interval = null
 const filter = ref('')
 const loading = ref(false)
 // functions
 
 onMounted(async () => {
   await fnGetBarix()
+  interval = setInterval(async () => {
+    await fnGetBarix()
+  }, 5000)
+})
+onBeforeUnmount(() => {
+  clearInterval(interval)
 })
 </script>
 

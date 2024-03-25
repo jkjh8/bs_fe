@@ -16,7 +16,7 @@ onMounted(async () => {
 
 <template>
   <q-list>
-    <q-expansion-item v-for="(device, idx) in qsys" :key="idx">
+    <q-expansion-item v-for="(device, idx) in qsys" :key="idx" header-class="bg-grey-1">
       <template #header>
         <q-item-section avatar>
           <q-icon :color="device.connected ? 'primary' : 'ref-10'" name="location_on" />

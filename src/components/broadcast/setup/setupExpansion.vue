@@ -38,11 +38,7 @@ const modifyZoneName = (name, zone, deviceId) => {
 <template>
   <q-list>
     <!-- locations -->
-    <q-expansion-item
-      v-for="(device, idx) in qsys"
-      :key="idx"
-      header-class="q-px-lg bg-blue-grey-1"
-    >
+    <q-expansion-item v-for="(device, idx) in qsys" :key="idx" header-class="q-px-lg bg-grey-1">
       <!-- header -->
       <template #header>
         <DeviceHeader :device="device" />
