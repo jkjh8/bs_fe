@@ -1,5 +1,37 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import BroadcastStatusTree from 'components/broadcast/status/broadcastStatusTree.vue'
 
-<template>live</template>
+const splitterModel = ref(30)
+</script>
+
+<template>
+  <div class="q-pa-md">
+    <div class="borderd">
+      <div class="q-px-lg q-py-sm row items-center bg-grey-2">
+        <div class="row no-wrap items-center q-gutter-x-sm">
+          <q-icon name="mic" size="20px" color="primary" />
+          <span class="text-h6 bold">실시간 방송</span>
+        </div>
+      </div>
+      <div>
+        <q-splitter v-model="splitterModel">
+          <template v-slot:before>
+            <div>
+              <div class="q-pa-sm row no-wrap justify-center items-center bg-green-3">
+                <q-spinner-puff size="sm" color="green" />
+                <div class="text-bold">방송 상태</div>
+              </div>
+              <BroadcastStatusTree />
+            </div>
+          </template>
+          <template v-slot:after>
+            <div>방송 메뉴</div>
+          </template>
+        </q-splitter>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped></style>

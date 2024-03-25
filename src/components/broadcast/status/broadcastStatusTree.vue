@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, computed } from 'vue'
-import { qsys } from 'composables/qsys/useQsys.js'
+import { qsys, fnGetQsys } from 'composables/qsys/useQsys.js'
 import { fnCheckActiveZones } from 'composables/status/useStatus.js'
 import { useQsysFunc } from 'composables/qsys/useQsysFunc.js'
 import { user } from 'composables/user/useUser.js'
@@ -22,11 +22,18 @@ const locations = computed(() => {
   return arr
 })
 
-onMounted(() => {})
+onMounted(() => {
+  fnGetQsys()
+})
 </script>
 
 <template>
-  <q-tree :nodes="locations" node-key="_id" children-key="ZoneStatus" default-expand-all>
+  <q-tree
+    :nodes="locations"
+    node-key="_id"
+    children-key="ZoneStatus"
+    no-node-label="방송구간이 없습니다."
+  >
     <template v-slot:header-root="prop">
       <div class="row fit items-center q-gutter-x-sm">
         <q-icon :color="prop.node.connected ? 'green' : 'red-10'" name="location_on" size="xs" />

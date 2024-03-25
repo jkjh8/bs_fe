@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 // components
 import ZoneStatus from './zoneStatus'
-import BrStatusTree from './broadcastStatusTree.vue'
 // composables
 import { qsys, fnGetQsys } from 'composables/qsys/useQsys.js'
 // initialize
@@ -40,7 +39,6 @@ onMounted(async () => {
       <ZoneStatus :zones="device.ZoneStatus" />
     </q-expansion-item>
   </q-list>
-  <BrStatusTree />
 </template>
 
 <style scoped></style>
