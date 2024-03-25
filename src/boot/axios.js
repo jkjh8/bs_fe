@@ -7,10 +7,10 @@ let apiUrl
 let mediaUrl
 
 export default boot(({ app }) => {
-  apiUrl = process.env.NODE_ENV === 'production' ? '/api' : `https://192.168.1.70:3443/api`
+  apiUrl = process.env.NODE_ENV === 'production' ? '/api' : `https://192.168.1.70/api`
   api = axios.create({ baseURL: apiUrl, withCredentials: true })
 
-  mediaUrl = process.env.NODE_ENV === 'production' ? '/media' : `https://192.168.1.70:3443/media`
+  mediaUrl = process.env.NODE_ENV === 'production' ? '/media' : `https://192.168.1.70/media`
   app.config.globalProperties.$axios = axios
   app.config.globalProperties.$api = api
 })
