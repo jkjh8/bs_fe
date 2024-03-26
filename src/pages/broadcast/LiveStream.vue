@@ -1,8 +1,10 @@
 <script setup>
-import { ref } from "vue";
-import BroadcastStatusTree from "components/broadcast/status/broadcastStatusTree.vue";
+import { ref } from 'vue'
+import BroadcastStatusTree from 'components/broadcast/status/broadcastStatusTree.vue'
+import LiveStream from 'components/broadcast/live/liveStream.vue'
 
-const splitterModel = ref(30);
+const splitterModel = ref(40)
+const broadcastMode = ref(null)
 </script>
 
 <template>
@@ -17,12 +19,14 @@ const splitterModel = ref(30);
       <div>
         <q-splitter v-model="splitterModel">
           <template v-slot:before>
-            <div class="q-pa-ms">
+            <div class="q-pa-sm">
               <BroadcastStatusTree />
             </div>
           </template>
           <template v-slot:after>
-            <div>방송 메뉴</div>
+            <div class="q-pa-sm">
+              <LiveStream />
+            </div>
           </template>
         </q-splitter>
       </div>
