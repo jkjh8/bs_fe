@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue'
-import BroadcastStatusTree from 'components/broadcast/status/broadcastStatusTree.vue'
+import { ref } from "vue";
+import BroadcastStatusTree from "components/broadcast/status/broadcastStatusTree.vue";
 
-const splitterModel = ref(30)
+const splitterModel = ref(30);
 </script>
 
 <template>
@@ -17,11 +17,7 @@ const splitterModel = ref(30)
       <div>
         <q-splitter v-model="splitterModel">
           <template v-slot:before>
-            <div>
-              <div class="q-pa-sm row no-wrap justify-center items-center bg-green-3">
-                <q-spinner-puff size="sm" color="green" />
-                <div class="text-bold">방송 상태</div>
-              </div>
+            <div class="q-pa-ms">
               <BroadcastStatusTree />
             </div>
           </template>
