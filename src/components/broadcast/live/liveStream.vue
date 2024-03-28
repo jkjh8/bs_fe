@@ -1,15 +1,11 @@
 <script setup>
-import { ref, reactive, onBeforeMount } from 'vue'
-import { qsys } from 'composables/qsys/useQsys'
-const selected = ref({})
+import { ref, onMounted } from 'vue'
+import { zoneSelected, useZones, rtSelZoneName } from 'composables/broadcast/useZones'
+
+const { fnSelZones } = useZones()
 const broadcastMode = ref(null)
 
-onBeforeMount(() => {
-  for (let i = 0; i < qsys.value.length; i++) {
-    selected.value[qsys.value[i].deviceId] = []
-  }
-  console.log(selected.value)
-})
+onMounted(() => {})
 </script>
 
 <template>
@@ -26,41 +22,14 @@ onBeforeMount(() => {
       </div>
     </q-card-section>
     <q-card-section>
-      <div>방송구간 선택</div>
-      <q-table
-        :rows="qsys[0].ZoneStatus"
-        :columns="[]"
-        row-key="Zone"
-        selection="multiple"
-        v-model:selected="selected[qsys[0].deviceId]"
-        grid
-        grid-header
-        :pagination="{ rowsPerPage: 0 }"
-        hide-header
-        hide-bottom
-      >
-        <template v-slot:header="scope">
-          <div>
-            <q-checkbox v-model="scope.selected" />
-            {{ qsys[0].name }}
-          </div>
-        </template>
-        <template v-slot:item="props">
-          <div
-            class="q-pa-xs col-4 grid-style-transition"
-            :style="props.selected ? 'transform: scale(0.95);' : ''"
-          >
-            <div
-              class="border"
-              :class="props.selected ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''"
-            >
-              <div class="q-pa-sm">
-                <q-checkbox dense v-model="props.selected" :label="props.row.name ?? 'No Name'" />
-              </div>
-            </div>
-          </div>
-        </template>
-      </q-table>
+      <div class="row no-wrap items-cetner">
+        <div class="self-center">방송구간 선택</div>
+        <q-space />
+        <q-btn round flat icon="add_circle" color="primary" @click="fnSelZones(zoneSelected)" />
+      </div>
+      <div v-if="zoneSelected" class="q-gutter-xs">
+        <q-badge v-for="zone in rtSelZoneName" :key="zone" :label="zone" />
+      </div>
     </q-card-section>
   </q-card>
 </template>

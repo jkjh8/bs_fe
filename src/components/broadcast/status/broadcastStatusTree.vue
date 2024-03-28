@@ -1,26 +1,11 @@
 <script setup>
 import { onMounted, computed } from 'vue'
-import { qsys, fnGetQsys } from 'composables/qsys/useQsys.js'
+import { qsys, fnGetQsys, permitQsys } from 'composables/qsys/useQsys.js'
 import { fnCheckActiveZones } from 'composables/status/useStatus.js'
 import { useQsysFunc } from 'composables/qsys/useQsysFunc.js'
 import { user } from 'composables/user/useUser.js'
 
 const { fnCancelAll } = useQsysFunc()
-
-function deviceIdFilder(value) {
-  const devices = user.value.zones
-  for (let i = 0; i < devices.length; i++) {
-    if (devices[i] === value.deviceId) return true
-  }
-  return false
-}
-
-const locations = computed(() => {
-  if (!user.value) return []
-  if (user.value.isAdmin) return qsys.value
-  const arr = qsys.value.filter(deviceIdFilder)
-  return arr
-})
 
 onMounted(() => {
   fnGetQsys()
@@ -29,7 +14,7 @@ onMounted(() => {
 
 <template>
   <q-tree
-    :nodes="locations"
+    :nodes="permitQsys"
     node-key="_id"
     children-key="ZoneStatus"
     no-node-label="방송구간이 없습니다."
