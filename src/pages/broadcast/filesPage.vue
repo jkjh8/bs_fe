@@ -12,21 +12,12 @@ import {
   folders,
   selectedFiles,
   selectedFolder,
-  globalFolder,
-  userFolder,
-  fnMakeFolder,
-  fnGetFolders,
-  fnGetFiles,
-  fnDeleteFiles,
-  fnRenameFile,
   fnUpdateSelectedFolder,
   fnRefreshFoldersAndFiles
 } from 'composables/files/useFiles'
 
-import { modal, previewFile, fnStartPreview, fnInitAudioPlayer } from 'composables/files/usePreview'
+import { fnStartPreview, fnInitAudioPlayer } from 'composables/files/usePreview'
 
-const selectedPreview = ref(null)
-const selected = ref([])
 const splitterModel = ref(20)
 // initialize
 const $q = useQuasar()

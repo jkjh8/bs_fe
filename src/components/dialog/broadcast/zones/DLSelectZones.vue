@@ -1,25 +1,24 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
-import { qsysZones, fnGetQsys } from 'composables/qsys/useQsys'
+import { qsys, fnGetQsys } from 'composables/qsys/useQsys'
 
 const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } = useDialogPluginComponent()
 const props = defineProps(['sel'])
 const emit = defineEmits([...useDialogPluginComponent.emits])
 
 const selected = ref({})
-const zones = qsysZones()
 
 const fnSelectAll = () => {
-  for (const item of zones) {
+  for (const item of qsys.value) {
     selected.value[item.deviceId] = [...item.ZoneStatus]
   }
 }
 
 onBeforeMount(async () => {
   await fnGetQsys()
-  for (let i = 0; i < zones.length; i++) {
-    selected.value[zones[i].deviceId] = []
+  for (let i = 0; i < qsys.value.length; i++) {
+    selected.value[qsys.value[i].deviceId] = []
   }
   if (props.sel) {
     for (let z in props.sel) {
@@ -44,11 +43,11 @@ onBeforeMount(async () => {
           </q-btn>
         </div>
       </q-card-section>
-      <div v-for="item in zones" :key="item._id" class="q-px-md">
+      <div v-for="(item, idx) in qsys" :key="idx" class="q-px-md">
         <q-table
           :rows="item.ZoneStatus"
           :columns="[]"
-          row-key="zone"
+          row-key="Zone"
           selection="multiple"
           v-model:selected="selected[item.deviceId]"
           grid
@@ -81,8 +80,8 @@ onBeforeMount(async () => {
                     v-model="props.selected"
                     :label="
                       props.row.name
-                        ? `${props.row.zone}. ${props.row.name}`
-                        : `${props.row.zone}. No Name`
+                        ? `${props.row.Zone}. ${props.row.name}`
+                        : `${props.row.Zone}. No Name`
                     "
                   />
                 </div>

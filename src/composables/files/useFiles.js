@@ -5,6 +5,7 @@ const files = ref([])
 const folders = ref([])
 const selectedFolder = ref('')
 const selectedFiles = ref([])
+const selectedFile = ref([])
 const globalFolder = ref('')
 const userFolder = ref('')
 
@@ -26,6 +27,7 @@ const fnGetFolders = async () => {
     folders.value = r.data.folders
     globalFolder.value = r.data.globalFolder
     userFolder.value = r.data.userFolder
+    console.log(r.data)
     if (!selectedFolder.value) {
       selectedFolder.value = globalFolder.value
     }
@@ -83,6 +85,7 @@ const fnRenameFile = async (obj) => {
 }
 
 async function fnUpdateSelectedFolder(val) {
+  console.log(val)
   selectedFolder.value = val
   await fnGetFiles(val)
   selectedFiles.value = []
@@ -106,6 +109,7 @@ async function fnRefreshFoldersAndFiles() {
 export {
   files,
   folders,
+  selectedFile,
   selectedFiles,
   selectedFolder,
   globalFolder,

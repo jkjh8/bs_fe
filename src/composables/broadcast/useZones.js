@@ -1,7 +1,8 @@
 import { ref, computed } from 'vue'
 import { useQuasar } from 'quasar'
-import ZoneSelect from 'components/dialog/broadcast/zones/selectZones.vue'
+import ZoneSelect from 'components/dialog/broadcast/zones/DLSelectZones.vue'
 import { qsys } from 'composables/qsys/useQsys'
+
 const zoneSelected = ref({})
 
 const useZones = () => {
@@ -35,11 +36,10 @@ const rtSelZoneName = computed(() => {
           console.log(zones)
           let names = []
           for (let z of zones) {
-            console.log(z)
             if (z.name) {
               names.push(z.name)
             } else {
-              names.push(z.zone)
+              names.push(z.Zone)
             }
           }
           rt.push(`${qsys.value[idx].name}: ${names.join(', ')}`)

@@ -14,22 +14,11 @@ const selectedFolder = computed({
     emits('update:selected', val)
   }
 })
-
-function updateVal(val) {
-  emits('update:selected', val)
-}
 </script>
 
 <template>
   <div>
-    <q-tree
-      :nodes="folders"
-      v-model:selected="selectedFolder"
-      selected-color="primary"
-      node-key="path"
-      no-selection-unset
-      default-expand-all
-    >
+    <q-tree :nodes="folders" v-model:selected="selectedFolder" node-key="path" no-selection-unset>
     </q-tree>
   </div>
 </template>

@@ -19,7 +19,8 @@ const columns = [
 ]
 const props = defineProps({
   files: Array,
-  selectedFiles: Array
+  selectedFiles: Array,
+  selection: { type: String, default: 'multiple' }
 })
 
 const emits = defineEmits(['update:selected', 'update:folder', 'update:preview'])
@@ -41,7 +42,7 @@ const selected = computed({
     :columns="columns"
     :rows="files"
     row-key="name"
-    selection="multiple"
+    selection="selection"
     v-model:selected="selected"
     :pagination="{ rowsPerPage: 0 }"
   >

@@ -4,7 +4,6 @@ import BroadcastStatusTree from 'components/broadcast/status/broadcastStatusTree
 import LiveStream from 'components/broadcast/live/liveStream.vue'
 
 const splitterModel = ref(40)
-const broadcastMode = ref(null)
 </script>
 
 <template>
