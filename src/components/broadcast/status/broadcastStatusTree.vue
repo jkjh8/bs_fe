@@ -1,9 +1,8 @@
 <script setup>
 import { onMounted, computed } from 'vue'
-import { qsys, fnGetQsys, permitQsys } from 'composables/qsys/useQsys.js'
+import { qsys, fnGetQsys, permittedQsys } from 'composables/qsys/useQsys.js'
 import { fnCheckActiveZones } from 'composables/status/useStatus.js'
 import { useQsysFunc } from 'composables/qsys/useQsysFunc.js'
-import { user } from 'composables/user/useUser.js'
 
 const { fnCancelAll } = useQsysFunc()
 
@@ -14,7 +13,7 @@ onMounted(() => {
 
 <template>
   <q-tree
-    :nodes="permitQsys"
+    :nodes="permittedQsys"
     node-key="_id"
     children-key="ZoneStatus"
     no-node-label="방송구간이 없습니다."

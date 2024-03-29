@@ -5,7 +5,7 @@ import { useDialogPluginComponent } from 'quasar'
 
 import { qsys, fnGetQsys } from 'composables/qsys/useQsys'
 
-const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
+const { dialogRef, onDialogOK, onDialogCancel } = useDialogPluginComponent()
 const props = defineProps({ zones: Array })
 const emit = defineEmits([...useDialogPluginComponent.emits])
 
@@ -20,7 +20,6 @@ const filterFn = (val, update, abort) => {
 }
 
 const onOkDialog = async () => {
-  console.log(selected.value)
   onDialogOK(selected.value)
 }
 

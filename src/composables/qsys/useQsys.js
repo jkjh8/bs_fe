@@ -44,7 +44,7 @@ const qsysZones = () => {
   })
 }
 
-const permitQsys = computed(() => {
+const permittedQsys = computed(() => {
   if (!user.value) return []
   if (user.value.isAdmin) return qsys.value
   const arr = qsys.value.filter((v) => {
@@ -57,4 +57,4 @@ const permitQsys = computed(() => {
   return arr
 })
 
-export { qsys, fnGetQsys, fnUpdateZoneStatus, fnUpdateDevice, qsysZones, permitQsys }
+export { qsys, fnGetQsys, fnUpdateZoneStatus, fnUpdateDevice, qsysZones, permittedQsys }

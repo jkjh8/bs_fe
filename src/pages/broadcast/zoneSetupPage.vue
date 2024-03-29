@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue'
 // component
-import DeviceSetup from 'components/broadcast/setup/setupExpansion.vue'
+import DeviceSetup from 'components/broadcast/setup/deviceSetup.vue'
 // composables
 import { fnGetQsys } from 'src/composables/qsys/useQsys.js'
 

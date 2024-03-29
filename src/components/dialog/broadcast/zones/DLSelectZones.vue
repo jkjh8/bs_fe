@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
-import { qsys, fnGetQsys } from 'composables/qsys/useQsys'
+import { permittedQsys, fnGetQsys } from 'composables/qsys/useQsys'
 
 const { dialogRef, onDialogCancel, onDialogHide, onDialogOK } = useDialogPluginComponent()
 const props = defineProps(['sel'])
@@ -10,14 +10,14 @@ const emit = defineEmits([...useDialogPluginComponent.emits])
 const selected = ref({})
 
 const fnSelectAll = () => {
-  for (const item of qsys.value) {
+  for (const item of permittedQsys.value) {
     selected.value[item.deviceId] = [...item.ZoneStatus]
   }
 }
 
 onBeforeMount(async () => {
   await fnGetQsys()
-  for (let i = 0; i < qsys.value.length; i++) {
+  for (let i = 0; i < permittedQsys.value.length; i++) {
     selected.value[qsys.value[i].deviceId] = []
   }
   if (props.sel) {
@@ -43,7 +43,7 @@ onBeforeMount(async () => {
           </q-btn>
         </div>
       </q-card-section>
-      <div v-for="(item, idx) in qsys" :key="idx" class="q-px-md">
+      <div v-for="(item, idx) in permittedQsys" :key="idx" class="q-px-md">
         <q-table
           :rows="item.ZoneStatus"
           :columns="[]"

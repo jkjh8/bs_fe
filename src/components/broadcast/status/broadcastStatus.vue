@@ -1,13 +1,20 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useQuasar } from 'quasar'
+import { onMounted } from 'vue'
 // components
-import ZoneStatus from './zoneStatus'
 // composables
 import { qsys, fnGetQsys } from 'composables/qsys/useQsys.js'
+import { fnCheckActiveZones, fnCheckPriority } from 'composables/status/useStatus.js'
 // initialize
-const $q = useQuasar()
-import { fnCheckActiveZones } from 'composables/status/useStatus.js'
+
+const fnCkColor = (barix) => {
+  console.log(barix)
+  if (barix && barix.status) {
+    if (barix.streamurl) return 'green'
+    return 'yellow'
+  } else {
+    return 'red'
+  }
+}
 
 onMounted(async () => {
   await fnGetQsys()
@@ -17,6 +24,7 @@ onMounted(async () => {
 <template>
   <q-list>
     <q-expansion-item v-for="(device, idx) in qsys" :key="idx" header-class="bg-grey-1">
+      <!-- header -->
       <template #header>
         <q-item-section avatar>
           <q-icon :color="device.connected ? 'primary' : 'ref-10'" name="location_on" />
@@ -36,9 +44,41 @@ onMounted(async () => {
           </div>
         </q-item-section>
       </template>
-      <ZoneStatus :zones="device.ZoneStatus" />
+      <!-- body -->
+      <div class="row q-pa-md q-gutter-sm">
+        <div v-for="(zone, idx) in device.ZoneStatus" :key="idx">
+          <div
+            class="borderd q-pa-md q-gutter-sx"
+            :class="zone.Active ? fnCheckPriority(zone.Priority) : ''"
+          >
+            <div class="text-bold">
+              <span> {{ zone.Zone }}. </span>
+            </div>
+            <div class="">{{ zone.name ?? 'No Name' }}</div>
+            <div v-if="zone.destination">
+              <div>
+                <q-separator class="q-my-sm" />
+              </div>
+              <div class="column items-end text-caption">
+                <div class="row q-gutter-x-xs">
+                  {{ zone.destination.name }}
+                  <q-icon name="circle" :color="fnCkColor(zone.destination)" />
+                </div>
+                <div>{{ zone.destination.ipaddress }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </q-expansion-item>
   </q-list>
 </template>
 
-<style scoped></style>
+<style scoped>
+.led {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: v-bind('color');
+}
+</style>
