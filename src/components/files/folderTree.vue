@@ -18,7 +18,13 @@ const selectedFolder = computed({
 
 <template>
   <div>
-    <q-tree :nodes="folders" v-model:selected="selectedFolder" node-key="path" no-selection-unset>
+    <q-tree
+      :nodes="folders"
+      v-model:selected="selectedFolder"
+      node-key="path"
+      no-selection-unset
+      selected-color="primary"
+    >
     </q-tree>
   </div>
 </template>

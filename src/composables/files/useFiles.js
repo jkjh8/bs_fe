@@ -27,7 +27,6 @@ const fnGetFolders = async () => {
     folders.value = r.data.folders
     globalFolder.value = r.data.globalFolder
     userFolder.value = r.data.userFolder
-    console.log(r.data)
     if (!selectedFolder.value) {
       selectedFolder.value = globalFolder.value
     }
@@ -44,10 +43,11 @@ const fnGetFiles = async (folder) => {
     if (folder === globalFolder.value || folder === userFolder.value) {
       files.value = r.data.files
     } else {
-      const currentPathArr = folder.split('/')
+      console.log(folder)
+      const currentPathArr = folder.split('\\')
       currentPathArr.pop()
       files.value = [
-        { name: '..', fullpath: currentPathArr.join('/'), type: 'folder' },
+        { name: '..', fullpath: currentPathArr.join('\\'), type: 'folder' },
         ...r.data.files
       ]
     }
@@ -85,7 +85,6 @@ const fnRenameFile = async (obj) => {
 }
 
 async function fnUpdateSelectedFolder(val) {
-  console.log(val)
   selectedFolder.value = val
   await fnGetFiles(val)
   selectedFiles.value = []

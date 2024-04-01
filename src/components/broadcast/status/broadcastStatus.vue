@@ -7,7 +7,6 @@ import { fnCheckActiveZones, fnCheckPriority } from 'composables/status/useStatu
 // initialize
 
 const fnCkColor = (barix) => {
-  console.log(barix)
   if (barix && barix.status) {
     if (barix.streamurl) return 'green'
     return 'yellow'

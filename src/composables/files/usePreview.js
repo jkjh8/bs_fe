@@ -42,6 +42,7 @@ const fnInitAudioPlayer = () => {
 }
 
 const fnStartPreview = (file) => {
+  console.log(file)
   previewFile.value = file
   modal.value = true
   fnSetSource()

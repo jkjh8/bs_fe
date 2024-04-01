@@ -1,14 +1,20 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+// components
+import PreviewFile from 'src/components/previewFile'
+// composables
 import { zoneSelected, useZones, rtSelZoneName } from 'composables/broadcast/useZones'
 import { useFileFunc } from 'composables/files/useFileFunc'
-import { fnRefreshFoldersAndFiles, selectedFile } from 'composables/files/useFiles'
-
+import { fnRefreshFoldersAndFiles } from 'composables/files/useFiles'
+import { selectedFile } from 'composables/broadcast/useBroadcast'
+import { fnInitAudioPlayer, fnStartPreview } from 'composables/files/usePreview'
+// initialize
 const { fnSelZones } = useZones()
-const { fnSelFile } = useFileFunc()
+const { fnSelFileForLive } = useFileFunc()
 const broadcastMode = ref(null)
 
 onMounted(async () => {
+  fnInitAudioPlayer()
   await fnRefreshFoldersAndFiles()
 })
 </script>
@@ -40,17 +46,24 @@ onMounted(async () => {
       <div class="row no-wrap items-cetner">
         <div class="self-center">파일 선택</div>
         <q-space />
-        <q-btn round flat icon="add_circle" color="primary" @click="fnSelFile()" />
+        <q-btn round flat icon="add_circle" color="primary" @click="fnSelFileForLive()" />
       </div>
       <div
         v-if="selectedFile && selectedFile.length"
         class="row no-wrap items-center q-gutter-x-sm"
       >
-        <q-btn round flat icon="play_arrow" color="primary" />
+        <q-btn
+          round
+          flat
+          icon="play_arrow"
+          color="primary"
+          @click="fnStartPreview(selectedFile[0])"
+        />
         <div>{{ selectedFile[0].name }}</div>
       </div>
     </q-card-section>
   </q-card>
+  <PreviewFile />
 </template>
 
 <style scoped>
