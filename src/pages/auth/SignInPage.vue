@@ -9,7 +9,13 @@ import { socket } from 'boot/socketio'
 import AuthLink from 'components/auth/authLink'
 // composables
 import useRules from 'src/composables/useRules'
-import useAuth from 'src/composables/user/useAuth'
+import {
+  auth,
+  token,
+  rememberCheck,
+  getEmailFromStorage,
+  setEmailToStorage
+} from 'src/composables/user/useAuth'
 import useNotify from 'src/composables/useNotify'
 // stores
 // Variables
@@ -17,7 +23,6 @@ const router = useRouter()
 const $q = useQuasar()
 const { fnNotiError } = useNotify()
 const { required, minLength, ckEmail } = useRules()
-const { auth, rememberCheck, getEmailFromStorage, setEmailToStorage } = useAuth()
 const showPass = ref(false)
 // functions
 const onSubmit = async () => {
@@ -30,6 +35,11 @@ const onSubmit = async () => {
       email: auth.userEmail,
       userPassword: auth.userPass
     })
+    console.log(r)
+    if (r.data && r.data.token) {
+      token.value = r.data.token
+      console.log('update token')
+    }
     $q.loading.hide()
     router.push('/')
 

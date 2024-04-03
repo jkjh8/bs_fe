@@ -7,7 +7,6 @@ import { api } from 'boot/axios'
 import AuthLink from 'components/auth/authLink'
 // Composables
 import useRules from 'src/composables/useRules'
-import useAuth from 'src/composables/user/useAuth'
 import useNotify from 'src/composables/useNotify'
 // Variables
 const router = useRouter()
